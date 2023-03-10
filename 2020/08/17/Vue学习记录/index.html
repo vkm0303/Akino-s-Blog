@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-post-container animate__animated animate__fadeIn">
+  <section class="post-wrapper">
+    <header class="post-header">
+      
+      <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/vue.png" alt="Vue学习记录">
+      
+      
+      <span class="post-title">Vue学习记录</span>
+      
+      <div class="post-publish-info-wrapper flex">
+        <img class="author-avatar" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="">
+        <div class="post-info flex flex-column flex-space-around">
+          <div>
+            Akino
+            <span>· 08/17, 2020 · </span>
+            <span id="/2020/08/17/Vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="leancloud_visitors" data-flag-title="Vue学习记录">
+              阅读
+              
+              <span class="leancloud-visitors-count"></span>
+              
+            </span>
+          </div>
+          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+        </div>
+        </span>
+      </div>
+    </header>
+    <article class="post-content markdown">
+      <!-- <a name="index" style=" position: relative;top: -120px;display: block;height: 0;overflow: hidden;"></a> -->
+      <h2 id="基本使用">基本使用</h2>
+<ol>
+<li>
+<p>引入 vue.js</p>
+</li>
+<li>
+<p>创建 vue 对象</p>
+<p>el：指定根 element（选择器）</p>
+<p>data：初始化数据（页面可以访问）</p>
+</li>
+<li>
+<p>双向数据绑定：v-model</p>
+</li>
+<li>
+<p>显示数据：</p>
+</li>
+<li>
+<p>理解 vue 的 mvvm 实现</p>
+<ul>
+<li>
+<p>MVVM：</p>
+<ul>
+<li>model：模型，数据对象（data）</li>
+<li>view：视图，模板页面</li>
+<li>viewModel：视图模型（vue 的实例）</li>
+</ul>
+</li>
+<li>
+<p>DOM Listeners 事件监听</p>
+</li>
+<li>
+<p>Data Bindings 数据绑定</p>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;input type=&quot;text&quot; /&gt;
+  &lt;p&gt;hello&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;script
+  type=&quot;text/javascript&quot;
+  src=&quot;text/javascript&quot;
+  src=&quot;vue-master\dist\vue.js&quot;
+&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  //创建vue实例
+  var vm = new Vue(&#123;
+    //配置对象
+    el: '#app', //element:选择器
+    data: &#123;
+      //数据（model）
+      username: 'ASSSS'
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="模板语法">模板语法</h2>
+<h3 id="双大括号表达式">双大括号表达式(( ))</h3>
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;p&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;
+  &lt;p&gt;&#123;&#123;msg.toUpperCase()&#125;&#125;&lt;/p&gt;
+  &lt;!--全部大写函数--&gt;
+  &lt;p v-text&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;
+  &lt;!--解释为文本内容--&gt;
+  &lt;p v-html&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;
+  &lt;!--解释为标签--&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master\dist\vue.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  //创建vue实例
+  new Vue(&#123;
+    //配置对象
+    el: '#app', //element:选择器
+    data: &#123;
+      //数据（model）
+      msg: ''
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h3 id="指令-1：强制数据绑定">指令 1：强制数据绑定</h3>
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;img v-bind:src=&quot;imgUrl&quot; /&gt;
+  &lt;img :src=&quot;imgUrl&quot; /&gt;
+  &lt;!--简洁写法--&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master\dist\vue.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  //创建vue实例
+  new Vue(&#123;
+    //配置对象
+    el: '#app', //element:选择器
+    data: &#123;
+      //数据（model）
+      imgUrl:
+        'https://cn.vuejs.orghttps://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png'
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h3 id="指令-2：绑定事件监听">指令 2：绑定事件监听</h3>
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;button v-on:click=&quot;test&quot;&gt;test1&lt;/button&gt;
+  &lt;button @click=&quot;test&quot;&gt;test1&lt;/button&gt;
+  &lt;!--简洁写法--&gt;
+  &lt;!--test函数的传参可写可不写--&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master\dist\vue.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  //创建vue实例
+  new Vue(&#123;
+    //配置对象
+    el: '#app', //element:选择器
+    ata: &#123;
+      //数据（model）
+    &#125;,
+    methods: &#123;
+      test() &#123;
+        alert('hello');
+      &#125;
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="计算属性和监听">计算属性和监听</h2>
+<h3 id="计算属性">计算属性</h3>
+<ul>
+<li>在 computed 属性对象中定义计算属性的方法，在页面中使用<code>&#123;&#123;方法名&#125;&#125;</code>来显示计算结果</li>
+</ul>
+<h3 id="监听属性">监听属性</h3>
+<ul>
+<li>通过 vm 对象的$watch()或 watch 配置来监听指定的属性，当属性变化时，回调函数自动调用，在函数内部进行计算</li>
+</ul>
+<h3 id="计算属性高级">计算属性高级</h3>
+<ul>
+<li>
+<p>通过 getter/setter 实现对属性数据的显示和监听，计算属性存在缓存，当次读取只执行一次 getter 计算</p>
+</li>
+<li>
+<p>getter:属性的 get 方法</p>
+</li>
+<li>
+<p>setter:属性的 set 方法</p>
+</li>
+</ul>
+<pre><code class="language-html">&lt;div id=&quot;demo&quot;&gt;
+  姓：&lt;input type=&quot;text&quot; placeholder=&quot;fn&quot; v-model=&quot;firstName&quot; /&gt;&lt;br /&gt;
+  名：&lt;input type=&quot;text&quot; placeholder=&quot;ln&quot; v-model=&quot;lastName&quot; /&gt;&lt;br /&gt;
+  姓名1(单向)：&lt;input
+    type=&quot;text&quot;
+    placeholder=&quot;fullName1&quot;
+    v-model=&quot;fullName1&quot;
+  /&gt;&lt;br /&gt;
+  姓名2(单向)：&lt;input
+    type=&quot;text&quot;
+    placeholder=&quot;fullName2&quot;
+    v-model=&quot;fullName2&quot;
+  /&gt;&lt;br /&gt;
+  姓名3(双向)：&lt;input
+    type=&quot;text&quot;
+    placeholder=&quot;fullName3&quot;
+    v-model=&quot;fullName3&quot;
+  /&gt;&lt;br /&gt;
+  &lt;p&gt;&#123;&#123;fullName1&#125;&#125;&lt;/p&gt;
+  &lt;p&gt;&#123;&#123;fullName2&#125;&#125;&lt;/p&gt;
+  &lt;p&gt;&#123;&#123;fullName3&#125;&#125;&lt;/p&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master\dist\vue.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  new Vue(&#123;
+    el: '#demo',
+    data: &#123;
+      firstName: 's',
+      lastName: 'a',
+      //fullName1: 's a',
+      fullName2: 's a'
+      //fullName3: 's a'
+    &#125;,
+    computed: &#123;
+      //执行条件：初始化显示/相关data属性数据发生改变
+      fullName1() &#123;
+        //计算属性中的一个方法,方法返回值作为属性值
+        return this.firstName + ' ' + this.lastName;
+      &#125;,
+      fullName3: &#123;
+        //回调函数 当读取当前属性值时回调 根据相关数据计算并返回当前属性值
+        get() &#123;
+          return this.firstName + ' ' + this.lastName;
+        &#125;,
+        //回调函数 监听当前属性值的变化 当属性值发生改变时回调 更新相关的属性数据
+        set(value) &#123;
+          //value就是fullName的最新属性值
+          const names = value.split(' ');
+          this.firstName = names[0];
+          this.lastName = names[1];
+        &#125;
+      &#125;
+    &#125;,
+    watch: &#123;
+      //配置监听
+      firstName: function (value) &#123;
+        //firstName发生了变化
+        this.fullName2 = value + ' ' + this.lastName;
+      &#125;
+    &#125;
+  &#125;);
+  vm.$watch('lastName', function (value) &#123;
+    //更新fullName2
+    this.fullName2 = this.firstName + ' ' + value;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="class-和-style-绑定">class 和 style 绑定</h2>
+<ul>
+<li>在应用界面中，某个元素的元素时变化的</li>
+<li>style/class 绑定就是专门用来实现动态样式效果的技术</li>
+</ul>
+<h5 id="class-绑定">class 绑定</h5>
+<pre><code class="language-bash">:class = 'xxx'
+</code></pre>
+<ul>
+<li>xxx 是字符串</li>
+<li>xxx 是对象</li>
+<li>xxx 是数组</li>
+</ul>
+<h5 id="style-绑定">style 绑定</h5>
+<pre><code class="language-bash">:style = &quot;&#123;color:activeColor, fontSize:fontSize + 'px'&#125;&quot;
+</code></pre>
+<ul>
+<li>activeColor/fontSize 是 data 属性</li>
+</ul>
+<pre><code class="language-html">&lt;div id=&quot;demo&quot;&gt;
+  &lt;h3&gt;class绑定&lt;/h3&gt;
+  &lt;p :class=&quot;a&quot;&gt;xxx是字符串&lt;/p&gt;
+  &lt;p :class=&quot;&#123;aClass:isA, bClass:isB&#125;&quot;&gt;xxx是对象&lt;/p&gt;
+  &lt;p :class=&quot;cssArr&quot;&gt;xxx是数组&lt;/p&gt;
+
+  &lt;h3&gt;style绑定&lt;/h3&gt;
+  &lt;p :style=&quot;&#123;color:activeColor, fontSize:fontSize + 'px'&#125;&quot;&gt;style&lt;/p&gt;
+
+  &lt;button @click=&quot;update&quot;&gt;更新&lt;/button&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  new Vue(&#123;
+    el: '#demo',
+    data: &#123;
+      a: 'aClass',
+
+      isA: true,
+      isB: false,
+
+      cssArr: ['aClass', 'bClass'],
+
+      activeColor: 'green',
+      fontSize: 20
+    &#125;,
+    methods: &#123;
+      update() &#123;
+        this.a = 'bClass';
+
+        this.isA = false;
+        this.isB = true;
+
+        this.cssArr = ['aClass'];
+
+        this.activeColor = 'blue';
+        this.fontSize = 12;
+      &#125;
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="条件渲染">条件渲染</h2>
+<h3 id="渲染指令">渲染指令</h3>
+<ul>
+<li>v-if</li>
+<li>v-else</li>
+<li>v-show</li>
+</ul>
+<pre><code class="language-html">&lt;div id=&quot;demo&quot;&gt;
+  &lt;p v-if=&quot;ok&quot;&gt;成功了&lt;/p&gt;
+  &lt;p v-else&gt;失败了&lt;/p&gt;
+  &lt;p v-show=&quot;ok&quot;&gt;表白成功&lt;/p&gt;
+  &lt;p v-show=&quot;!ok&quot;&gt;表白失败&lt;/p&gt;
+  &lt;button @click=&quot;ok=!ok&quot;&gt;切换&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  new Vue(&#123;
+    el: '#demo',
+    data: &#123;
+      ok: false
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h3 id="v-if-else-和-v-show-的区别">v-if/else 和 v-show 的区别</h3>
+<ul>
+<li>
+<p>v-if/else 渲染时会把需要隐藏的标签直接去除</p>
+</li>
+<li>
+<p>v-show 渲染时只是给需要隐藏的标签加上隐藏的内联样式属性</p>
+</li>
+</ul>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/vue-test.png" alt=""></p>
+<h2 id="列表渲染">列表渲染</h2>
+<pre><code class="language-html">&lt;div id=&quot;demo&quot;&gt;
+  &lt;h3&gt;测试：v-for 遍历数组&lt;/h3&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;(p, index) in persons&quot; :key=&quot;index&quot;&gt;
+      &#123;&#123;index&#125;&#125;----&#123;&#123;p.name&#125;&#125;----&#123;&#123;p.age&#125;&#125; ----&lt;button
+        @click=&quot;deletePerson(index)&quot;
+      &gt;
+        删除
+      &lt;/button&gt;
+      ----&lt;button @click=&quot;updatePerson(index,					&#123;name:'cat',age:10&#125;)&quot;&gt;更新&lt;/button&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h3&gt;测试：v-for 遍历对象&lt;/h3&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;(value, key) in persons&quot; :key=&quot;key&quot;&gt;&#123;&#123;key&#125;&#125;----&#123;&#123;value&#125;&#125;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;(value, key) in persons[0]&quot; :key=&quot;key&quot;&gt;&#123;&#123;key&#125;&#125;----&#123;&#123;value&#125;&#125;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  new Vue(&#123;
+    el: '#demo',
+    data: &#123;
+      //vue只是监听了persons的改变，没有监听数组内部的变化
+      //vue重写了数组中的一系列改变数组内部数据的方法(先调用原			  生，再更新界面)
+      persons: [
+        &#123; name: 'Tom', age: 18 &#125;,
+        &#123; name: 'Jack', age: 19 &#125;,
+        &#123; name: 'Bobe', age: 15 &#125;,
+        &#123; name: 'Rose', age: 20 &#125;
+      ]
+    &#125;,
+    methods: &#123;
+      deletePerson(index) &#123;
+        this.persons.splice(index, 1);
+      &#125;,
+      updatePerson(index, newPerson) &#123;
+        //没有改变persons本身,数组内部数据改变，但是没有调用变异方法，因此界面没有发生改变
+        //this.persons[index] = newPerson
+        this.persons.splice(index, 1, newPerson);
+      &#125;
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="列表的搜索和排序">列表的搜索和排序</h2>
+
+    </article>
+    <!--  -->
+    <div class="post-prev-next">
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/nodejs.png);" class="link-cover" href="/2020/11/16/node.js%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E5%BC%BA%E6%99%BA%E7%A7%91%E6%8A%80%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>上一篇</span>
+      <span class="link-title">Node.js模拟登录强智科技教务系统</span>
+    </div>
+  </div>
+  
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(/images/no-cover.png);" class="link-cover" href="/2020/08/01/hello-world/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>下一篇</span>
+      <span class="link-title">Hello World</span>
+    </div>
+  </div>
+  
+</div>
+    
+    
+
+<div class="divide"></div>
+
+
+<div class="iconfont icon-comment"><span>评论</span></div>
+
+<div id="comment" class="comment markdown"></div>
+<script>
+  new Valine({
+    el: '#comment',
+    appId: '3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz',
+    appKey: 'BrY6HeaAcdwDscZNxC3TM7LO',
+    avatar: 'retro',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    pageSize: 15,
+    visitor: true,
+    recordIP: true,
+    lang: "zh-CN"
+  });
+</script>
+
+    
+  </section>
+  <section class="aside-wrapper">
+  <aside class="aside-content">
+    <div class="aside-card post-toc">
+      <header class="aside-card-title">
+        <span class="iconfont icon-toc"></span>目录
+      </header>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">模板语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E5%A4%A7%E6%8B%AC%E5%8F%B7%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">双大括号表达式(( ))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4-1%EF%BC%9A%E5%BC%BA%E5%88%B6%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A"><span class="toc-number">2.2.</span> <span class="toc-text">指令 1：强制数据绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4-2%EF%BC%9A%E7%BB%91%E5%AE%9A%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC"><span class="toc-number">2.3.</span> <span class="toc-text">指令 2：绑定事件监听</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E5%92%8C%E7%9B%91%E5%90%AC"><span class="toc-number">3.</span> <span class="toc-text">计算属性和监听</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7"><span class="toc-number">3.1.</span> <span class="toc-text">计算属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7"><span class="toc-number">3.2.</span> <span class="toc-text">监听属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E9%AB%98%E7%BA%A7"><span class="toc-number">3.3.</span> <span class="toc-text">计算属性高级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#class-%E5%92%8C-style-%E7%BB%91%E5%AE%9A"><span class="toc-number">4.</span> <span class="toc-text">class 和 style 绑定</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#class-%E7%BB%91%E5%AE%9A"><span class="toc-number">4.0.0.1.</span> <span class="toc-text">class 绑定</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#style-%E7%BB%91%E5%AE%9A"><span class="toc-number">4.0.0.2.</span> <span class="toc-text">style 绑定</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E6%B8%B2%E6%9F%93"><span class="toc-number">5.</span> <span class="toc-text">条件渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E6%8C%87%E4%BB%A4"><span class="toc-number">5.1.</span> <span class="toc-text">渲染指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#v-if-else-%E5%92%8C-v-show-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">5.2.</span> <span class="toc-text">v-if&#x2F;else 和 v-show 的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E6%B8%B2%E6%9F%93"><span class="toc-number">6.</span> <span class="toc-text">列表渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E7%9A%84%E6%90%9C%E7%B4%A2%E5%92%8C%E6%8E%92%E5%BA%8F"><span class="toc-number">7.</span> <span class="toc-text">列表的搜索和排序</span></a></li></ol>
+    </div>
+    <div class="aside-card latest-posts">
+      <header class="aside-card-title">
+        <span class="iconfont icon-history"></span>最新推荐
+      </header>
+      <ul class="latest-post-list">
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/">
+        <img class="post-cover" src="/images/no-cover.png" />
+        <div class="post-info">
+          <span class="title">Electron 踩坑专题</span>
+          <span class="time">2023-03-10</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/hexo-theme-alog.png" />
+        <div class="post-info">
+          <span class="title">Hexo主题：Alog</span>
+          <span class="time">2023-03-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/uniapp.png" />
+        <div class="post-info">
+          <span class="title">uniapp获取不到video组件ref问题</span>
+          <span class="time">2022-09-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/react.png" />
+        <div class="post-info">
+          <span class="title">react配置setupProxy之后页面无法打开</span>
+          <span class="time">2022-01-25</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2021/11/23/%E5%AD%97%E8%8A%82%E4%BA%8C%E9%9D%A2%E5%A4%8D%E7%9B%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/bytedance.png" />
+        <div class="post-info">
+          <span class="title">【实习】11.23 字节二面复盘(1h20min)</span>
+          <span class="time">2021-11-23</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+    </div>
+  </aside>
+</section>
+</div>
+
+<div class="preview-overlay">
+  <div class="preview-wrapper">
+    <img class="preview-img" alt="Preview" />
+    <div class="slot"></div>
+    <ul class="img-list"></ul>
+  </div>
+</div>
+
+<script src="/js/page/post/index.js" type="module" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

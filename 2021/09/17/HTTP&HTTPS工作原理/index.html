@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-post-container animate__animated animate__fadeIn">
+  <section class="post-wrapper">
+    <header class="post-header">
+      
+      <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/computer_network.png" alt="HTTP/HTTPS工作原理">
+      
+      
+      <span class="post-title">HTTP/HTTPS工作原理</span>
+      
+      <div class="post-publish-info-wrapper flex">
+        <img class="author-avatar" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="">
+        <div class="post-info flex flex-column flex-space-around">
+          <div>
+            Akino
+            <span>· 09/17, 2021 · </span>
+            <span id="/2021/09/17/HTTP&amp;HTTPS%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="leancloud_visitors" data-flag-title="HTTP/HTTPS工作原理">
+              阅读
+              
+              <span class="leancloud-visitors-count"></span>
+              
+            </span>
+          </div>
+          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+        </div>
+        </span>
+      </div>
+    </header>
+    <article class="post-content markdown">
+      <!-- <a name="index" style=" position: relative;top: -120px;display: block;height: 0;overflow: hidden;"></a> -->
+      <h2 id="HTTP">HTTP</h2>
+<blockquote>
+<p>超文本传输协议（HyperText Transfer Protocol，HTTP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。</p>
+</blockquote>
+<h3 id="工作原理">工作原理</h3>
+<blockquote>
+<p>协议采用了请求/响应模型，由客户端向服务器发送一个请求报文，然后服务端返回一个响应报文。</p>
+</blockquote>
+<h4 id="报文内容">报文内容</h4>
+<p>请求报文包含以下内容：</p>
+<ul>
+<li>请求的方法；</li>
+<li>URL；</li>
+<li>协议版本；</li>
+<li>请求头部；</li>
+<li>请求数据。</li>
+</ul>
+<p>响应报文包含以下内容：</p>
+<ul>
+<li>协议的版本；</li>
+<li>成功或者错误代码；</li>
+<li>服务器信息；</li>
+<li>响应头部；</li>
+<li>响应数据。</li>
+</ul>
+<h4 id="请求-响应步骤">请求/响应步骤</h4>
+<ol>
+<li>客户端连接 Web 服务器</li>
+<li>客户端发送 HTTP 请求
+<ul>
+<li>客户端向 Web 服务器发送一个文本的请求报文。</li>
+<li>一个请求报文由请求行、请求头部、空行和请求数据 4 部分组成。</li>
+</ul>
+</li>
+<li>服务端接收请求并返回 HTTP 响应
+<ul>
+<li>Web 服务器解析请求，定位请求资源。服务器将资源复本写到 TCP 套接字，由客户端读取。</li>
+<li>一个响应由状态行、响应头部、空行和响应数据 4 部分组成。</li>
+</ul>
+</li>
+<li>释放 TCP 连接
+<ul>
+<li>若 connection 模式为 close，则服务器主动关闭 TCP 连接，客户端被动关闭连接，释放 TCP 连接。</li>
+<li>若 connection 模式为 keepalive，则该连接会保持一段时间，在该时间内可以继续接收请求。</li>
+</ul>
+</li>
+<li>客户端浏览器解析 HTML 内容</li>
+</ol>
+<h3 id="HTTP-的五大特点">HTTP 的五大特点</h3>
+<ol>
+<li>支持<strong>C/S</strong>模式。</li>
+<li><strong>简单快速</strong>：客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有 <code>GET</code>、<code>HEAD</code>、<code>POST</code>。每种方法规定了客户与服务器联系的类型不同。由于 <code>HTTP </code> 协议简单，使得 <code>HTTP</code> 服务器的程序规模小，因而通信速度很快。</li>
+<li><strong>灵活</strong>：HTTP 允许传输任意类型的数据对象。正在传输的类型由 <code>Content-Type</code> 加以标记。</li>
+<li><strong>无连接</strong>：无连接的含义是限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间。早期这么做的原因是请求资源少，追求快。后来通过 <code>Connection: Keep-Alive</code> 实现长连接</li>
+<li><strong>无状态</strong>：<code>HTTP</code> 协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。</li>
+</ol>
+<h3 id="HTTP-的缺点">HTTP 的缺点</h3>
+<ul>
+<li>通信使用明文(不加密),内容可能会被窃听。</li>
+<li>不验证通信方的身份,因此有可能遭遇伪装。</li>
+<li>无法证明报文的完整性,所以有可能已遭篡改。</li>
+</ul>
+<h2 id="HTTPS">HTTPS</h2>
+<h3 id="加密方式">加密方式</h3>
+<ul>
+<li>加密方式有两种：对称加密和非对称加密
+<ul>
+<li>对称加密：加密和解密使用的密钥是相同的，这种加密方式的安全性在于密钥是否做好保密；</li>
+<li>非对称加密：加密和解密使用的密钥是不相同的，两个密钥分别是公钥和私钥，公钥用于加密（可公开），私钥用于解密（不可公开）</li>
+</ul>
+</li>
+<li>区别：对称加密算法相比非对称加密算法来说，效率要高得多，性能也好，所以交互的场景下多用对称加密。</li>
+</ul>
+<h3 id="证书">证书</h3>
+<pre><code class="language-apl">由权威部门颁发的称为证书（Certificate）
+</code></pre>
+<h4 id="证书包含的内容">证书包含的内容</h4>
+<ul>
+<li>公钥</li>
+<li>证书所有者</li>
+<li>证书的发布机构</li>
+<li>证书有效期</li>
+<li>签名算法</li>
+<li>证书的指纹和计算指纹所使用的指纹算法</li>
+<li>……</li>
+</ul>
+<h3 id="工作模式">工作模式</h3>
+<h4 id="建立-SSL-连接">建立 SSL 连接</h4>
+<pre><code class="language-apl">SSL四次握手
+</code></pre>
+<ul>
+<li>
+<p>第一次握手</p>
+<ul>
+<li>Client 发送 <code>Client Hello </code>（包含一个随机数 N1）报文开始 SSL 通信。报文中包含 Client 支持的 SSL 的指定版本、 加密组件（Cipher Suite） 列表。</li>
+</ul>
+</li>
+<li>
+<p>第二次握手</p>
+<ol>
+<li>Server 可进行 SSL 通信时， 会以 <code>Server Hello </code>（包含一个随机数 N2）报文作为应答。 和 Client 一样， 在报文中包含 SSL 版本以及加密组件。 Server 的加密组件内容是从接收到的客户端加密组件内筛选出来的。</li>
+<li>然后 Server 发送 <code>Certificate</code> 报文。 报文中包含公开的证书。</li>
+<li>最后 Server 发送 <code>Server Hello Done  </code> 报文通知 Client， 最初阶段的 SSL 握手协商部分结束。</li>
+</ol>
+</li>
+<li>
+<p>第三次握手（证书校验）</p>
+<ol>
+<li>Client 以 <code>Client Key Exchange</code> 报文作为回应。 报文中包含通信加密中使用的一种被称为 Pre-master secret 的随机密码串(N3)。 该报文已用步骤 3 中的公开的证书进行加密（N1+N2+N3 =&gt; 对称密钥）；Server 同时进行该加密计算步骤。</li>
+<li>接着 Client 继续发送 <code>Change Cipher Spec</code> 报文。 该报文会提示服务器， 在此报文之后的通信会采用 Pre-master secret 加密。</li>
+<li>Client 发送消息进行加密传输测试（Encrypted Handshake Message）</li>
+<li>Client 发送 <code>Finished</code> 报文。 该报文包含连接至今全部报文的整体校验值。 这次握手协商是否能够成功， 要以服务器是否能够正确解密该报文作为判定标准。</li>
+</ol>
+</li>
+<li>
+<p>第四次握手</p>
+<ol>
+<li>Server 同样发送 <code>Change Cipher Spec</code> 报文。</li>
+<li>Server 同样发送 <code>Encrypted Handshake Message</code> 报文。</li>
+<li>Server 同样发送 <code>Finished</code> 报文。</li>
+</ol>
+</li>
+</ul>
+<p><strong>整体流程</strong></p>
+<p>交换协议版本号 =&gt; 选择一个通信双方都支持的加密方式 =&gt; 对两端实现身份验证 =&gt;</p>
+<h4 id="建立-TCP-连接，发送-HTTP-请求">建立 TCP 连接，发送 HTTP 请求</h4>
+<ol>
+<li>Server 和 Client 的 <code>Finished</code> 报文交换完成后，通信会受到 SSL 的保护，接下来开始应用层协议的通信，发送 HTTP 请求。</li>
+<li>应用层协议通信，发送 HTTP 响应。</li>
+</ol>
+<h4 id="断开连接">断开连接</h4>
+<ol>
+<li>Client 主动断开连接。Client 发送 <code>close_notify</code> 报文。</li>
+<li>然后 Client 发送 <code>TCP FIN</code> 报文来关闭与 TCP 的通信。</li>
+</ol>
+<h3 id="SSL-的缺点">SSL 的缺点</h3>
+<ul>
+<li>通信慢：和 HTTP 相比，网络负载会变慢 2~100 倍（除去和 TCP 连接、 发送 HTTP 请求 • 响应以外， 还必须进行 SSL 通信，因此整体上处理通信量不可避免会增加）。</li>
+<li>处理速度慢：由于 SSL 必须进行加密处理，要大量消耗 CPU 及内存等资源， 导致处理速度变慢。在服务器和客户端都需要进行加密和解密的运算处理。 因此从结果上讲， 比起 HTTP 会更多地消耗服务器和客户端的硬件资源， 导致负载增强。</li>
+</ul>
+
+    </article>
+    <!--  -->
+    <div class="post-prev-next">
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/written_examination.png);" class="link-cover" href="/2021/09/29/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%AC%94%E8%AF%95/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>上一篇</span>
+      <span class="link-title">【实习】记一次笔试</span>
+    </div>
+  </div>
+  
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/datastructure_tree.png);" class="link-cover" href="/2021/04/24/%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B9%8B%E6%95%B0%E7%BB%84%E5%AD%98%E5%82%A8%E2%80%94%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86%EF%BC%88%E9%80%92%E5%BD%92%EF%BC%89/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>下一篇</span>
+      <span class="link-title">二叉树之数组存储—先序遍历（递归）</span>
+    </div>
+  </div>
+  
+</div>
+    
+    
+
+<div class="divide"></div>
+
+
+<div class="iconfont icon-comment"><span>评论</span></div>
+
+<div id="comment" class="comment markdown"></div>
+<script>
+  new Valine({
+    el: '#comment',
+    appId: '3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz',
+    appKey: 'BrY6HeaAcdwDscZNxC3TM7LO',
+    avatar: 'retro',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    pageSize: 15,
+    visitor: true,
+    recordIP: true,
+    lang: "zh-CN"
+  });
+</script>
+
+    
+  </section>
+  <section class="aside-wrapper">
+  <aside class="aside-content">
+    <div class="aside-card post-toc">
+      <header class="aside-card-title">
+        <span class="iconfont icon-toc"></span>目录
+      </header>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP"><span class="toc-number">1.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E5%86%85%E5%AE%B9"><span class="toc-number">1.1.1.</span> <span class="toc-text">报文内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82-%E5%93%8D%E5%BA%94%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.1.2.</span> <span class="toc-text">请求&#x2F;响应步骤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-%E7%9A%84%E4%BA%94%E5%A4%A7%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">HTTP 的五大特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-number">1.3.</span> <span class="toc-text">HTTP 的缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS"><span class="toc-number">2.</span> <span class="toc-text">HTTPS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">加密方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6"><span class="toc-number">2.2.</span> <span class="toc-text">证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6%E5%8C%85%E5%90%AB%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-number">2.2.1.</span> <span class="toc-text">证书包含的内容</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">工作模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B-SSL-%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.3.1.</span> <span class="toc-text">建立 SSL 连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B-TCP-%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%8F%91%E9%80%81-HTTP-%E8%AF%B7%E6%B1%82"><span class="toc-number">2.3.2.</span> <span class="toc-text">建立 TCP 连接，发送 HTTP 请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.3.3.</span> <span class="toc-text">断开连接</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSL-%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-number">2.4.</span> <span class="toc-text">SSL 的缺点</span></a></li></ol></li></ol>
+    </div>
+    <div class="aside-card latest-posts">
+      <header class="aside-card-title">
+        <span class="iconfont icon-history"></span>最新推荐
+      </header>
+      <ul class="latest-post-list">
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/">
+        <img class="post-cover" src="/images/no-cover.png" />
+        <div class="post-info">
+          <span class="title">Electron 踩坑专题</span>
+          <span class="time">2023-03-10</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/hexo-theme-alog.png" />
+        <div class="post-info">
+          <span class="title">Hexo主题：Alog</span>
+          <span class="time">2023-03-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/uniapp.png" />
+        <div class="post-info">
+          <span class="title">uniapp获取不到video组件ref问题</span>
+          <span class="time">2022-09-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/react.png" />
+        <div class="post-info">
+          <span class="title">react配置setupProxy之后页面无法打开</span>
+          <span class="time">2022-01-25</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2021/11/23/%E5%AD%97%E8%8A%82%E4%BA%8C%E9%9D%A2%E5%A4%8D%E7%9B%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/bytedance.png" />
+        <div class="post-info">
+          <span class="title">【实习】11.23 字节二面复盘(1h20min)</span>
+          <span class="time">2021-11-23</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+    </div>
+  </aside>
+</section>
+</div>
+
+<div class="preview-overlay">
+  <div class="preview-wrapper">
+    <img class="preview-img" alt="Preview" />
+    <div class="slot"></div>
+    <ul class="img-list"></ul>
+  </div>
+</div>
+
+<script src="/js/page/post/index.js" type="module" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-post-container animate__animated animate__fadeIn">
+  <section class="post-wrapper">
+    <header class="post-header">
+      
+      <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/bytedance.png" alt="【实习】11.17 字节一面复盘(60min)">
+      
+      
+      <span class="post-title">【实习】11.17 字节一面复盘(60min)</span>
+      
+      <div class="post-publish-info-wrapper flex">
+        <img class="author-avatar" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="">
+        <div class="post-info flex flex-column flex-space-around">
+          <div>
+            Akino
+            <span>· 11/17, 2021 · </span>
+            <span id="/2021/11/17/%E5%AD%97%E8%8A%82%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/" class="leancloud_visitors" data-flag-title="【实习】11.17 字节一面复盘(60min)">
+              阅读
+              
+              <span class="leancloud-visitors-count"></span>
+              
+            </span>
+          </div>
+          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li></ul>
+        </div>
+        </span>
+      </div>
+    </header>
+    <article class="post-content markdown">
+      <!-- <a name="index" style=" position: relative;top: -120px;display: block;height: 0;overflow: hidden;"></a> -->
+      <h2 id="值引用、对象引用和包装引用">值引用、对象引用和包装引用</h2>
+<p>被问到的时候完全懵了，脑海里“检索不到”相关的知识，面试完之后，好像又想起来了。。感觉 C++白学了</p>
+<h3 id="值引用">值引用</h3>
+<p>就是最普通的形参，函数传进来的参数是像 number、boolean 这种非引用类型的变量，即使在函数内部改变参数值也不会改变原来变量的值</p>
+<pre><code class="language-js">let a = 1;
+function change(b) &#123;
+  b = 10;
+&#125;
+change(b);
+console.log(a); // 1
+</code></pre>
+<h3 id="对象引用">对象引用</h3>
+<p>就是说函数的参数如果传进来是一个对象的话，那么在函数内部改变的传进来的这个对象内部属性的时候，外部的对象也会随之改变</p>
+<p>什么意思呢，就是说传进来的对象并不是新的对象，指向的地址没有改变，有点像浅拷贝？</p>
+<p>下面这个例子就是对象引用</p>
+<pre><code class="language-js">let o = &#123;
+  a: 1
+&#125;;
+function change(obj) &#123;
+  obj.a = 2;
+&#125;
+change(o);
+console.log(o.a); // 2
+</code></pre>
+<h3 id="包装引用">包装引用</h3>
+<p>包装类型自动创建原始值的对应对象，在其内部封装了一些方法，所以它也是属于引用类型的一种，但是和普通的引用对象不一样的是它的生存期不同。</p>
+<div class="tips">
+<p>对于引用类型的数据，在执行流离开当前作用域之前都会保存在内存中，而对于自动创建的基本包装类型的对象，只存在于一行代码的执行瞬间，执行完毕就会立即被销毁。</p>
+</div>
+<p>所以下面的例子是不会改变滴~~虽然但是，其实还没有特别理解这个，暂作保留 😁</p>
+<pre><code class="language-js">let num = new Number(1);
+function change(n) &#123;
+  n = 10;
+&#125;
+change(num);
+console.log(num); // [Number: 1]
+</code></pre>
+<h2 id="typeof-和-instanceof">typeof 和 instanceof</h2>
+<p>typeof 是用于判断数据类型的，js 分为基本数据类型和引用类型，虽然知道 null 是引用类型，但是当时想着它是属于基本数据类型，应该也能判断出来 😢，然而不是。</p>
+<p>instanceof 用于判断引用类型，根据对象的原形链往上找，如果原形链上有右边对象的原型，返回 true，否则返回 false。比如 A instanceof B，只要 B 的原型对象出现在 A 的原型链中就返回 true。</p>
+<h2 id="position">position</h2>
+<p>我以为自己已经掌握了它，没想到被问深一点点就自闭了。虽然给了提示还是答错，卒。。。。</p>
+<p>主要是 <code>relative</code> 和 <code>absolute</code> 相对于谁定位的知识有点混乱了。</p>
+<h3 id="relative">relative</h3>
+<p>相对于自身在正常流中的位置进行定位，不脱离文档流。</p>
+<h3 id="absolute">absolute</h3>
+<p>相对于最近的一个祖先进行定位，该祖先满足：position 的值是非 static 以外的值，若没有这样的祖先则相对于 <code>body</code> 进行定位，偏移值由其 <code>top</code>、<code>bottom</code>、<code>left</code>、<code>right</code> 值确定，元素脱离文档流。</p>
+<h3 id="fixed">fixed</h3>
+<p>相对于浏览器窗口进行定位，这个还行，没有答错</p>
+<h3 id="static">static</h3>
+<p>默认值，意思是没有定位，正常文档流，本身不能被继承。忽略 <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code> 或者 <code>z-index</code> 声明。</p>
+<h3 id="sticky">sticky</h3>
+<p>粘性定位，基于用户的滚动位置来定位。</p>
+<p>它的行为就像 position:relative; 而当页面滚动超出目标区域时，它的表现就像 position:fixed;，它会固定在目标位置。</p>
+<p>元素定位表现为在跨越特定阈值前为相对定位，之后为固定定位。这个特定阈值指的是 top, right, bottom 或 left 之一，换言之，指定 top, right, bottom 或 left 四个阈值其中之一，才可使粘性定位生效。否则其行为与相对定位相同。</p>
+<p>缺点：兼容性，Internet Explorer, Edge 15 及更早 IE 版本不支持 sticky 定位。 Safari 需要使用 -webkit- prefix。</p>
+<h3 id="inherit">inherit</h3>
+<p>踩大坑了这个，之前在浏览器看元素的 css 时经常看到 <code>position: inherit</code> 这个样式，以为就是默认值。。原来不是，错得好离谱。</p>
+<p>但 position 设置为这个值时，规定应该从父元素继承 position 属性的值。</p>
+<h2 id="option-请求">option 请求</h2>
+<p>周末刚看了这个请求的主要，面试时没完全想起来，面试完之后就想起来了(人间真实。。。</p>
+<p>option 主要是一个预检的作用，探测目标是否有什么约束。比如跨域，浏览器先发送 option 请求询问服务端是否允许跨域，得到跨域允许的返回后在进行正式请求。</p>
+<p>option 也可以用于探测服务端支持那种 HTTP 方法，是否需要携带 cookie。</p>
+<p>另外，option 在简单请求中是没有的，在复杂请求中才会有 option 这种预检的请求方式。</p>
+<h2 id="vue-key-的作用-computed-和-watch-的区别">vue key 的作用 | computed 和 watch 的区别</h2>
+<p>key 的作用：看面试官的反应，好像我之前的理解不是特别透彻？或者说有偏差。</p>
+<p>computed(依赖改变是否一定更新)：当时没太懂面试官的更新是什么意思，如果是说 computed 监听的那个属性是否会更新，那么答案应该是会，当依赖发生变化的时候一定会重新计算并且更新的。</p>
+<div class="tips">
+<p>计算属性是基于它们的响应式依赖进行缓存的。只在相关响应式依赖发生改变时它们才会重新求值。</p>
+</div>
+<p>做了个小小的试验</p>
+<pre><code class="language-html">&lt;html&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;app&quot;&gt;
+      &lt;div&gt;&#123;&#123;sum&#125;&#125;&lt;/div&gt;
+      &lt;input v-model=&quot;tem&quot; /&gt;
+      &lt;button @click=&quot;change(tem)&quot;&gt;change&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    new Vue(&#123;
+      el: '#app',
+      data() &#123;
+        return &#123;
+          a: 1,
+          b: 1,
+          tem: 0
+        &#125;;
+      &#125;,
+      computed: &#123;
+        sum: &#123;
+          get: function () &#123;
+            console.log('change');
+            return this.a + this.b;
+          &#125;
+        &#125;
+      &#125;,
+      methods: &#123;
+        change(target) &#123;
+          console.log(`a has been changed from $&#123;this.a&#125; to $&#123;target&#125;`);
+          this.a = target;
+        &#125;
+      &#125;
+    &#125;);
+  &lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/computed.png" alt="computed"></p>
+<p>还有 computed 是如何实现的？这个是打算和 vue 的响应式原理那块一起学的，奈何腾不出时间，被问到也很无奈</p>
+<p>这块的知识点这里先不搞，和 vue 的相关原理一起冲！</p>
+
+    </article>
+    <!--  -->
+    <div class="post-prev-next">
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/bytedance.png);" class="link-cover" href="/2021/11/23/%E5%AD%97%E8%8A%82%E4%BA%8C%E9%9D%A2%E5%A4%8D%E7%9B%98/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>上一篇</span>
+      <span class="link-title">【实习】11.23 字节二面复盘(1h20min)</span>
+    </div>
+  </div>
+  
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/learning.png);" class="link-cover" href="/2021/11/12/%E8%BF%91%E6%9C%9F%E5%AD%A6%E4%B9%A0%E6%9D%82%E8%AE%B0/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>下一篇</span>
+      <span class="link-title">近期学习杂记</span>
+    </div>
+  </div>
+  
+</div>
+    
+    
+
+<div class="divide"></div>
+
+
+<div class="iconfont icon-comment"><span>评论</span></div>
+
+<div id="comment" class="comment markdown"></div>
+<script>
+  new Valine({
+    el: '#comment',
+    appId: '3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz',
+    appKey: 'BrY6HeaAcdwDscZNxC3TM7LO',
+    avatar: 'retro',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    pageSize: 15,
+    visitor: true,
+    recordIP: true,
+    lang: "zh-CN"
+  });
+</script>
+
+    
+  </section>
+  <section class="aside-wrapper">
+  <aside class="aside-content">
+    <div class="aside-card post-toc">
+      <header class="aside-card-title">
+        <span class="iconfont icon-toc"></span>目录
+      </header>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%BC%E5%BC%95%E7%94%A8%E3%80%81%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8%E5%92%8C%E5%8C%85%E8%A3%85%E5%BC%95%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">值引用、对象引用和包装引用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%80%BC%E5%BC%95%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">值引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">对象引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%85%E8%A3%85%E5%BC%95%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">包装引用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#typeof-%E5%92%8C-instanceof"><span class="toc-number">2.</span> <span class="toc-text">typeof 和 instanceof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#position"><span class="toc-number">3.</span> <span class="toc-text">position</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#relative"><span class="toc-number">3.1.</span> <span class="toc-text">relative</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#absolute"><span class="toc-number">3.2.</span> <span class="toc-text">absolute</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fixed"><span class="toc-number">3.3.</span> <span class="toc-text">fixed</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static"><span class="toc-number">3.4.</span> <span class="toc-text">static</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sticky"><span class="toc-number">3.5.</span> <span class="toc-text">sticky</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inherit"><span class="toc-number">3.6.</span> <span class="toc-text">inherit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#option-%E8%AF%B7%E6%B1%82"><span class="toc-number">4.</span> <span class="toc-text">option 请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-key-%E7%9A%84%E4%BD%9C%E7%94%A8-computed-%E5%92%8C-watch-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">5.</span> <span class="toc-text">vue key 的作用 | computed 和 watch 的区别</span></a></li></ol>
+    </div>
+    <div class="aside-card latest-posts">
+      <header class="aside-card-title">
+        <span class="iconfont icon-history"></span>最新推荐
+      </header>
+      <ul class="latest-post-list">
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/">
+        <img class="post-cover" src="/images/no-cover.png" />
+        <div class="post-info">
+          <span class="title">Electron 踩坑专题</span>
+          <span class="time">2023-03-10</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/hexo-theme-alog.png" />
+        <div class="post-info">
+          <span class="title">Hexo主题：Alog</span>
+          <span class="time">2023-03-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/uniapp.png" />
+        <div class="post-info">
+          <span class="title">uniapp获取不到video组件ref问题</span>
+          <span class="time">2022-09-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/react.png" />
+        <div class="post-info">
+          <span class="title">react配置setupProxy之后页面无法打开</span>
+          <span class="time">2022-01-25</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2021/11/23/%E5%AD%97%E8%8A%82%E4%BA%8C%E9%9D%A2%E5%A4%8D%E7%9B%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/bytedance.png" />
+        <div class="post-info">
+          <span class="title">【实习】11.23 字节二面复盘(1h20min)</span>
+          <span class="time">2021-11-23</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+    </div>
+  </aside>
+</section>
+</div>
+
+<div class="preview-overlay">
+  <div class="preview-wrapper">
+    <img class="preview-img" alt="Preview" />
+    <div class="slot"></div>
+    <ul class="img-list"></ul>
+  </div>
+</div>
+
+<script src="/js/page/post/index.js" type="module" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

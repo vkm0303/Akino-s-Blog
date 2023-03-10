@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-post-container animate__animated animate__fadeIn">
+  <section class="post-wrapper">
+    <header class="post-header">
+      
+      <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/yapi.png" alt="centOS 部署YApi api管理平台">
+      
+      
+      <span class="post-title">centOS 部署YApi api管理平台</span>
+      
+      <div class="post-publish-info-wrapper flex">
+        <img class="author-avatar" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="">
+        <div class="post-info flex flex-column flex-space-around">
+          <div>
+            Akino
+            <span>· 02/21, 2021 · </span>
+            <span id="/2021/02/21/centOS%20%E9%83%A8%E7%BD%B2YApi%20api%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0/" class="leancloud_visitors" data-flag-title="centOS 部署YApi api管理平台">
+              阅读
+              
+              <span class="leancloud-visitors-count"></span>
+              
+            </span>
+          </div>
+          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li></ul>
+        </div>
+        </span>
+      </div>
+    </header>
+    <article class="post-content markdown">
+      <!-- <a name="index" style=" position: relative;top: -120px;display: block;height: 0;overflow: hidden;"></a> -->
+      <p><b>前提：已安装 node.js 7.6+、mongodb 2.6+</b></p>
+<h2 id="配置-mongodb">配置 mongodb</h2>
+<p>进入 mongodb</p>
+<span id="more"></span>
+<pre><code class="language-bash">mongo
+</code></pre>
+<p>创建 yapi 数据库</p>
+<pre><code class="language-bash">use yapi
+</code></pre>
+<p>添加用户</p>
+<pre><code class="language-bash">db.createUser(&#123;
+  user: &quot;用户&quot;,
+  pwd: &quot;密码&quot;,
+  roles: [&#123;role: &quot;dbOwner&quot;,db: &quot;yapi&quot;&#125;]
+&#125;)
+</code></pre>
+<p>退出 mongodb</p>
+<pre><code class="language-bash">^C 即Ctrl + C
+</code></pre>
+<p>创建 yapi 目录</p>
+<pre><code class="language-bash">mkdir yapi
+</code></pre>
+<p>切换到 yapi 目录</p>
+<pre><code class="language-bash">cd yapi
+</code></pre>
+<h2 id="下载-YApi-源码">下载 YApi 源码</h2>
+<p>有两种方式：</p>
+<p>方式一：执行命令 git clone https://github.com/YMFE/yapi.git &lt;存放目录&gt;</p>
+<pre><code class="language-bash">git clone https://github.com/YMFE/yapi.git vendors
+</code></pre>
+<p>该方法下载速度可能比较慢</p>
+<p>方式二：从 github 直接下载源码，解压后将源码上传到服务器对应目录，该方法速度较快</p>
+<p>配置 YApi</p>
+<p>将配置文件复制到 yapi 一级子目录下</p>
+<pre><code class="language-bash">cp vendors/config_example.json ./config.json
+</code></pre>
+<p>使用 vim 打开 config.json</p>
+<pre><code class="language-bash">vim ../config.json
+</code></pre>
+<p>配置如下：</p>
+<pre><code class="language-json">&#123;
+  &quot;port&quot;: &quot;3000&quot;, //项目端口号
+  &quot;adminAccount&quot;: &quot;admin@xxx.com&quot;, //管理员账号
+  &quot;timeout&quot;: 120000,
+  &quot;db&quot;: &#123;
+    &quot;servername&quot;: &quot;127.0.0.1&quot;, //mongodb地址
+    &quot;DATABASE&quot;: &quot;yapi&quot;, //数据库名称
+    &quot;port&quot;: 27017, //mongodb端口号
+    &quot;user&quot;: &quot;admin&quot;, //数据库用户名
+    &quot;pass&quot;: &quot;admin&quot;, //数据库密码
+    &quot;authSource&quot;: &quot;&quot;
+  &#125;,
+  //配置邮箱
+  &quot;mail&quot;: &#123;
+    &quot;enable&quot;: true,
+    &quot;host&quot;: &quot;smtp.163.com&quot;, //需在邮箱开启服务器账号
+    &quot;port&quot;: 465,
+    &quot;from&quot;: &quot;xxx@163.com&quot;,
+    &quot;auth&quot;: &#123;
+      &quot;user&quot;: &quot;xxx@163.com&quot;,
+      &quot;pass&quot;: &quot;xxx&quot;
+    &#125;
+  &#125;,
+  &quot;closeRegister&quot;: true //禁止用户注册
+&#125;
+</code></pre>
+<h2 id="安装程序">安装程序</h2>
+<p>执行以下命令</p>
+<pre><code class="language-bash">npm install --production --registry https://registry.npm.taobao.org
+</code></pre>
+<p>安装程序会初始化数据库索引和管理员账号</p>
+<pre><code class="language-bash">npm run install-server
+</code></pre>
+<p>若出现一下情况，请检查配置中的数据库账号、密码是否与 mongodb 配置中的账号、密码一致<img src="https://img-blog.csdnimg.cn/20210221013250119.png" alt="mongodb认证失败"></p>
+<h2 id="启动服务">启动服务</h2>
+<p>方式一：直接启动</p>
+<pre><code class="language-bash">node server/app.js
+</code></pre>
+<p>启动服务器后，请访问 127.0.0.1:{config.json 配置的端口}，初次运行会有个编译的过程，请耐心等候</p>
+<p>该方式退出进程/终端关闭后服务会自动关闭</p>
+<p>方式二：</p>
+<p>使用 pm2 管理服务(推荐)</p>
+<pre><code class="language-bash">npm i -g pm2
+</code></pre>
+<pre><code class="language-bash">pm2 start server/app.js
+</code></pre>
+<p>该方式会一直开启服务，不受终端是否关闭影响<br>
+<img src="https://img-blog.csdnimg.cn/20210221015254638.png" alt=""></p>
+<p>具体使用可以直接看文档</p>
+<p><a target="_blank" rel="noopener" href="http://imweb.io/topic/57c8cbb27f226f687b365636">pm2 快速入门指南</a></p>
+<p><a target="_blank" rel="noopener" href="http://pm2.keymetrics.io/docs/usage/quick-start/">pm2 官方文档</a></p>
+
+    </article>
+    <!--  -->
+    <div class="post-prev-next">
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/miniprogram.png);" class="link-cover" href="/2021/03/06/%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%B9%E5%87%BA%E5%B1%82%E6%BB%91%E5%8A%A8%E7%A9%BF%E9%80%8F%E9%97%AE%E9%A2%98/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>上一篇</span>
+      <span class="link-title">解决小程序弹出层滑动穿透问题</span>
+    </div>
+  </div>
+  
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/nodejs.png);" class="link-cover" href="/2020/11/16/node.js%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E5%BC%BA%E6%99%BA%E7%A7%91%E6%8A%80%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>下一篇</span>
+      <span class="link-title">Node.js模拟登录强智科技教务系统</span>
+    </div>
+  </div>
+  
+</div>
+    
+    
+
+<div class="divide"></div>
+
+
+<div class="iconfont icon-comment"><span>评论</span></div>
+
+<div id="comment" class="comment markdown"></div>
+<script>
+  new Valine({
+    el: '#comment',
+    appId: '3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz',
+    appKey: 'BrY6HeaAcdwDscZNxC3TM7LO',
+    avatar: 'retro',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    pageSize: 15,
+    visitor: true,
+    recordIP: true,
+    lang: "zh-CN"
+  });
+</script>
+
+    
+  </section>
+  <section class="aside-wrapper">
+  <aside class="aside-content">
+    <div class="aside-card post-toc">
+      <header class="aside-card-title">
+        <span class="iconfont icon-toc"></span>目录
+      </header>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-mongodb"><span class="toc-number">1.</span> <span class="toc-text">配置 mongodb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-YApi-%E6%BA%90%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">下载 YApi 源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">安装程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.</span> <span class="toc-text">启动服务</span></a></li></ol>
+    </div>
+    <div class="aside-card latest-posts">
+      <header class="aside-card-title">
+        <span class="iconfont icon-history"></span>最新推荐
+      </header>
+      <ul class="latest-post-list">
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/">
+        <img class="post-cover" src="/images/no-cover.png" />
+        <div class="post-info">
+          <span class="title">Electron 踩坑专题</span>
+          <span class="time">2023-03-10</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/hexo-theme-alog.png" />
+        <div class="post-info">
+          <span class="title">Hexo主题：Alog</span>
+          <span class="time">2023-03-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/uniapp.png" />
+        <div class="post-info">
+          <span class="title">uniapp获取不到video组件ref问题</span>
+          <span class="time">2022-09-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/react.png" />
+        <div class="post-info">
+          <span class="title">react配置setupProxy之后页面无法打开</span>
+          <span class="time">2022-01-25</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2021/11/23/%E5%AD%97%E8%8A%82%E4%BA%8C%E9%9D%A2%E5%A4%8D%E7%9B%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/bytedance.png" />
+        <div class="post-info">
+          <span class="title">【实习】11.23 字节二面复盘(1h20min)</span>
+          <span class="time">2021-11-23</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+    </div>
+  </aside>
+</section>
+</div>
+
+<div class="preview-overlay">
+  <div class="preview-wrapper">
+    <img class="preview-img" alt="Preview" />
+    <div class="slot"></div>
+    <ul class="img-list"></ul>
+  </div>
+</div>
+
+<script src="/js/page/post/index.js" type="module" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

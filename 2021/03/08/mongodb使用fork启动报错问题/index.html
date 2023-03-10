@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-post-container animate__animated animate__fadeIn">
+  <section class="post-wrapper">
+    <header class="post-header">
+      
+      <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/mongodb.png" alt="mongodb使用fork启动报错问题">
+      
+      
+      <span class="post-title">mongodb使用fork启动报错问题</span>
+      
+      <div class="post-publish-info-wrapper flex">
+        <img class="author-avatar" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="">
+        <div class="post-info flex flex-column flex-space-around">
+          <div>
+            Akino
+            <span>· 03/08, 2021 · </span>
+            <span id="/2021/03/08/mongodb%E4%BD%BF%E7%94%A8fork%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/" class="leancloud_visitors" data-flag-title="mongodb使用fork启动报错问题">
+              阅读
+              
+              <span class="leancloud-visitors-count"></span>
+              
+            </span>
+          </div>
+          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li></ul>
+        </div>
+        </span>
+      </div>
+    </header>
+    <article class="post-content markdown">
+      <!-- <a name="index" style=" position: relative;top: -120px;display: block;height: 0;overflow: hidden;"></a> -->
+      <p>在我使用以下命令启动 mongodb 时，报以下错误。</p>
+<pre><code>mongod --dbpath /usr/local/bin/mongodb/data/db --logpath /usr/local/bin/mongodb/log  --fork
+</code></pre>
+<span id="more"></span>
+<pre><code class="language-bash">ERROR: child process failed, exited with error code 1
+To see additional information in this output, start without the &quot;--fork&quot; option.
+</code></pre>
+<p>原因一般是配置目录错误，我这里是 log 的路径配置错误，在 log 目录下新建空白文件“logs.log”，然后执行以下命令即可</p>
+<pre><code class="language-bash">mongod --dbpath /usr/local/bin/mongodb/data/db --logpath /usr/local/bin/mongodb/log/logs  --fork
+</code></pre>
+<pre><code class="language-bash">about to fork child process, waiting until server is ready for connections.
+forked process: 7930
+child process started successfully, parent exiting
+</code></pre>
+
+    </article>
+    <!--  -->
+    <div class="post-prev-next">
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/html.png);" class="link-cover" href="/2021/04/01/a%E6%A0%87%E7%AD%BE%E5%B5%8C%E5%A5%97%E9%97%AE%E9%A2%98/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>上一篇</span>
+      <span class="link-title">a标签嵌套问题</span>
+    </div>
+  </div>
+  
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/miniprogram.png);" class="link-cover" href="/2021/03/07/%E5%B0%8F%E7%A8%8B%E5%BA%8Frequest%E6%97%A0%E5%8F%8D%E5%BA%94%E9%97%AE%E9%A2%98/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>下一篇</span>
+      <span class="link-title">小程序request无反应问题</span>
+    </div>
+  </div>
+  
+</div>
+    
+    
+
+<div class="divide"></div>
+
+
+<div class="iconfont icon-comment"><span>评论</span></div>
+
+<div id="comment" class="comment markdown"></div>
+<script>
+  new Valine({
+    el: '#comment',
+    appId: '3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz',
+    appKey: 'BrY6HeaAcdwDscZNxC3TM7LO',
+    avatar: 'retro',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    pageSize: 15,
+    visitor: true,
+    recordIP: true,
+    lang: "zh-CN"
+  });
+</script>
+
+    
+  </section>
+  <section class="aside-wrapper">
+  <aside class="aside-content">
+    <div class="aside-card post-toc">
+      <header class="aside-card-title">
+        <span class="iconfont icon-toc"></span>目录
+      </header>
+      
+    </div>
+    <div class="aside-card latest-posts">
+      <header class="aside-card-title">
+        <span class="iconfont icon-history"></span>最新推荐
+      </header>
+      <ul class="latest-post-list">
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/">
+        <img class="post-cover" src="/images/no-cover.png" />
+        <div class="post-info">
+          <span class="title">Electron 踩坑专题</span>
+          <span class="time">2023-03-10</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/hexo-theme-alog.png" />
+        <div class="post-info">
+          <span class="title">Hexo主题：Alog</span>
+          <span class="time">2023-03-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/uniapp.png" />
+        <div class="post-info">
+          <span class="title">uniapp获取不到video组件ref问题</span>
+          <span class="time">2022-09-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/react.png" />
+        <div class="post-info">
+          <span class="title">react配置setupProxy之后页面无法打开</span>
+          <span class="time">2022-01-25</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2021/11/23/%E5%AD%97%E8%8A%82%E4%BA%8C%E9%9D%A2%E5%A4%8D%E7%9B%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/bytedance.png" />
+        <div class="post-info">
+          <span class="title">【实习】11.23 字节二面复盘(1h20min)</span>
+          <span class="time">2021-11-23</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+    </div>
+  </aside>
+</section>
+</div>
+
+<div class="preview-overlay">
+  <div class="preview-wrapper">
+    <img class="preview-img" alt="Preview" />
+    <div class="slot"></div>
+    <ul class="img-list"></ul>
+  </div>
+</div>
+
+<script src="/js/page/post/index.js" type="module" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

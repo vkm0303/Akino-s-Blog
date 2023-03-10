@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-post-container animate__animated animate__fadeIn">
+  <section class="post-wrapper">
+    <header class="post-header">
+      
+      <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/written_examination.png" alt="【实习】记一次笔试">
+      
+      
+      <span class="post-title">【实习】记一次笔试</span>
+      
+      <div class="post-publish-info-wrapper flex">
+        <img class="author-avatar" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="">
+        <div class="post-info flex flex-column flex-space-around">
+          <div>
+            Akino
+            <span>· 09/29, 2021 · </span>
+            <span id="/2021/09/29/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%AC%94%E8%AF%95/" class="leancloud_visitors" data-flag-title="【实习】记一次笔试">
+              阅读
+              
+              <span class="leancloud-visitors-count"></span>
+              
+            </span>
+          </div>
+          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li></ul>
+        </div>
+        </span>
+      </div>
+    </header>
+    <article class="post-content markdown">
+      <!-- <a name="index" style=" position: relative;top: -120px;display: block;height: 0;overflow: hidden;"></a> -->
+      <h2 id="前言">前言</h2>
+<p>四道算法题，30 分钟，都是 LeetCode 的简单和中等题</p>
+<p>第一题 Ac 80%，第二题没做出来，剩下两题都 Ac 100%</p>
+<p>睡完午觉刚起床就做了，可能是脑子不太清醒，感觉应该可以全做出来的</p>
+<p>太菜了我 😭</p>
+<h2 id="第一题-删除字符串">第一题 删除字符串</h2>
+<h3 id="描述">描述</h3>
+<p>给出两个字符串 <code>str</code> 和 <code>sub</code>，你的任务是在 <code>str</code> 中完全删除那些在 <code>sub</code> 中存在的字符。</p>
+<h3 id="样例">样例</h3>
+<pre><code class="language-bash">输入: str=&quot;They are students&quot;，sub=&quot;aeiou&quot;
+输出: &quot;Thy r stdnts&quot;
+</code></pre>
+<h3 id="代码">代码</h3>
+<p>做的时候脑抽了没 Ac 100%，结束后重新看了一下，直接用正则表达式匹配，能 Ac 100%，但是速度太慢了，应该有更好的方法。</p>
+<pre><code class="language-javascript">CharacterDeletion(str, sub) &#123;
+    let modeStr='['
+    for(let i = 0; i &lt; sub.length; i++) &#123;
+        modeStr += sub.charAt(i) + '|';
+    &#125;
+    modeStr += ']';
+    let reg = new RegExp(modeStr, 'gm');
+    str = str.replace(reg, '');
+    return str;
+&#125;
+</code></pre>
+<h2 id="第二题-购买通行证">第二题 购买通行证</h2>
+<h3 id="描述-v2">描述</h3>
+<p>亚历克斯计划参观博物馆，并在柜台购买相同的通行证。管理员决定不出售团体通行证，一次只提供一张通行证。如果访客需要一张以上的通行证，他/她必须再次重新排队到柜台并购买下一张通行证。亚历克斯想购买许多通行证。访客顺序和每位访客需要的通行证数量是已知的，亚历克斯需要多少时间才能买到所有的通行证？Alex 在队列中的位置将被给定，每次交易需要 1 个时间单位。可以忽略每次转到行后面所需的时间。</p>
+<h3 id="样例-v2">样例</h3>
+<pre><code class="language-bash">输入: arr=[1,2,5],k=1
+输出: 4
+解释:
+有3个人 0,1,2 在排队。亚历克斯的编号是1
+第一个时间点，队列为0(1)&lt;-1(2)&lt;-2(5)，编号0获得门票。
+第二个时间点，队列为1(2)&lt;-2(5) 亚克斯获得门票，并返回队伍最末端
+第三个时间点，队列为2(5)&lt;-1(1) 编号2获得门票，并返回队伍最末端
+第四个时间点，队列为1(1)&lt;-2(4) 亚克斯获得门票，他已经买到了所需要的所有门票
+</code></pre>
+<h3 id="代码-v2">代码</h3>
+<p>这道题一开始没看懂，后来看懂了有思路但没做出来，结束后又花了点时间去做，最简陋的实现，时间复杂度没眼看</p>
+<pre><code class="language-javascript">buyPasses(arr, k) &#123;
+    let time = 0;
+    let i = 0;
+    while (1) &#123;
+        if (arr[i]) &#123;
+            arr[i]--;
+            time++;
+            if (i === k &amp;&amp; !arr[i]) &#123;
+                return time;
+            &#125;
+        &#125;
+        i++;
+        if (i === arr.length) &#123;
+            i = 0;
+        &#125;
+    &#125;
+    return time;
+&#125;
+
+</code></pre>
+<p>下面是题解中的做法，没看懂……</p>
+<pre><code class="language-javascript">buyPasses(arr, k) &#123;
+    let time = 0;
+    arr.forEach((el, i) =&gt; &#123;
+        if(i &lt;= k) &#123;
+            time += el &gt;　arr[k] ? arr[k] : el;
+        &#125; else &#123;
+            time += el &gt;　arr[k]-1 ? arr[k]-1 : el;
+        &#125;
+    &#125;);
+    return time;
+&#125;
+</code></pre>
+<h2 id="第三题-寻找峰值">第三题 寻找峰值</h2>
+<h3 id="描述-v3">描述</h3>
+<p>给定一个整数数组(size 为<code>n</code>)，其具有以下特点：</p>
+<ul>
+<li>相邻位置的数字是不同的</li>
+<li><code>A[0] &lt; A[1]</code> 并且 <code>A[n - 2] &gt; A[n - 1]</code></li>
+</ul>
+<p>假定<em>P</em>是峰值的位置则满足<code>A[P] &gt; A[P-1]</code>且<code>A[P] &gt; A[P+1]</code>，返回数组中任意一个峰值的位置。</p>
+<ul>
+<li>数组保证至少存在一个峰</li>
+<li>如果数组存在多个峰，返回其中任意一个就行</li>
+<li>数组至少包含 3 个数</li>
+</ul>
+<h3 id="样例-v3">样例</h3>
+<pre><code class="language-bash">输入：A = [1, 2, 1, 3, 4, 5, 7, 6]
+输出：1
+解释：返回任意一个峰顶元素的下标，6也同样正确。
+</code></pre>
+<h3 id="代码-v3">代码</h3>
+<p>这是最直观的实现，时间复杂度还是比较高</p>
+<pre><code class="language-javascript">findPeak(A) &#123;
+    for(let i = 1; i &lt; A.length-1; i++) &#123;
+        if(A[i] &gt; A[i-1] &amp;&amp; A[i] &gt; A[i+1] ) &#123;
+            return i;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="第四题-数组划分">第四题 数组划分</h2>
+<h3 id="描述-v4">描述</h3>
+<p>给出一个整数数组 <code>nums</code> 和一个整数 <code>k</code>。划分数组（即移动数组 <code>nums</code> 中的元素），使得：</p>
+<ul>
+<li>所有小于<code>k</code>的元素移到左边</li>
+<li>所有大于等于<code>k</code>的元素移到右边</li>
+</ul>
+<p>返回数组划分的位置，即数组中第一个位置 <code>i</code>，满足 <code>nums[i]</code> 大于等于 <code>k</code>。</p>
+<h3 id="样例-v4">样例</h3>
+<pre><code class="language-bash">输入：nums = [], k = 9
+输出：0
+解释：空数组，输出0
+
+输入：nums = [3,2,2,1], k = 2
+输出：1
+解释：真实的数组为[1,2,2,3].所以返回 1
+</code></pre>
+<h3 id="代码-v4">代码</h3>
+<p>题目要求真正的划分数组，而不是仅仅计算比<code>k</code>小的整数，也不难，把<code>&gt;=k</code>的数<code>push</code>到另一个数组，最后在合并就好了</p>
+<pre><code class="language-javascript">partitionArray(nums, k) &#123;
+    let small = [];
+    if(nums.length) &#123;
+        nums.forEach(el =&gt; &#123;
+            if(el &lt; k) &#123;
+                small.push(el);
+            &#125;
+        &#125;);
+        return small.length;
+    &#125;
+    return 0;
+&#125;
+</code></pre>
+<p>也可以先排序<code>sort</code>，如何使用<code>indexOf</code>查找 k 也行</p>
+<pre><code class="language-javascript">partitionArray(nums, k) &#123;
+    if(nums.length) &#123;
+        nums.sort((a, b) =&gt; a - b);
+        if(k &lt; nums[0]) &#123;
+            return 0;
+        &#125; else if(k &gt; nums[nums.length-1]) &#123;
+            return nums.length;
+        &#125;
+        let index = nums.indexOf(k);
+        if(index === nums.length-1) &#123;
+            return 0;
+        &#125;
+        return index;
+    &#125;
+    return 0;
+&#125;
+</code></pre>
+
+    </article>
+    <!--  -->
+    <div class="post-prev-next">
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/computer_network.png);" class="link-cover" href="/2021/10/02/%E6%B5%85%E8%B0%88MITM%E6%94%BB%E5%87%BB/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>上一篇</span>
+      <span class="link-title">浅谈MITM攻击</span>
+    </div>
+  </div>
+  
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/computer_network.png);" class="link-cover" href="/2021/09/17/HTTP&amp;HTTPS%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>下一篇</span>
+      <span class="link-title">HTTP/HTTPS工作原理</span>
+    </div>
+  </div>
+  
+</div>
+    
+    
+
+<div class="divide"></div>
+
+
+<div class="iconfont icon-comment"><span>评论</span></div>
+
+<div id="comment" class="comment markdown"></div>
+<script>
+  new Valine({
+    el: '#comment',
+    appId: '3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz',
+    appKey: 'BrY6HeaAcdwDscZNxC3TM7LO',
+    avatar: 'retro',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    pageSize: 15,
+    visitor: true,
+    recordIP: true,
+    lang: "zh-CN"
+  });
+</script>
+
+    
+  </section>
+  <section class="aside-wrapper">
+  <aside class="aside-content">
+    <div class="aside-card post-toc">
+      <header class="aside-card-title">
+        <span class="iconfont icon-toc"></span>目录
+      </header>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%A2%98-%E5%88%A0%E9%99%A4%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">2.</span> <span class="toc-text">第一题 删除字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%8F%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B7%E4%BE%8B"><span class="toc-number">2.2.</span> <span class="toc-text">样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">2.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%A2%98-%E8%B4%AD%E4%B9%B0%E9%80%9A%E8%A1%8C%E8%AF%81"><span class="toc-number">3.</span> <span class="toc-text">第二题 购买通行证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%8F%E8%BF%B0-v2"><span class="toc-number">3.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B7%E4%BE%8B-v2"><span class="toc-number">3.2.</span> <span class="toc-text">样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-v2"><span class="toc-number">3.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E9%A2%98-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BC"><span class="toc-number">4.</span> <span class="toc-text">第三题 寻找峰值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%8F%E8%BF%B0-v3"><span class="toc-number">4.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B7%E4%BE%8B-v3"><span class="toc-number">4.2.</span> <span class="toc-text">样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-v3"><span class="toc-number">4.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E9%A2%98-%E6%95%B0%E7%BB%84%E5%88%92%E5%88%86"><span class="toc-number">5.</span> <span class="toc-text">第四题 数组划分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%8F%E8%BF%B0-v4"><span class="toc-number">5.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B7%E4%BE%8B-v4"><span class="toc-number">5.2.</span> <span class="toc-text">样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-v4"><span class="toc-number">5.3.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
+    </div>
+    <div class="aside-card latest-posts">
+      <header class="aside-card-title">
+        <span class="iconfont icon-history"></span>最新推荐
+      </header>
+      <ul class="latest-post-list">
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/">
+        <img class="post-cover" src="/images/no-cover.png" />
+        <div class="post-info">
+          <span class="title">Electron 踩坑专题</span>
+          <span class="time">2023-03-10</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/hexo-theme-alog.png" />
+        <div class="post-info">
+          <span class="title">Hexo主题：Alog</span>
+          <span class="time">2023-03-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/uniapp.png" />
+        <div class="post-info">
+          <span class="title">uniapp获取不到video组件ref问题</span>
+          <span class="time">2022-09-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/react.png" />
+        <div class="post-info">
+          <span class="title">react配置setupProxy之后页面无法打开</span>
+          <span class="time">2022-01-25</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2021/11/23/%E5%AD%97%E8%8A%82%E4%BA%8C%E9%9D%A2%E5%A4%8D%E7%9B%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/bytedance.png" />
+        <div class="post-info">
+          <span class="title">【实习】11.23 字节二面复盘(1h20min)</span>
+          <span class="time">2021-11-23</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+    </div>
+  </aside>
+</section>
+</div>
+
+<div class="preview-overlay">
+  <div class="preview-wrapper">
+    <img class="preview-img" alt="Preview" />
+    <div class="slot"></div>
+    <ul class="img-list"></ul>
+  </div>
+</div>
+
+<script src="/js/page/post/index.js" type="module" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

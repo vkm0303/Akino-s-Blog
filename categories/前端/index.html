@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-home-container">
+  
+  <div class="page-header flex-align-center animate__animated animate__fadeInDown">
+  <div class="page-name">
+    前端
+  </div>
+</div>
+  
+  
+  <div class="post-list-wrapper animate__animated animate__fadeInUp">
+    <ul class="post-list">
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(/images/no-cover.png);" href="/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/">
+              Electron 踩坑专题
+            </a>
+            <!-- <p class="post-desc">
+              Electron-React
+
+本文章主要记录开发Electron(React)应用中遇到的问题及解决方法。
+
+Dev环境，页面不能正常渲染
+源码只有index.html文件，具体如...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>03/10, 2023 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/hexo-theme-alog.png);" href="/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/">
+              Hexo主题：Alog
+            </a>
+            <!-- <p class="post-desc">
+              
+Alog 是本人从 0 到 1 独立开发的 Hexo 主题，已在 github 开源，👉 传送门~
+
+开发起因
+市面上的主题都不合我心意，一狠心、一咬牙，干脆自己开发一...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>03/02, 2023 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/uniapp.png);" href="/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/">
+              uniapp获取不到video组件ref问题
+            </a>
+            <!-- <p class="post-desc">
+              起因
+在编写 video-swiper 的 nvue 组件时，通过 v-for 渲染 swiper-item，然后发现无论怎样通过uni.createVideoContext(id, thisArg)和this.$refs[refName]都获取不到可控制视频的对象。
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>09/02, 2022 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/react.png);" href="/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
+              react配置setupProxy之后页面无法打开
+            </a>
+            <!-- <p class="post-desc">
+              react 配置 setupProxy 之后页面无法打开
+我setupProxy.js的配置如下
+const &amp;#123; proxy &amp;#125; = require(&#39;http-proxy-middle...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>01/25, 2022 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/learning.png);" href="/2021/11/12/%E8%BF%91%E6%9C%9F%E5%AD%A6%E4%B9%A0%E6%9D%82%E8%AE%B0/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/11/12/%E8%BF%91%E6%9C%9F%E5%AD%A6%E4%B9%A0%E6%9D%82%E8%AE%B0/">
+              近期学习杂记
+            </a>
+            <!-- <p class="post-desc">
+              一些乱起八糟的东西
+最近学习有点疲惫了，就随便学学吧，记下来主要是为了不白看，记忆深刻一点。
+OPTIONS 请求
+用途
+
+获取服务器支持的 HTTP 请求方法
+检查服务器的性能
+
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>11/12, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/js_promise.png);" href="/2021/11/03/%E6%89%8B%E5%86%99Promise.all%E5%92%8CPromise.race/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/11/03/%E6%89%8B%E5%86%99Promise.all%E5%92%8CPromise.race/">
+              手写Promise.all和Promise.race
+            </a>
+            <!-- <p class="post-desc">
+              Promise.all 和 Promise.race 的运行机制
+当我们想要实现其功能时，首先得先了解其运行机制，什么条件达到什么结果。
+
+当所有的 promise 都成功执行时才返回 resolve，只要任意一个失败都返回 reject，且后...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>11/03, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/js_extends.png);" href="/2021/10/27/%E5%AF%84%E7%94%9F%E7%BB%84%E5%90%88%E5%BC%8F%E7%BB%A7%E6%89%BF/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/27/%E5%AF%84%E7%94%9F%E7%BB%84%E5%90%88%E5%BC%8F%E7%BB%A7%E6%89%BF/">
+              寄生组合式继承
+            </a>
+            <!-- <p class="post-desc">
+              emmm...一直一来对继承方式都搞不懂，感觉绕来绕去的好乱，今天决定逐个突破 😶。
+看了各种继承方式的比较，寄生组合式继承是比较理想的，因为相对来说操作较少且弥补了寄生继承和组合继承的缺点,既可以函数复用，也不用多次调用父类构造函数。
+寄生组合式继承顾名思义就是寄生式继承和组合式继承结合使用，下面以代码形式展示该继承的特点。
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/27, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/js_array.png);" href="/2021/10/23/%E5%88%A4%E6%96%AD%E6%95%B0%E7%BB%84%E7%9A%845%E7%A7%8D%E6%96%B9%E6%B3%95/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/23/%E5%88%A4%E6%96%AD%E6%95%B0%E7%BB%84%E7%9A%845%E7%A7%8D%E6%96%B9%E6%B3%95/">
+              JS判断数组的5种方法
+            </a>
+            <!-- <p class="post-desc">
+              由于 js 中数组属于引用类型，而引用类型都归为 object，所以数组是不能通过 typeof 来判断
+typeof Array; // output: object
+
+因此需要通过其它手段来判断
+
+原型判断
+实例的...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/23, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/vue.png);" href="/2021/10/22/Vue%20computed%E5%92%8Cwatch%E7%9A%84%E5%8C%BA%E5%88%AB/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/22/Vue%20computed%E5%92%8Cwatch%E7%9A%84%E5%8C%BA%E5%88%AB/">
+              Vue computed和watch的区别
+            </a>
+            <!-- <p class="post-desc">
+              computed 和 watch 的用法比较相似，由于其作用相近，经常搞不懂它俩的区别，所以这几天专门花了点事件去“研究”了一下。
+computed 和 watch 的区别
+用法上的区别
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/22, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/vue.png);" href="/2021/10/22/v-key%E7%9A%84%E4%BD%9C%E7%94%A8/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/22/v-key%E7%9A%84%E4%BD%9C%E7%94%A8/">
+              v-key的作用
+            </a>
+            <!-- <p class="post-desc">
+              无论开发小程序还是 Vue 应用，都经常会使用到列表渲染，在使用过程中，如果不绑定 key 值，ide 经常警告需要绑定 key 值。但是一直都没有去深究为什么需要绑定一个 key 值，现在终于有时间了，所以去关注一下这些底层的东西。
+举个栗子
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/22, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/vue.png);" href="/2021/10/06/mvvm%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/06/mvvm%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/">
+              mvvm原理实践
+            </a>
+            <!-- <p class="post-desc">
+              前言
+原理部分不在叙述，网上很多博客都有提，我是在掘金看了别的博主的文章(不好意思！耽误你的十分钟，让 MVVM 原理还给你)，然后按自己的理解模仿着实现了基础的 demo，在此基础上又添加了 methods、v-show 和@click ...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/06, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/flvjs.png);" href="/2021/04/03/flv.js%E4%BD%BF%E7%94%A8/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/04/03/flv.js%E4%BD%BF%E7%94%A8/">
+              flv.js的使用
+            </a>
+            <!-- <p class="post-desc">
+              1. 引入 flv.js
+1.1 script 标签引入
+原生 html 引入
+&amp;lt;script type=&amp;quot;text/javascript...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>04/03, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+    </ul>
+      
+  <nav class="pagination">
+    
+
+    <span class="page-num current">1</span><a class="page-num" href="/categories/%E5%89%8D%E7%AB%AF/page/2/">2</a>
+
+    
+    <a class="iconfont icon-chevron-right" href="/categories/%E5%89%8D%E7%AB%AF/page/2/"></a>
+    
+  </nav>
+  
+  </div>
+</div>
+
+
+<script src="/js/plugin/velocity.js" defer></script>
+
+
+<script src="/js/plugin/shutter.js" defer></script>
+
+
+<script src="/js/page/home.js" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

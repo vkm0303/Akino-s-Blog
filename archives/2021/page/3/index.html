@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-home-container">
+  
+  <div class="page-header flex-align-center animate__animated animate__fadeInDown">
+  <div class="page-name">
+    
+  </div>
+</div>
+  
+  
+  <div class="post-list-wrapper animate__animated animate__fadeInUp">
+    <ul class="post-list">
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/miniprogram.png);" href="/2021/03/06/%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%B9%E5%87%BA%E5%B1%82%E6%BB%91%E5%8A%A8%E7%A9%BF%E9%80%8F%E9%97%AE%E9%A2%98/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/03/06/%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%B9%E5%87%BA%E5%B1%82%E6%BB%91%E5%8A%A8%E7%A9%BF%E9%80%8F%E9%97%AE%E9%A2%98/">
+              解决小程序弹出层滑动穿透问题
+            </a>
+            <!-- <p class="post-desc">
+              将商品添加购物车，打开购物车详情，在这一块区域滑动时，其底层会滑动，即滑动会穿透
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>03/06, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/yapi.png);" href="/2021/02/21/centOS%20%E9%83%A8%E7%BD%B2YApi%20api%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li></ul>
+            
+            <a class="post-title" href="/2021/02/21/centOS%20%E9%83%A8%E7%BD%B2YApi%20api%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0/">
+              centOS 部署YApi api管理平台
+            </a>
+            <!-- <p class="post-desc">
+              前提：已安装 node.js 7.6+、mongodb 2.6+
+配置 mongodb
+进入 mongodb
+
+mongo
+
+创建 yapi 数据库
+...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>02/21, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+    </ul>
+      
+  <nav class="pagination">
+    
+    <a class="iconfont icon-chevron-left" href="/archives/2021/page/2/"></a>
+    
+
+    <a class="page-num" href="/archives/2021/">1</a><a class="page-num" href="/archives/2021/page/2/">2</a><span class="page-num current">3</span>
+
+    
+  </nav>
+  
+  </div>
+</div>
+
+
+<script src="/js/plugin/velocity.js" defer></script>
+
+
+<script src="/js/plugin/shutter.js" defer></script>
+
+
+<script src="/js/page/home.js" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

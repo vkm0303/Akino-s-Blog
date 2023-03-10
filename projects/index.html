@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-header flex-align-center animate__animated animate__fadeInDown">
+  <div class="page-name">
+    项目
+  </div>
+</div>
+<div class="page-project-container animate__animated animate__fadeInUp">
+  <ul class="project-list"}>
+      <li class="project-item markdown"}>
+        <h2 id="风电设备运输智能感知-APP">风电设备运输智能感知 APP</h2>
+<p>项目描述：借助激光雷达及测距算法能力实时监控风电叶片运输过程中与障碍物的距离，驾驶员通过手机 APP 实时查看各个监控点位带距离信息的视频画面，当风叶与障碍物距离达到阀值时弹窗告警及语音告警，同时记录并展示运输轨迹。</p>
+<p>项目职责：移动端开发</p>
+<blockquote>
+<ul>
+<li>基于 uni-app 开发监控视频流播放组件、扫描二维码绑定车辆功能及用户相关基础功能。</li>
+<li>基于高德地图 SDK 能力开发车辆实时运输轨迹展示、历史运输任务轨迹展示。</li>
+</ul>
+</blockquote>
+<p>起始日期：2022.07 - 2023.04</p>
+
+      </li>
+    
+      <li class="project-item markdown"}>
+        <h2 id="SZTU-课表小程序">SZTU 课表小程序</h2>
+<p>项目描述：集成课表查询、成绩查询、考试安排、公文通功能。用户量累计 332 人，月访问用户 270 人。</p>
+<p>项目职责：前端开发、后端开发</p>
+<blockquote>
+<ul>
+<li>基于微信小程序原生框架开发小程序端课表、成绩查询、公文通、考试安排等页面。</li>
+<li>基于 Node.js 开发教务系统课表、成绩、考试安排爬虫模块、公文通抓包转发模块，HTML 文本解析模块及相关数据的查询接口。</li>
+</ul>
+</blockquote>
+<p>起始日期：2021.09 - 2022.04</p>
+
+      </li>
+    
+      <li class="project-item markdown"}>
+        <h2 id="腾讯-mini-项目-NewMonkey-银发测评">腾讯 mini 项目 - NewMonkey 银发测评</h2>
+<p>项目描述：基于 NewMonkey 对安卓 APP 进行适老化程度测评，并在后台自动化输出测评报告。</p>
+<p>项目职责：前端开发、后端开发</p>
+<blockquote>
+<ul>
+<li>基于 Vue 开发测试管理平台前端，对测试结果以图表形式展示。</li>
+<li>基于 Python 的 Django+SQLite 开发测试管理平台的后端，为客户端及前端提供数据上传、数据查询相关 api 接口。</li>
+<li>基于 Python 开发文本相关控件的颜色对比度计算及测试报告自动化生成模块。</li>
+</ul>
+</blockquote>
+<p>起始日期：2021.08 - 2021.10</p>
+
+      </li>
+    
+      <li class="project-item markdown"}>
+        <h2 id="5G-校园安全系统">5G 校园安全系统</h2>
+<p>项目描述：面向校园安全场景，基于 5G 高速传输，根据传感器、摄像头 AI 算法数据，实现异常事件监测、预警和告警。</p>
+<p>项目职责：前端开发</p>
+<blockquote>
+<ul>
+<li>基于 Vue 开发设备告警、视频播放组件、视频截图和设备控制模块；</li>
+<li>基于 ThingJs 实现人员轨迹可视化。</li>
+</ul>
+</blockquote>
+<p>起始日期：2020.12 - 2021.12</p>
+
+      </li>
+    
+      <li class="project-item markdown"}>
+        <h2 id="食堂智能服务小程序-好吃-Go">食堂智能服务小程序 - 好吃 Go</h2>
+<p>项目描述：开发一款集查看食堂菜单、食堂外送、校园卡余额查询等服务于一身的小程序。项目职责：前端开发</p>
+<blockquote>
+<ul>
+<li>根据 UI 设计图开发菜单列表、食堂外带下单、用户模块等页面，同时对接微信支付。</li>
+<li>部署 api 管理平台，定义接口数据格式，与后端进行协商调整接口。</li>
+</ul>
+</blockquote>
+<p>起始日期：2020.09 - 2021.10</p>
+
+      </li>
+    </ul>
+</div>
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

@@ -1,0 +1,3039 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Electron 踩坑专题</title>
+    <url>/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="Electron-React">Electron-React</h2>
+<blockquote>
+<p>本文章主要记录开发<code>Electron(React)</code>应用中遇到的问题及解决方法。</p>
+</blockquote>
+<h3 id="Dev环境，页面不能正常渲染">Dev环境，页面不能正常渲染</h3>
+<p>源码只有index.html文件，具体如下：</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/electron-bugs-1.png" alt="request"></p>
+<p>原因：在<code>/electron/main/index.js</code>文件中，加载页面使用的是<code>loadFile</code>的API，开发环境访问不到本地域的其他文件。</p>
+<p>解决：切换为<code>loadURL</code>即可解决。</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/electron-bugs-2.png" alt="request"></p>
+<h3 id="构建包的index-html文件不正确">构建包的index.html文件不正确</h3>
+<p>运行Electron构建包，<code>index.html</code>引用的资源(css, js...)路径仍然是原始路径。</p>
+<p>原因：打包配置files中没有把原始index.html去除，导致打包后该文件仍然存在并被electron加载</p>
+<h3 id="Electron构建报错入口文件不存在">Electron构建报错入口文件不存在</h3>
+<p>Error：&quot;<code>Application entry file &quot;build\electron.js&quot; in the &quot;app.asar&quot; does not exist. Seems like a wrong configuration</code>&quot;</p>
+<p>原因：electron-builder在dependencies发现了 含react的依赖，main配置无效</p>
+<h3 id="Electron构建包资源加载错误">Electron构建包资源加载错误</h3>
+<p>运行Electron构建包，报错&quot;<code>Not allowed to load local resource xxxx</code>&quot;</p>
+<p>原因：<code>mainWindow.loadFile</code>中的路径不对</p>
+<h3 id="Electron构建包页面空白">Electron构建包页面空白</h3>
+<p>运行Electron构建包，页面空白，devtool没有任何报错</p>
+<p>原因：router使用了<code>history</code>模式，<code>history</code>模式需要从服务端请求资源，然而项目中并没有相关的服务端配合，所以导致页面不渲染。</p>
+<p>解决：修改为<code>hash</code>模式恢复正常。</p>
+<h3 id="Index-router问题">Index router问题</h3>
+<p>React-router_v6子路由设置<code>index: true</code>，当访问父路由路径时不渲染<code>index router</code>，配置如下:</p>
+<pre><code class="language-tsx">const routes: RouteObject[] = [
+  &#123;
+    path: '/',
+    element: &lt;AppLayout /&gt;,
+    children: [
+      &#123;
+        path: '/home',
+        element: &lt;h1&gt;A react template for electron&lt;/h1&gt;,
+        index: true,
+        meta: &#123;
+          name: 'Home',
+        &#125;,
+      &#125;,
+    ],
+  &#125;,
+];
+</code></pre>
+<p>原因：误解了<code>index router</code>的用法，<code>index router</code>不提供自动导航，仅当访问父路由路径时且<code>index router</code>的<code>path</code>属性不存在时，渲染<code>index router</code>视图。</p>
+<p>如需自动导航可以按以下配置：</p>
+<pre><code class="language-tsx">const routes: RouteObject[] = [
+  &#123;
+    path: '/',
+    element: &lt;AppLayout /&gt;,
+    children: [
+      &#123;
+        element: &lt;Navigate replace to=&quot;/home&quot; /&gt;,
+        index: true,
+      &#125;,
+      &#123;
+        path: '/home',
+        element: &lt;h1&gt;A react template for electron&lt;/h1&gt;,
+        meta: &#123;
+          name: 'Home',
+        &#125;,
+      &#125;,
+    ],
+  &#125;,
+];
+</code></pre>
+<h3 id="懒加载路由问题">懒加载路由问题</h3>
+<p>React-router v6版本使用懒加载组件，报错</p>
+<pre><code class="language-tsx">&#123;
+  ... ...
+  element: lazy(() =&gt; import('@renderer/layout/AppLayout')) // 无效，报错
+&#125;
+</code></pre>
+<p>原因：v6版本去除了<code>component</code>配置，改为了<code>element</code>，<code>element</code>只能接受组件，不可以<code>component object</code>形式</p>
+<p>解决：修改为以下配置即可：</p>
+<pre><code class="language-tsx">const AppLayout = lazy(() =&gt; import('@renderer/layout/AppLayout'));
+&#123;
+  ... ...
+  element: &lt;AppLayout /&gt; // 无效，报错
+&#125;
+</code></pre>
+<h3 id="使用懒加载组件报错">使用懒加载组件报错</h3>
+<p>Devtool报错：&quot;<code>Error:The above error occurred in one of your React components</code>&quot;</p>
+<p>原因：使用了懒加载组件，页面渲染时，组件还没加载完成。</p>
+<p>解决：使用React提供的<code>&lt;Suspend feedback=&#123;&#125; /&gt;</code>组件包裹路由组件即可。</p>
+<pre><code class="language-tsx">&lt;Suspense fallback=&#123;&lt;Spin tip=&quot;Loading...&quot; /&gt;&#125;&gt;
+    &#123; useRoutes(routes) &#125;
+&lt;/Suspense&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>HTTP/HTTPS工作原理</title>
+    <url>/2021/09/17/HTTP&amp;HTTPS%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h2 id="HTTP">HTTP</h2>
+<blockquote>
+<p>超文本传输协议（HyperText Transfer Protocol，HTTP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。</p>
+</blockquote>
+<h3 id="工作原理">工作原理</h3>
+<blockquote>
+<p>协议采用了请求/响应模型，由客户端向服务器发送一个请求报文，然后服务端返回一个响应报文。</p>
+</blockquote>
+<h4 id="报文内容">报文内容</h4>
+<p>请求报文包含以下内容：</p>
+<ul>
+<li>请求的方法；</li>
+<li>URL；</li>
+<li>协议版本；</li>
+<li>请求头部；</li>
+<li>请求数据。</li>
+</ul>
+<p>响应报文包含以下内容：</p>
+<ul>
+<li>协议的版本；</li>
+<li>成功或者错误代码；</li>
+<li>服务器信息；</li>
+<li>响应头部；</li>
+<li>响应数据。</li>
+</ul>
+<h4 id="请求-响应步骤">请求/响应步骤</h4>
+<ol>
+<li>客户端连接 Web 服务器</li>
+<li>客户端发送 HTTP 请求
+<ul>
+<li>客户端向 Web 服务器发送一个文本的请求报文。</li>
+<li>一个请求报文由请求行、请求头部、空行和请求数据 4 部分组成。</li>
+</ul>
+</li>
+<li>服务端接收请求并返回 HTTP 响应
+<ul>
+<li>Web 服务器解析请求，定位请求资源。服务器将资源复本写到 TCP 套接字，由客户端读取。</li>
+<li>一个响应由状态行、响应头部、空行和响应数据 4 部分组成。</li>
+</ul>
+</li>
+<li>释放 TCP 连接
+<ul>
+<li>若 connection 模式为 close，则服务器主动关闭 TCP 连接，客户端被动关闭连接，释放 TCP 连接。</li>
+<li>若 connection 模式为 keepalive，则该连接会保持一段时间，在该时间内可以继续接收请求。</li>
+</ul>
+</li>
+<li>客户端浏览器解析 HTML 内容</li>
+</ol>
+<h3 id="HTTP-的五大特点">HTTP 的五大特点</h3>
+<ol>
+<li>支持<strong>C/S</strong>模式。</li>
+<li><strong>简单快速</strong>：客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有 <code>GET</code>、<code>HEAD</code>、<code>POST</code>。每种方法规定了客户与服务器联系的类型不同。由于 <code>HTTP </code> 协议简单，使得 <code>HTTP</code> 服务器的程序规模小，因而通信速度很快。</li>
+<li><strong>灵活</strong>：HTTP 允许传输任意类型的数据对象。正在传输的类型由 <code>Content-Type</code> 加以标记。</li>
+<li><strong>无连接</strong>：无连接的含义是限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间。早期这么做的原因是请求资源少，追求快。后来通过 <code>Connection: Keep-Alive</code> 实现长连接</li>
+<li><strong>无状态</strong>：<code>HTTP</code> 协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。</li>
+</ol>
+<h3 id="HTTP-的缺点">HTTP 的缺点</h3>
+<ul>
+<li>通信使用明文(不加密),内容可能会被窃听。</li>
+<li>不验证通信方的身份,因此有可能遭遇伪装。</li>
+<li>无法证明报文的完整性,所以有可能已遭篡改。</li>
+</ul>
+<h2 id="HTTPS">HTTPS</h2>
+<h3 id="加密方式">加密方式</h3>
+<ul>
+<li>加密方式有两种：对称加密和非对称加密
+<ul>
+<li>对称加密：加密和解密使用的密钥是相同的，这种加密方式的安全性在于密钥是否做好保密；</li>
+<li>非对称加密：加密和解密使用的密钥是不相同的，两个密钥分别是公钥和私钥，公钥用于加密（可公开），私钥用于解密（不可公开）</li>
+</ul>
+</li>
+<li>区别：对称加密算法相比非对称加密算法来说，效率要高得多，性能也好，所以交互的场景下多用对称加密。</li>
+</ul>
+<h3 id="证书">证书</h3>
+<pre><code class="language-apl">由权威部门颁发的称为证书（Certificate）
+</code></pre>
+<h4 id="证书包含的内容">证书包含的内容</h4>
+<ul>
+<li>公钥</li>
+<li>证书所有者</li>
+<li>证书的发布机构</li>
+<li>证书有效期</li>
+<li>签名算法</li>
+<li>证书的指纹和计算指纹所使用的指纹算法</li>
+<li>……</li>
+</ul>
+<h3 id="工作模式">工作模式</h3>
+<h4 id="建立-SSL-连接">建立 SSL 连接</h4>
+<pre><code class="language-apl">SSL四次握手
+</code></pre>
+<ul>
+<li>
+<p>第一次握手</p>
+<ul>
+<li>Client 发送 <code>Client Hello </code>（包含一个随机数 N1）报文开始 SSL 通信。报文中包含 Client 支持的 SSL 的指定版本、 加密组件（Cipher Suite） 列表。</li>
+</ul>
+</li>
+<li>
+<p>第二次握手</p>
+<ol>
+<li>Server 可进行 SSL 通信时， 会以 <code>Server Hello </code>（包含一个随机数 N2）报文作为应答。 和 Client 一样， 在报文中包含 SSL 版本以及加密组件。 Server 的加密组件内容是从接收到的客户端加密组件内筛选出来的。</li>
+<li>然后 Server 发送 <code>Certificate</code> 报文。 报文中包含公开的证书。</li>
+<li>最后 Server 发送 <code>Server Hello Done  </code> 报文通知 Client， 最初阶段的 SSL 握手协商部分结束。</li>
+</ol>
+</li>
+<li>
+<p>第三次握手（证书校验）</p>
+<ol>
+<li>Client 以 <code>Client Key Exchange</code> 报文作为回应。 报文中包含通信加密中使用的一种被称为 Pre-master secret 的随机密码串(N3)。 该报文已用步骤 3 中的公开的证书进行加密（N1+N2+N3 =&gt; 对称密钥）；Server 同时进行该加密计算步骤。</li>
+<li>接着 Client 继续发送 <code>Change Cipher Spec</code> 报文。 该报文会提示服务器， 在此报文之后的通信会采用 Pre-master secret 加密。</li>
+<li>Client 发送消息进行加密传输测试（Encrypted Handshake Message）</li>
+<li>Client 发送 <code>Finished</code> 报文。 该报文包含连接至今全部报文的整体校验值。 这次握手协商是否能够成功， 要以服务器是否能够正确解密该报文作为判定标准。</li>
+</ol>
+</li>
+<li>
+<p>第四次握手</p>
+<ol>
+<li>Server 同样发送 <code>Change Cipher Spec</code> 报文。</li>
+<li>Server 同样发送 <code>Encrypted Handshake Message</code> 报文。</li>
+<li>Server 同样发送 <code>Finished</code> 报文。</li>
+</ol>
+</li>
+</ul>
+<p><strong>整体流程</strong></p>
+<p>交换协议版本号 =&gt; 选择一个通信双方都支持的加密方式 =&gt; 对两端实现身份验证 =&gt;</p>
+<h4 id="建立-TCP-连接，发送-HTTP-请求">建立 TCP 连接，发送 HTTP 请求</h4>
+<ol>
+<li>Server 和 Client 的 <code>Finished</code> 报文交换完成后，通信会受到 SSL 的保护，接下来开始应用层协议的通信，发送 HTTP 请求。</li>
+<li>应用层协议通信，发送 HTTP 响应。</li>
+</ol>
+<h4 id="断开连接">断开连接</h4>
+<ol>
+<li>Client 主动断开连接。Client 发送 <code>close_notify</code> 报文。</li>
+<li>然后 Client 发送 <code>TCP FIN</code> 报文来关闭与 TCP 的通信。</li>
+</ol>
+<h3 id="SSL-的缺点">SSL 的缺点</h3>
+<ul>
+<li>通信慢：和 HTTP 相比，网络负载会变慢 2~100 倍（除去和 TCP 连接、 发送 HTTP 请求 • 响应以外， 还必须进行 SSL 通信，因此整体上处理通信量不可避免会增加）。</li>
+<li>处理速度慢：由于 SSL 必须进行加密处理，要大量消耗 CPU 及内存等资源， 导致处理速度变慢。在服务器和客户端都需要进行加密和解密的运算处理。 因此从结果上讲， 比起 HTTP 会更多地消耗服务器和客户端的硬件资源， 导致负载增强。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Hexo主题：Alog</title>
+    <url>/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/</url>
+    <content><![CDATA[<blockquote>
+<p>Alog 是本人从 0 到 1 独立开发的 Hexo 主题，已在 github 开源，👉 <a href="https://github.com/FE-Alog/hexo-theme-alog">传送门~</a></p>
+</blockquote>
+<h2 id="开发起因">开发起因</h2>
+<p>市面上的主题都不合我心意，一狠心、一咬牙，干脆自己开发一个。</p>
+<h2 id="开发过程">开发过程</h2>
+<p>前期主要进行了主题开发的学习、技术选型，由于同期在找工作，因此选用的最简单的搭配：Ejs + JQuery + stylus。</p>
+<p>这个开发过程秉承着<code>极简</code>的原则，对于没必要的功能，能不加就不加。因此，目前 Hexo 基本的<code>标签</code>、<code>归档</code>功能都没有添加。</p>
+<p>当然，在开发过程中也借鉴了许多优秀的博客主题，比如<code>Next</code>、<code>Butterfly</code>等，就不一一列举了。</p>
+<p>以下省略 1000 字......😝</p>
+<h2 id="成品">成品</h2>
+<p>详见本站~</p>
+<p>使用教程在 github 写得很清楚啦 =&gt;&gt; <a href="https://github.com/FE-Alog/hexo-theme-alog/blob/master/README.md">Hexo-theme-alog: readme</a></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Vue computed和watch的区别</title>
+    <url>/2021/10/22/Vue%20computed%E5%92%8Cwatch%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<p><code>computed</code> 和 <code>watch</code> 的用法比较相似，由于其作用相近，经常搞不懂它俩的区别，所以这几天专门花了点事件去“研究”了一下。</p>
+<h2 id="computed-和-watch-的区别">computed 和 watch 的区别</h2>
+<h3 id="用法上的区别">用法上的区别</h3>
+<h4 id="computed">computed</h4>
+<ul>
+<li>不允许异步操作。</li>
+<li>计算属性的函数必须 <code>return</code> ，否则属性不会更新。</li>
+<li>可以设置 <code>getter</code> 和 <code>setter</code> 。</li>
+<li>具有缓存机制，页面重新渲染时，当属性依赖的其它属性不发生变化时，不会触发计算函数，而是从上一次计算的结果缓存中获取数据，当依赖属性更新时，将会在下一次调用 <code>getter</code> 时重新计算，并将结果存到缓存中，减小了内存开销。</li>
+</ul>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/presentation.gif" alt="pre"></p>
+<h4 id="watch">watch</h4>
+<ul>
+<li>允许异步操作，比如 http 请求。</li>
+<li>每次页面重新渲染都会执行相应的函数。</li>
+</ul>
+<h3 id="demo">demo</h3>
+<p>话不多说，直接上 demo，这里价格计算为例。</p>
+<h4 id="Html-部分">Html 部分</h4>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;app&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;总价格:&#123;&#123;totalPrice&#125;&#125;&lt;/h3&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;span&gt;单价:&lt;/span&gt;
+        &lt;input v-model=&quot;price&quot; type=&quot;text&quot; /&gt;
+        &lt;span&gt;数量:&lt;/span&gt;
+        &lt;input v-model=&quot;num&quot; type=&quot;text&quot; /&gt;
+        &lt;button @click=&quot;getTotalPrice&quot;&gt;获取总价格&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h4 id="javascript">javascript</h4>
+<p>同样的行为可以对比一下使用 <code>watch</code> 和 <code>computed</code> 的区别</p>
+<pre><code class="language-vue">// watch
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var app = new Vue(&#123;
+  el: '#app',
+  data: &#123;
+    num: 0,
+    price: 12,
+    totalPrice: 0,
+  &#125;,
+  watch: &#123;
+    'num': function(newV, oldV) &#123;
+      this.totalPrice = this.price * newV;
+    &#125;,
+    'price': function(newV, oldV) &#123;
+      this.totalPrice = this.num * newV;
+    &#125;
+  &#125;
+  methods: &#123;
+    getTotalPrice() &#123;
+      this.num = 1;
+      alert(this.totalPrice);
+    &#125;
+  &#125;,
+&#125;)
+&lt;/script&gt;
+</code></pre>
+<pre><code class="language-vue">// computed
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var app = new Vue(&#123;
+  el: '#app',
+  data: &#123;
+    num: 0,
+    price: 12
+  &#125;,
+  computed: &#123;
+    totalPrice: &#123;
+      get: function () &#123;
+        console.log('触发computed');
+        return this.num * this.price;
+      &#125;
+    &#125;
+  &#125;,
+  methods: &#123;
+    getTotalPrice() &#123;
+      this.num = 1;
+      alert(this.totalPrice);
+    &#125;
+  &#125;
+&#125;);
+&lt;/script&gt;
+</code></pre>
+<p>从上面的代码来看，<code>computed</code> 显然比 <code>watch</code> 要简洁，而且维护性更好，使用 <code>computed</code> 只需要监听 <code>totalPrice</code> 这个属性即可，当该属性所依赖的其它属性发生变化时，则会在下一次调用 <code>getter</code> 时重新对该属性进行计算，而 <code>watch</code> 则需要监听其所依赖的属性。</p>
+<h3 id="适用场景">适用场景</h3>
+<h4 id="computed-v2">computed</h4>
+<p>适用于多对一关系的场景，即一个属性依赖于多个属性。比如购物车，当商品的数量/价格发生变化时都需要重新计算总价格，和上面的例子类似。</p>
+<h4 id="watch-v2">watch</h4>
+<p>适用于一对多关系的场景，即当一个属性发生变化时，其它关联的属性也需要随之发生相应的变化。比如路由的变化，当监听到<code>route</code>发生变化时，页面的数据也需要发生相应的改变，那么使用 <code>watch</code> 更好一点。</p>
+<pre><code class="language-vue">&lt;script&gt;
+var app = new Vue(&#123;
+  el: '#app',
+  data: &#123;
+    title: '',
+    tableData: []
+  &#125;,
+  watch: &#123;
+    $router: function (n, o) &#123;
+      if (xxx) &#123;
+        // 更新title
+        // 更新tableDate
+      &#125;
+    &#125;
+  &#125;
+&#125;);
+&lt;/script&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Vue学习记录</title>
+    <url>/2020/08/17/Vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h2 id="基本使用">基本使用</h2>
+<ol>
+<li>
+<p>引入 vue.js</p>
+</li>
+<li>
+<p>创建 vue 对象</p>
+<p>el：指定根 element（选择器）</p>
+<p>data：初始化数据（页面可以访问）</p>
+</li>
+<li>
+<p>双向数据绑定：v-model</p>
+</li>
+<li>
+<p>显示数据：</p>
+</li>
+<li>
+<p>理解 vue 的 mvvm 实现</p>
+<ul>
+<li>
+<p>MVVM：</p>
+<ul>
+<li>model：模型，数据对象（data）</li>
+<li>view：视图，模板页面</li>
+<li>viewModel：视图模型（vue 的实例）</li>
+</ul>
+</li>
+<li>
+<p>DOM Listeners 事件监听</p>
+</li>
+<li>
+<p>Data Bindings 数据绑定</p>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;input type=&quot;text&quot; /&gt;
+  &lt;p&gt;hello&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;script
+  type=&quot;text/javascript&quot;
+  src=&quot;text/javascript&quot;
+  src=&quot;vue-master\dist\vue.js&quot;
+&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  //创建vue实例
+  var vm = new Vue(&#123;
+    //配置对象
+    el: '#app', //element:选择器
+    data: &#123;
+      //数据（model）
+      username: 'ASSSS'
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="模板语法">模板语法</h2>
+<h3 id="双大括号表达式">双大括号表达式(( ))</h3>
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;p&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;
+  &lt;p&gt;&#123;&#123;msg.toUpperCase()&#125;&#125;&lt;/p&gt;
+  &lt;!--全部大写函数--&gt;
+  &lt;p v-text&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;
+  &lt;!--解释为文本内容--&gt;
+  &lt;p v-html&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;
+  &lt;!--解释为标签--&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master\dist\vue.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  //创建vue实例
+  new Vue(&#123;
+    //配置对象
+    el: '#app', //element:选择器
+    data: &#123;
+      //数据（model）
+      msg: ''
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h3 id="指令-1：强制数据绑定">指令 1：强制数据绑定</h3>
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;img v-bind:src=&quot;imgUrl&quot; /&gt;
+  &lt;img :src=&quot;imgUrl&quot; /&gt;
+  &lt;!--简洁写法--&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master\dist\vue.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  //创建vue实例
+  new Vue(&#123;
+    //配置对象
+    el: '#app', //element:选择器
+    data: &#123;
+      //数据（model）
+      imgUrl:
+        'https://cn.vuejs.orghttps://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png'
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h3 id="指令-2：绑定事件监听">指令 2：绑定事件监听</h3>
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;button v-on:click=&quot;test&quot;&gt;test1&lt;/button&gt;
+  &lt;button @click=&quot;test&quot;&gt;test1&lt;/button&gt;
+  &lt;!--简洁写法--&gt;
+  &lt;!--test函数的传参可写可不写--&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master\dist\vue.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  //创建vue实例
+  new Vue(&#123;
+    //配置对象
+    el: '#app', //element:选择器
+    ata: &#123;
+      //数据（model）
+    &#125;,
+    methods: &#123;
+      test() &#123;
+        alert('hello');
+      &#125;
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="计算属性和监听">计算属性和监听</h2>
+<h3 id="计算属性">计算属性</h3>
+<ul>
+<li>在 computed 属性对象中定义计算属性的方法，在页面中使用<code>&#123;&#123;方法名&#125;&#125;</code>来显示计算结果</li>
+</ul>
+<h3 id="监听属性">监听属性</h3>
+<ul>
+<li>通过 vm 对象的$watch()或 watch 配置来监听指定的属性，当属性变化时，回调函数自动调用，在函数内部进行计算</li>
+</ul>
+<h3 id="计算属性高级">计算属性高级</h3>
+<ul>
+<li>
+<p>通过 getter/setter 实现对属性数据的显示和监听，计算属性存在缓存，当次读取只执行一次 getter 计算</p>
+</li>
+<li>
+<p>getter:属性的 get 方法</p>
+</li>
+<li>
+<p>setter:属性的 set 方法</p>
+</li>
+</ul>
+<pre><code class="language-html">&lt;div id=&quot;demo&quot;&gt;
+  姓：&lt;input type=&quot;text&quot; placeholder=&quot;fn&quot; v-model=&quot;firstName&quot; /&gt;&lt;br /&gt;
+  名：&lt;input type=&quot;text&quot; placeholder=&quot;ln&quot; v-model=&quot;lastName&quot; /&gt;&lt;br /&gt;
+  姓名1(单向)：&lt;input
+    type=&quot;text&quot;
+    placeholder=&quot;fullName1&quot;
+    v-model=&quot;fullName1&quot;
+  /&gt;&lt;br /&gt;
+  姓名2(单向)：&lt;input
+    type=&quot;text&quot;
+    placeholder=&quot;fullName2&quot;
+    v-model=&quot;fullName2&quot;
+  /&gt;&lt;br /&gt;
+  姓名3(双向)：&lt;input
+    type=&quot;text&quot;
+    placeholder=&quot;fullName3&quot;
+    v-model=&quot;fullName3&quot;
+  /&gt;&lt;br /&gt;
+  &lt;p&gt;&#123;&#123;fullName1&#125;&#125;&lt;/p&gt;
+  &lt;p&gt;&#123;&#123;fullName2&#125;&#125;&lt;/p&gt;
+  &lt;p&gt;&#123;&#123;fullName3&#125;&#125;&lt;/p&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master\dist\vue.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  new Vue(&#123;
+    el: '#demo',
+    data: &#123;
+      firstName: 's',
+      lastName: 'a',
+      //fullName1: 's a',
+      fullName2: 's a'
+      //fullName3: 's a'
+    &#125;,
+    computed: &#123;
+      //执行条件：初始化显示/相关data属性数据发生改变
+      fullName1() &#123;
+        //计算属性中的一个方法,方法返回值作为属性值
+        return this.firstName + ' ' + this.lastName;
+      &#125;,
+      fullName3: &#123;
+        //回调函数 当读取当前属性值时回调 根据相关数据计算并返回当前属性值
+        get() &#123;
+          return this.firstName + ' ' + this.lastName;
+        &#125;,
+        //回调函数 监听当前属性值的变化 当属性值发生改变时回调 更新相关的属性数据
+        set(value) &#123;
+          //value就是fullName的最新属性值
+          const names = value.split(' ');
+          this.firstName = names[0];
+          this.lastName = names[1];
+        &#125;
+      &#125;
+    &#125;,
+    watch: &#123;
+      //配置监听
+      firstName: function (value) &#123;
+        //firstName发生了变化
+        this.fullName2 = value + ' ' + this.lastName;
+      &#125;
+    &#125;
+  &#125;);
+  vm.$watch('lastName', function (value) &#123;
+    //更新fullName2
+    this.fullName2 = this.firstName + ' ' + value;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="class-和-style-绑定">class 和 style 绑定</h2>
+<ul>
+<li>在应用界面中，某个元素的元素时变化的</li>
+<li>style/class 绑定就是专门用来实现动态样式效果的技术</li>
+</ul>
+<h5 id="class-绑定">class 绑定</h5>
+<pre><code class="language-bash">:class = 'xxx'
+</code></pre>
+<ul>
+<li>xxx 是字符串</li>
+<li>xxx 是对象</li>
+<li>xxx 是数组</li>
+</ul>
+<h5 id="style-绑定">style 绑定</h5>
+<pre><code class="language-bash">:style = &quot;&#123;color:activeColor, fontSize:fontSize + 'px'&#125;&quot;
+</code></pre>
+<ul>
+<li>activeColor/fontSize 是 data 属性</li>
+</ul>
+<pre><code class="language-html">&lt;div id=&quot;demo&quot;&gt;
+  &lt;h3&gt;class绑定&lt;/h3&gt;
+  &lt;p :class=&quot;a&quot;&gt;xxx是字符串&lt;/p&gt;
+  &lt;p :class=&quot;&#123;aClass:isA, bClass:isB&#125;&quot;&gt;xxx是对象&lt;/p&gt;
+  &lt;p :class=&quot;cssArr&quot;&gt;xxx是数组&lt;/p&gt;
+
+  &lt;h3&gt;style绑定&lt;/h3&gt;
+  &lt;p :style=&quot;&#123;color:activeColor, fontSize:fontSize + 'px'&#125;&quot;&gt;style&lt;/p&gt;
+
+  &lt;button @click=&quot;update&quot;&gt;更新&lt;/button&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  new Vue(&#123;
+    el: '#demo',
+    data: &#123;
+      a: 'aClass',
+
+      isA: true,
+      isB: false,
+
+      cssArr: ['aClass', 'bClass'],
+
+      activeColor: 'green',
+      fontSize: 20
+    &#125;,
+    methods: &#123;
+      update() &#123;
+        this.a = 'bClass';
+
+        this.isA = false;
+        this.isB = true;
+
+        this.cssArr = ['aClass'];
+
+        this.activeColor = 'blue';
+        this.fontSize = 12;
+      &#125;
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="条件渲染">条件渲染</h2>
+<h3 id="渲染指令">渲染指令</h3>
+<ul>
+<li>v-if</li>
+<li>v-else</li>
+<li>v-show</li>
+</ul>
+<pre><code class="language-html">&lt;div id=&quot;demo&quot;&gt;
+  &lt;p v-if=&quot;ok&quot;&gt;成功了&lt;/p&gt;
+  &lt;p v-else&gt;失败了&lt;/p&gt;
+  &lt;p v-show=&quot;ok&quot;&gt;表白成功&lt;/p&gt;
+  &lt;p v-show=&quot;!ok&quot;&gt;表白失败&lt;/p&gt;
+  &lt;button @click=&quot;ok=!ok&quot;&gt;切换&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  new Vue(&#123;
+    el: '#demo',
+    data: &#123;
+      ok: false
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h3 id="v-if-else-和-v-show-的区别">v-if/else 和 v-show 的区别</h3>
+<ul>
+<li>
+<p>v-if/else 渲染时会把需要隐藏的标签直接去除</p>
+</li>
+<li>
+<p>v-show 渲染时只是给需要隐藏的标签加上隐藏的内联样式属性</p>
+</li>
+</ul>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/vue-test.png" alt=""></p>
+<h2 id="列表渲染">列表渲染</h2>
+<pre><code class="language-html">&lt;div id=&quot;demo&quot;&gt;
+  &lt;h3&gt;测试：v-for 遍历数组&lt;/h3&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;(p, index) in persons&quot; :key=&quot;index&quot;&gt;
+      &#123;&#123;index&#125;&#125;----&#123;&#123;p.name&#125;&#125;----&#123;&#123;p.age&#125;&#125; ----&lt;button
+        @click=&quot;deletePerson(index)&quot;
+      &gt;
+        删除
+      &lt;/button&gt;
+      ----&lt;button @click=&quot;updatePerson(index,					&#123;name:'cat',age:10&#125;)&quot;&gt;更新&lt;/button&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h3&gt;测试：v-for 遍历对象&lt;/h3&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;(value, key) in persons&quot; :key=&quot;key&quot;&gt;&#123;&#123;key&#125;&#125;----&#123;&#123;value&#125;&#125;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;(value, key) in persons[0]&quot; :key=&quot;key&quot;&gt;&#123;&#123;key&#125;&#125;----&#123;&#123;value&#125;&#125;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;vue-master/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  new Vue(&#123;
+    el: '#demo',
+    data: &#123;
+      //vue只是监听了persons的改变，没有监听数组内部的变化
+      //vue重写了数组中的一系列改变数组内部数据的方法(先调用原			  生，再更新界面)
+      persons: [
+        &#123; name: 'Tom', age: 18 &#125;,
+        &#123; name: 'Jack', age: 19 &#125;,
+        &#123; name: 'Bobe', age: 15 &#125;,
+        &#123; name: 'Rose', age: 20 &#125;
+      ]
+    &#125;,
+    methods: &#123;
+      deletePerson(index) &#123;
+        this.persons.splice(index, 1);
+      &#125;,
+      updatePerson(index, newPerson) &#123;
+        //没有改变persons本身,数组内部数据改变，但是没有调用变异方法，因此界面没有发生改变
+        //this.persons[index] = newPerson
+        this.persons.splice(index, 1, newPerson);
+      &#125;
+    &#125;
+  &#125;);
+&lt;/script&gt;
+</code></pre>
+<h2 id="列表的搜索和排序">列表的搜索和排序</h2>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>a标签嵌套问题</title>
+    <url>/2021/04/01/a%E6%A0%87%E7%AD%BE%E5%B5%8C%E5%A5%97%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="问题描述">问题描述</h2>
+<p>在魔改 hexo 主题的时候，有这么一个需求：在首页点击文章的大盒子时，通过 a 标签跳转到文章内容页面，点击盒子里面的“阅读全文”也可以跳转到文章。</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-15.png" alt=""></p>
+<p>于是按照正常逻辑修改----在大盒子外面套一个 a 标签。<img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-17.png" alt=""><br>
+但是事与愿违，生成的时候并没有预期效果，如下：<br>
+<img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-16.png" alt=""><br>
+a 标签被独立出来了，并没有把内容嵌套，经查阅资料，a 标签内不能再嵌套 a 标签</p>
+<p>下图红框两处是已经有 a 标签了，故在外层套 a 标签不能达到预期效果<br>
+<img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-18.png" alt=""></p>
+<h2 id="解决方法">解决方法</h2>
+<ol>
+<li>
+<p>舍弃内部 a 标签跳转（不能达到预期效果）</p>
+</li>
+<li>
+<p>利用 H5-article 标签的属性添加跳转链接即可</p>
+</li>
+</ol>
+<pre><code class="language-html">&lt;article onclick=&quot;location.href='#'&quot;&gt;&lt;/article&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>centOS 部署YApi api管理平台</title>
+    <url>/2021/02/21/centOS%20%E9%83%A8%E7%BD%B2YApi%20api%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0/</url>
+    <content><![CDATA[<p><b>前提：已安装 node.js 7.6+、mongodb 2.6+</b></p>
+<h2 id="配置-mongodb">配置 mongodb</h2>
+<p>进入 mongodb</p>
+<span id="more"></span>
+<pre><code class="language-bash">mongo
+</code></pre>
+<p>创建 yapi 数据库</p>
+<pre><code class="language-bash">use yapi
+</code></pre>
+<p>添加用户</p>
+<pre><code class="language-bash">db.createUser(&#123;
+  user: &quot;用户&quot;,
+  pwd: &quot;密码&quot;,
+  roles: [&#123;role: &quot;dbOwner&quot;,db: &quot;yapi&quot;&#125;]
+&#125;)
+</code></pre>
+<p>退出 mongodb</p>
+<pre><code class="language-bash">^C 即Ctrl + C
+</code></pre>
+<p>创建 yapi 目录</p>
+<pre><code class="language-bash">mkdir yapi
+</code></pre>
+<p>切换到 yapi 目录</p>
+<pre><code class="language-bash">cd yapi
+</code></pre>
+<h2 id="下载-YApi-源码">下载 YApi 源码</h2>
+<p>有两种方式：</p>
+<p>方式一：执行命令 git clone https://github.com/YMFE/yapi.git &lt;存放目录&gt;</p>
+<pre><code class="language-bash">git clone https://github.com/YMFE/yapi.git vendors
+</code></pre>
+<p>该方法下载速度可能比较慢</p>
+<p>方式二：从 github 直接下载源码，解压后将源码上传到服务器对应目录，该方法速度较快</p>
+<p>配置 YApi</p>
+<p>将配置文件复制到 yapi 一级子目录下</p>
+<pre><code class="language-bash">cp vendors/config_example.json ./config.json
+</code></pre>
+<p>使用 vim 打开 config.json</p>
+<pre><code class="language-bash">vim ../config.json
+</code></pre>
+<p>配置如下：</p>
+<pre><code class="language-json">&#123;
+  &quot;port&quot;: &quot;3000&quot;, //项目端口号
+  &quot;adminAccount&quot;: &quot;admin@xxx.com&quot;, //管理员账号
+  &quot;timeout&quot;: 120000,
+  &quot;db&quot;: &#123;
+    &quot;servername&quot;: &quot;127.0.0.1&quot;, //mongodb地址
+    &quot;DATABASE&quot;: &quot;yapi&quot;, //数据库名称
+    &quot;port&quot;: 27017, //mongodb端口号
+    &quot;user&quot;: &quot;admin&quot;, //数据库用户名
+    &quot;pass&quot;: &quot;admin&quot;, //数据库密码
+    &quot;authSource&quot;: &quot;&quot;
+  &#125;,
+  //配置邮箱
+  &quot;mail&quot;: &#123;
+    &quot;enable&quot;: true,
+    &quot;host&quot;: &quot;smtp.163.com&quot;, //需在邮箱开启服务器账号
+    &quot;port&quot;: 465,
+    &quot;from&quot;: &quot;xxx@163.com&quot;,
+    &quot;auth&quot;: &#123;
+      &quot;user&quot;: &quot;xxx@163.com&quot;,
+      &quot;pass&quot;: &quot;xxx&quot;
+    &#125;
+  &#125;,
+  &quot;closeRegister&quot;: true //禁止用户注册
+&#125;
+</code></pre>
+<h2 id="安装程序">安装程序</h2>
+<p>执行以下命令</p>
+<pre><code class="language-bash">npm install --production --registry https://registry.npm.taobao.org
+</code></pre>
+<p>安装程序会初始化数据库索引和管理员账号</p>
+<pre><code class="language-bash">npm run install-server
+</code></pre>
+<p>若出现一下情况，请检查配置中的数据库账号、密码是否与 mongodb 配置中的账号、密码一致<img src="https://img-blog.csdnimg.cn/20210221013250119.png" alt="mongodb认证失败"></p>
+<h2 id="启动服务">启动服务</h2>
+<p>方式一：直接启动</p>
+<pre><code class="language-bash">node server/app.js
+</code></pre>
+<p>启动服务器后，请访问 127.0.0.1:{config.json 配置的端口}，初次运行会有个编译的过程，请耐心等候</p>
+<p>该方式退出进程/终端关闭后服务会自动关闭</p>
+<p>方式二：</p>
+<p>使用 pm2 管理服务(推荐)</p>
+<pre><code class="language-bash">npm i -g pm2
+</code></pre>
+<pre><code class="language-bash">pm2 start server/app.js
+</code></pre>
+<p>该方式会一直开启服务，不受终端是否关闭影响<br>
+<img src="https://img-blog.csdnimg.cn/20210221015254638.png" alt=""></p>
+<p>具体使用可以直接看文档</p>
+<p><a href="http://imweb.io/topic/57c8cbb27f226f687b365636">pm2 快速入门指南</a></p>
+<p><a href="http://pm2.keymetrics.io/docs/usage/quick-start/">pm2 官方文档</a></p>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>flv.js的使用</title>
+    <url>/2021/04/03/flv.js%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="1-引入-flv-js">1. 引入 flv.js</h2>
+<h3 id="1-1-script-标签引入">1.1 script 标签引入</h3>
+<h4 id="原生-html-引入">原生 html 引入</h4>
+<pre><code class="language-javascript">&lt;script type=&quot;text/javascript&quot; src=&quot;https://unpkg.com/video.js/dist/video.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://unpkg.com/flv.js/dist/flv.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://unpkg.com/videojs-flvjs/dist/videojs-flvjs.min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<h4 id="Vue-引入">Vue 引入</h4>
+<p>理论上 Vue 也可以使用什么方式引入 flv.js，我尝试了一下，发现并没有发起请求，及 script 标签并没有被执行，可能和生命周期有关。</p>
+<p>于是我选择采用另一种方式，在组件构建时向 DOM 添加 script 节点</p>
+<pre><code class="language-javascript">mounted() &#123;
+  // 引入flv.js
+  const extendJs = [
+    'https://unpkg.com/video.js/dist/video.min.js',
+    'https://unpkg.com/flv.js/dist/flv.min.js',
+    'https://unpkg.com/videojs-flvjs/dist/videojs-flvjs.min.js'
+  ];
+  for(let url of extendJs) &#123;
+    let s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.src = url;
+    document.body.appendChild(s);
+  &#125;
+&#125;,
+</code></pre>
+<h3 id="1-2-通过-npm-包引入">1.2 通过 npm 包引入</h3>
+<pre><code class="language-bash">npm install --save flv.js
+npm install          # 安装包依赖
+npm install -g gulp  # 安装构建工具
+gulp release         # 打包并使包最小化，存储在dist文件夹
+</code></pre>
+<h2 id="2-基本使用方法">2. 基本使用方法</h2>
+<h3 id="2-1-基本配置说明">2.1.基本配置说明</h3>
+<h4 id="MediaDataSource">MediaDataSource</h4>
+<p>| 属性            | 类型                                   | 说明                            |<br>
+| :-------------- | :------------------------------------- | :------------------------------ |<br>
+| type            | String                                 | 视频流格式，参数 flv/mp4        |<br>
+| isLive          | Boolean (非必选)                       | 是否为直播，即是否为实时推流    |<br>
+| cors            | Boolean (非必选)                       | 拉流是否跨域                    |<br>
+| withCredentials | Boolean (非必选)                       | 是否携带 cookies                |<br>
+| hasAudio        | Boolean (非必选)                       | 是否开启声音                    |<br>
+| hasVideo        | Boolean (非必选)                       | 是否开启图像                    |<br>
+| duration        | Number (非必选)                        | 视频流总时间长度（ms）          |<br>
+| filesize        | Number (非必选)                        | 文件大小                        |<br>
+| url             | String (非必选)                        | 视频流地址，支持 http(s)、ws(s) |<br>
+| segments        | Array<a href="%E9%9D%9E%E5%BF%85%E9%80%89">duration, filesize, url</a> | 视频列表                        |</p>
+<p><strong>注：segments 存在时，则将播放器列为多源媒体播放，duration、filesize、url 会失效</strong></p>
+<p><strong>更多内容可以看官方文档 =&gt; <a href="https://github.com/bilibili/flv.js/blob/master/docs/api.md">flv.js api 文档</a></strong></p>
+<h3 id="2-2-实例">2.2. 实例</h3>
+<p>这里以 Vue 为例</p>
+<h4 id="页面部分">页面部分</h4>
+<pre><code class="language-html">&lt;template&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;video-player&quot; v-if=&quot;radio&quot;&gt;
+      &lt;!-- 播放器控制按钮 --&gt;
+      &lt;div class=&quot;controls&quot;&gt;
+        &lt;button @click=&quot;flv_load()&quot;&gt;加载&lt;/button&gt;
+        &lt;button @click=&quot;flv_start()&quot;&gt;开始&lt;/button&gt;
+        &lt;button @click=&quot;flv_pause()&quot;&gt;暂停&lt;/button&gt;
+        &lt;button @click=&quot;flv_destroy()&quot;&gt;停止&lt;/button&gt;
+        &lt;input
+          style=&quot;width:100px&quot;
+          type=&quot;text&quot;
+          name=&quot;seekpoint&quot;
+          placeholder=&quot;输入跳转时间(s)&quot;
+        /&gt;
+        &lt;button @click=&quot;flv_seekto()&quot;&gt;跳转&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;!-- 播放器 --&gt;
+      &lt;div class=&quot;mainContainer&quot; @click=&quot;play&quot;&gt;
+        &lt;video
+          id=&quot;videoElement&quot;
+          class=&quot;centeredVideo&quot;
+          controls
+          autoplay
+          width=&quot;1024&quot;
+          height=&quot;576&quot;
+        &gt;&lt;/video&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- 拉流日志 --&gt;
+    &lt;div class=&quot;logs-box&quot;&gt;
+      &lt;b&gt;日志&lt;/b&gt;
+      &lt;span class=&quot;clear-btn&quot; @click=&quot;clear&quot;&gt;清空日志&lt;/span&gt;
+      &lt;textarea id=&quot;logs&quot; class=&quot;logs&quot; :value=&quot;logs&quot; readonly&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+<h4 id="js-部分">js 部分</h4>
+<pre><code class="language-javascript">&lt;script&gt;
+export default &#123;
+  data()&#123;
+    return &#123;
+      player: &#123;&#125;, //dom对象
+      logs: 'tips: hls视频流播放无日志输出',
+    &#125;
+  &#125;,
+  mounted() &#123;
+    // 引入flv.js
+    const extendJs = [
+      'https://unpkg.com/video.js/dist/video.min.js',
+      'https://unpkg.com/flv.js/dist/flv.min.js',
+      'https://unpkg.com/videojs-flvjs/dist/videojs-flvjs.min.js'
+    ];
+    for(let url of extendJs) &#123;
+      let s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = url;
+      document.body.appendChild(s);
+    &#125;
+  &#125;,
+  methods: &#123;
+    play() &#123;
+      var flvUrl = &quot;https://mister-ben.github.io/videojs-flvjs/bbb.flv&quot;;  //flv测试视频流
+      this.player = document.getElementById('videoElement');  //获取 video Dom 节点
+      if (flvjs.isSupported()) &#123;
+        flvjs.LoggingControl.forceGlobalTag = true;  //设置日志打印
+        var flvPlayer = flvjs.createPlayer(&#123;
+          type: 'flv',  //商品类型
+          &quot;isLive&quot;: true,  //是否实时流
+          &quot;hasAudio&quot;: false,  //是否包含音频
+          url: this.url  //视频流地址
+        &#125;);
+
+        flvPlayer.attachMediaElement(videoElement);  //添加配置进Dom节点
+        flvPlayer.load(); //加载
+        this.flv_start(); //开始播放
+
+        //打印日志
+        flvjs.LoggingControl.addLogListener((type, log)=&gt;&#123;
+          this.logs += log + '\n';
+          document.getElementById('logs').scrollTop = document.getElementById('logs').scrollHeight;
+        &#125;);
+      &#125;
+    &#125;,
+    //播放
+    flv_start() &#123;
+      this.player.play();
+    &#125;,
+	//暂停
+    flv_pause() &#123;
+      this.player.pause();
+    &#125;,
+	//停止
+    flv_destroy() &#123;
+      this.player.pause();
+      this.player.unload();
+      this.player.detachMediaElement();
+      this.player.destroy();
+      this.player = null;
+    &#125;,
+	//进度跳转
+    flv_seekto() &#123;
+      this.player.currentTime = parseFloat(document.getElementsByName('seekpoint')[0].value);
+    &#125;,
+	//清除日志
+    clear() &#123;
+      this.logs = '';
+    &#125;
+  &#125;,
+&#125;
+&lt;/script&gt;
+</code></pre>
+<h4 id="css-部分">css 部分</h4>
+<pre><code class="language-css">&lt;style rel=&quot;stylesheet/scss&quot; lang=&quot;scss&quot; scoped&gt;
+  button:hover &#123;
+    cursor: pointer;
+  &#125;
+  .video-player &#123;
+    width: 70%;
+    margin-top: 10px;
+    margin-left: 60%;
+    transform: translateX(-50%);
+  &#125;
+  .logs-box &#123;
+    position: absolute;
+    top: 4px;
+    left: 20px;
+    width: 300px;
+    height: 750px;
+    margin-top: 10px;
+    .clear-btn &#123;
+      margin-left: 210px;
+      margin-bottom: 2px;
+      padding: 4px 6px;
+      background-color: #efefef;
+      border: 1px solid #999;
+      border-radius: 2px;
+    &#125;
+    .clear-btn:hover &#123;
+      cursor: pointer;
+    &#125;
+    .logs &#123;
+      width: 100%;
+      height: 94%;
+      margin-top: 6px;
+      padding-top: 4px;
+      padding-left: 2px;
+      resize: none;
+    &#125;
+  &#125;
+&lt;/style&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>git常用命令</title>
+    <url>/2021/10/04/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h3 id="初始化">初始化</h3>
+<pre><code class="language-bash">git init
+</code></pre>
+<h3 id="添加文件">添加文件</h3>
+<p>文件须在当前目录下</p>
+<h4 id="添加单个-多个文件">添加单个/多个文件</h4>
+<pre><code class="language-bash">git add [文件名] [文件名] [文件名]
+</code></pre>
+<h4 id="添加当前目录所有文件">添加当前目录所有文件</h4>
+<pre><code class="language-bash">git add *
+</code></pre>
+<h3 id="修改提交到仓库">修改提交到仓库</h3>
+<pre><code class="language-bash">git commit -m [提交描述]
+</code></pre>
+<h3 id="关联远端仓库">关联远端仓库</h3>
+<pre><code class="language-bash">git remote add [远端仓库地址名称(orgin)] [仓库地址]
+</code></pre>
+<h3 id="克隆远端仓库">克隆远端仓库</h3>
+<pre><code class="language-bash">git clone [仓库地址]
+</code></pre>
+<h3 id="本地修改同步到远端仓库">本地修改同步到远端仓库</h3>
+<h4 id="首次提交">首次提交</h4>
+<pre><code class="language-bash">git push -u [远端仓库地址名称(orgin)] [分支名]
+</code></pre>
+<h4 id="后续提交">后续提交</h4>
+<pre><code class="language-bash">git push
+</code></pre>
+<h3 id="查看仓库状态">查看仓库状态</h3>
+<pre><code class="language-bash">git status
+</code></pre>
+<h3 id="查看当前版本各个提交情况">查看当前版本各个提交情况</h3>
+<pre><code class="language-bash">git log
+</code></pre>
+<pre><code class="language-bash">git log --pretty=online
+</code></pre>
+<h3 id="版本回退">版本回退</h3>
+<pre><code class="language-bash">git reset --hard HEAD^
+</code></pre>
+<pre><code class="language-bash">git reset --hard HEAD~n
+</code></pre>
+<pre><code class="language-bash">git reset --hard ID
+</code></pre>
+<ul>
+<li>HEAD 表示当前版本</li>
+<li><code>^</code>表示上一个版本</li>
+<li><code>~n</code>表示回退 n 个版本</li>
+<li>通过 ID 回退到特定版本，通过 log 可以查看版本 ID</li>
+</ul>
+<h3 id="本地仓库同步远端仓库">本地仓库同步远端仓库</h3>
+<pre><code class="language-bash">git pull
+</code></pre>
+<h3 id="查看当前分支">查看当前分支</h3>
+<pre><code class="language-bash">git branch
+</code></pre>
+<h3 id="创建并切换分支">创建并切换分支</h3>
+<pre><code class="language-bash">git checkout -b [分支名]
+</code></pre>
+<h3 id="切换分支">切换分支</h3>
+<pre><code class="language-bash">git checkout [分支名]
+</code></pre>
+<h3 id="删除分支">删除分支</h3>
+<pre><code class="language-bash">git checkout -d [分支名]
+</code></pre>
+<h3 id="撤销更改">撤销更改</h3>
+<p>文件在<code>add</code>后<code>commit</code>前使用改命令才能生效，一定要加<code>--</code></p>
+<pre><code class="language-bash">git checkout --[文件名]
+</code></pre>
+<h3 id="合并分支">合并分支</h3>
+<pre><code class="language-bash">git merge [分支名]
+</code></pre>
+]]></content>
+      <categories>
+        <category>版本管理</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/08/01/hello-world/</url>
+    <content><![CDATA[<p>Welcome to my site.</p>
+<p>H<sub>2</sub>O</p>
+<p><input type="checkbox" id="checkbox1" checked="true"><label for="checkbox1">1</label><br>
+<input type="checkbox" id="checkbox0"><label for="checkbox0">2</label></p>
+<div class="info">
+<p>info</p>
+</div>
+<div class="tips">
+<p>tips</p>
+</div>
+<div class="warning">
+<p>warning</p>
+</div>
+<div class="success">
+<p>success</p>
+</div>
+<div class="danger">
+<p>danger</p>
+</div>
+<p>test</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>mongodb使用fork启动报错问题</title>
+    <url>/2021/03/08/mongodb%E4%BD%BF%E7%94%A8fork%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>在我使用以下命令启动 mongodb 时，报以下错误。</p>
+<pre><code>mongod --dbpath /usr/local/bin/mongodb/data/db --logpath /usr/local/bin/mongodb/log  --fork
+</code></pre>
+<span id="more"></span>
+<pre><code class="language-bash">ERROR: child process failed, exited with error code 1
+To see additional information in this output, start without the &quot;--fork&quot; option.
+</code></pre>
+<p>原因一般是配置目录错误，我这里是 log 的路径配置错误，在 log 目录下新建空白文件“logs.log”，然后执行以下命令即可</p>
+<pre><code class="language-bash">mongod --dbpath /usr/local/bin/mongodb/data/db --logpath /usr/local/bin/mongodb/log/logs  --fork
+</code></pre>
+<pre><code class="language-bash">about to fork child process, waiting until server is ready for connections.
+forked process: 7930
+child process started successfully, parent exiting
+</code></pre>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>mongoose踩坑记录</title>
+    <url>/2021/04/04/mongoose%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>在 node.js 项目中使用 mongoose 操作 mongodb，然后就悲剧了，无论怎样查询结果都是 null，弄了好几个小时也没有找到问题</p>
+<pre><code class="language-javascript">const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/hexo_admin', &#123;
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+&#125;);
+mongoose.set('useFindAndModify', false);
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+
+var userSchema = mongoose.Schema(&#123;
+  username: String,
+  password: String
+&#125;);
+
+var Users = mongoose.model('users_admin', userSchema);
+</code></pre>
+<p>然后查了很多资料，发现了一个骚操作，mongoose 在创建 model 的时候会自动给表名加 ‘s’，但是 mongodb 不会，这就导致了 mongoose 查询的表名和我预期不一致，故一直查不到数据。</p>
+<p>更改如下：</p>
+<pre><code class="language-javascript">var Users = mongoose.model('users_admin', userSchema, users_admin);
+</code></pre>
+<p>无语死了。。。。</p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>mvvm原理实践</title>
+    <url>/2021/10/06/mvvm%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>原理部分不在叙述，网上很多博客都有提，我是在掘金看了别的博主的文章(<a href="https://juejin.cn/post/6844903586103558158">不好意思！耽误你的十分钟，让 MVVM 原理还给你</a>)，然后按自己的理解模仿着实现了基础的 demo，在此基础上又添加了 methods、v-show 和@click 的实现。</p>
+<p>由于自己还没彻底消化，所以叙述会有点烂 😢，当成一个菜鸟的学习记录吧！下面提到的东西可能是有错误的 😓</p>
+<p>完整代码：<a href="https://github.com/vkm0303/mvvm">github 传送门</a></p>
+<p>demo 演示：<a href="https://vkm0303.github.io/mvvm/demo.html">demo 传送门</a></p>
+<h2 id="具体实现">具体实现</h2>
+<h3 id="数据代理">数据代理</h3>
+<p>这里主要是 data 和 methods 的代理，代理的目的很简单，在 Vue 中，我们可以直接使用 this.xxx 来访问数据，而数据代理就是达到该目的的实现之一。</p>
+<p>另外，如果 methods 里面的方法也能使用 this.xxx 来访问数据，那么还需要改变 method 的 this 指向，这里我写了个<code>_bind()</code>方法来实现</p>
+<pre><code class="language-js">class MVVM &#123;
+  constructor(options = &#123;&#125;) &#123;
+    this.$options = options;
+    this._proxy(options.data);
+    this._proxy(options.methods);
+    this._bind(options.methods);
+  &#125;
+  // 将数据挂载到实例上，this代理options.data/methods，即可以直接使用this.key访问data的数据/methods的方法
+  _proxy(data) &#123;
+    if (typeof data === 'object') &#123;
+      for (let key in data) &#123;
+        Object.defineProperty(this, key, &#123;
+          enumerable: true, // 可被枚举
+          set: function (newVal) &#123;
+            data[key] = newVal;
+          &#125;,
+          get: function () &#123;
+            return data[key];
+          &#125;
+        &#125;);
+      &#125;
+    &#125;
+  &#125;
+  // 改变methods里面的方法this指向
+  _bind(methods) &#123;
+    for (let key in methods) &#123;
+      methods[key] = methods[key].bind(this);
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h3 id="数据劫持-订阅发布">数据劫持 + 订阅发布</h3>
+<p>数据劫持是通过<code>Object.defineProperty()</code>方法来实现，用 ES6 的<code>Proxy</code>来实现也可，有时间再更新。</p>
+<p>这个模式好像是观察者+发布订阅的结合使用，不知道对不对，感觉是这样。</p>
+<p>关于这两个设计模式可以看一下我的另外两篇文章：<a href="https://www.amschen.cn/articles/2021-10-04/%E6%89%8B%E6%92%95%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">手撕观察者模式</a>、<a href="https://www.amschen.cn/articles/2021-10-04/%E6%89%8B%E6%92%95%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/">手撕发布-订阅模式</a></p>
+<h4 id="Dep">Dep</h4>
+<p>通过这个类是发布-订阅的具体实现</p>
+<pre><code class="language-js">class Dep &#123;
+  constructor() &#123;
+    this.subscribeObj = &#123;&#125;;
+  &#125;
+
+  subscribe(key, sub) &#123;
+    this.subscribeObj[key] = sub;
+  &#125;
+
+  notify(key) &#123;
+    this.subscribeObj[key].update();
+  &#125;
+&#125;
+</code></pre>
+<h4 id="Observer">Observer</h4>
+<p>这个类的作用主要是作为一个拦截器(数据劫持)，订阅数据，发布通知，数据的获取和修改都需要经过这里(不出意外的话</p>
+<pre><code class="language-js">class Observer &#123;
+  constructor(data) &#123;
+    for (let key in data) &#123;
+      let val = data[key];
+      let dep = new Dep(); // 发布订阅类实例
+      this._traverse(val); // 递归遍历，深度劫持
+      Object.defineProperty(data, key, &#123;
+        enumerable: true, // 可被枚举
+        set: function (newVal) &#123;
+          if (val !== newVal) &#123;
+            val = newVal;
+            dep.notify(key); // 数据更新，通知订阅者
+            return newVal;
+          &#125;
+        &#125;,
+        get: function () &#123;
+          Dep.target &amp;&amp; dep.subscribe(key, Dep.target); // 增加订阅者，监听数据
+          return val;
+        &#125;
+      &#125;);
+    &#125;
+  &#125;
+  _traverse(data) &#123;
+    if (data &amp;&amp; typeof data === 'object') &#123;
+      return new Observer(data);
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h4 id="Watcher">Watcher</h4>
+<p>监听者，<code>update</code>函数就是用来更新数据的</p>
+<pre><code class="language-js">class Watcher &#123;
+  constructor(vm, exp, cb) &#123;
+    // 实例本身，模板键值(如v-model=&quot;obj.key&quot;的obj.key)，回调函数
+    this.vm = vm;
+    this.exp = exp;
+    this.cb = cb;
+    Dep.target = this;
+    let val = vm;
+    exp.split('.').forEach(key =&gt; &#123;
+      val = val[key];
+    &#125;);
+  &#125;
+  update() &#123;
+    let val = this.vm;
+    this.exp.split('.').forEach(key =&gt; &#123;
+      val = val[key];
+    &#125;);
+    this.vm.vShow.forEach(obj =&gt; &#123;
+      // 检查vShow数组里面存储的v-show指令绑定值的状态
+      obj.node.style.display = this.vm[obj.key] ? '' : 'none';
+    &#125;);
+    this.cb(val);
+  &#125;
+&#125;
+</code></pre>
+<h3 id="数据编译">数据编译</h3>
+<p>数据的更新啥的都弄好了，下面就得进行最后一步数据渲染了！</p>
+<p>下面节点的更新有用到<code>DocumentFragment</code>，这里稍微偏一下题，使用<code>DocumentFragment</code>来来临时存储节点是有性能优化的作用的，比如下面的节点更新，如果一个一个节点的插入到 DOM 树中，就会有大量的 DOM 操作，引起多次的重绘和重排，从而影响到渲染的性能，将需要更新的节点存放到<code>DocumentFragment</code>中，最后再一次性更新，只有一次 DOM 操作，因此这里使用<code>DocumentFragment</code>是有原因滴~</p>
+<pre><code class="language-js">class Compile &#123;
+  constructor(el, vm) &#123;
+    vm.$el = document.querySelector(el);
+    let fragment = document.createDocumentFragment();
+    let child;
+    while ((child = vm.$el.firstChild)) &#123;
+      fragment.appendChild(child);
+    &#125;
+    this._replace(fragment, vm);
+    // 再将文档碎片放入el中
+    vm.$el.appendChild(fragment);
+  &#125;
+  _replace(fragment, vm) &#123;
+    Array.from(fragment.childNodes).forEach(node =&gt; &#123;
+      let text = node.textContent;
+      let reg = /\&#123;\&#123;(.*?)\&#125;\&#125;/g; // 匹配&#123;&#123;&#125;&#125;的内容
+      /*
+       * nodeType: 1 元素节点，3 文本节点
+       */
+      if (node.nodeType === 3 &amp;&amp; reg.test(text)) &#123;
+        function _replaceText() &#123;
+          // 替换节点文本
+          node.textContent = text.replace(reg, (matched, placeholder) =&gt; &#123;
+            console.log(matched, placeholder);
+            new Watcher(vm, placeholder, _replaceText);
+            return placeholder.split('.').reduce((val, key) =&gt; &#123;
+              return val[key];
+            &#125;, vm);
+          &#125;);
+        &#125;
+        _replaceText();
+      &#125;
+      if (node.nodeType === 1) &#123;
+        let attrs = node.attributes; // 获取dom节点的属性
+        Array.from(attrs).forEach(attr =&gt; &#123;
+          console.log(attr);
+          let name = attr.name;
+          let exp = attr.value;
+          if (name.includes('v-model')) &#123;
+            // v-model
+            node.value = vm[exp];
+          &#125; else if (name.includes('@click')) &#123;
+            // 绑定点击事件
+            node.addEventListener('click', vm[exp]);
+          &#125; else if (name.includes('v-show')) &#123;
+            // v-show指令处理
+            vm.vShow.push(&#123;
+              node,
+              type: 'v-show',
+              key: exp
+            &#125;);
+            node.style.display = vm[exp] ? '' : 'none';
+            console.log(vm);
+          &#125;
+          new Watcher(vm, exp, function (newVal) &#123;
+            node.value = newVal; // 当watcher触发时会自动将内容放进输入框中
+          &#125;);
+          node.addEventListener('input', function (e) &#123;
+            // 监听input事件，输入时更新数据
+            let newVal = e.target.value;
+            vm[exp] = newVal;
+          &#125;);
+        &#125;);
+      &#125;
+      if (node.childNodes &amp;&amp; node.childNodes.length) &#123;
+        this._replace(node, vm); // 递归遍历节点
+      &#125;
+    &#125;);
+  &#125;
+&#125;
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>目前还需要一段时间去消化这些知识，这篇就当作学习记录吧！不敢说是技术分享，讲的实在太烂了呜呜呜…</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Node.js模拟登录强智科技教务系统</title>
+    <url>/2020/11/16/node.js%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95%E5%BC%BA%E6%99%BA%E7%A7%91%E6%8A%80%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h2 id="一、抓包、分析登录请求">一、抓包、分析登录请求</h2>
+<p>首先从首页正常登录教务系统，成功登入教务系统后，F12 打开检查，然后点击“Network&quot;/&quot;网络&quot;，可以看到一下界面</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-1.png" alt="avatar"></p>
+<p>在这里可以看到一共有四个请求，不出意外的话，应该是按前后顺序发起请求的，不放心的话可以点击第一个请求，然后点击“Initiator”查看请求链</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-2.png" alt="avatar"></p>
+<p>确定请求顺序之后，开始分析第一个请求的 headers</p>
+<p>在这里可以得到请求的 url、请求方法和响应类型</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-3.png" alt="avatar"></p>
+<p>然后再观察 Response Headers 和 Form Data</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-6.png" alt="avatar"></p>
+<p>通过这两个框起来的数据和 302 状态码可以知道请求和响应的过程</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-4.png" alt="avatar"></p>
+<p>我们需要向“https://isea.sztu.edu.cn/Logon.do?method=logon”发送一个验证码encoded，然后返回一个重定向的链接Location.</p>
+<p>那么问题来了，怎么得到验证码？因为 form data 中没有账号密码的信息，因此可以推断该验证码是把账号和密码加密后的结果，这时候我们就要从源代码中找加密函数了</p>
+<p>刚开始找到下面这个比较可疑的文件，但是大致看了一下没有出现 account/password 等名称就放弃了（其实是太复杂了 qaq）</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-5.png" alt="avatar"></p>
+<p>后来想想不太对劲，我是在登陆后的源文件找加密函数，但是这个验证码应该是在登录前就应该处理完成的</p>
+<p>于是又返回首页的源文件查找，只有应该 index 的文件可能有加密方法</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-7.png" alt="avatar"></p>
+<p>然后还真发现了，在 onSubmit()事件里面，并且发现了一个可疑 url，我猜 request hearders 里面的 cookie 值会从这个 url 获取，这个后面写代码时在细说。</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-8.png" alt="avatar"></p>
+<p>既然我们拿到来加密方法，那么我们直接拿来用就行，不过有些地方需要改一下，如请求和获取账号密码那一段。</p>
+<p>首先访问一下 https://isea.sztu.edu.cn/Logon.do?method=logon&amp;flag=sess，看一下请求头和返回值之类的。</p>
+<p>确实返回了一个 cookie（注意：这个在浏览器的调试工具看不到，要借助其它工具）</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-9.png" alt="avatar"></p>
+<p>我们要先保存一下这个 cookie，用于登录请求</p>
+<p><strong>改写代码如下：</strong></p>
+<pre><code class="language-javascript">var Cookie = '';
+var encoded = '';
+//封装请求头
+var postOption1 = &#123;
+  url: 'https://isea.sztu.edu.cn/Logon.do?method=logon&amp;flag=sess',
+  method: 'POST',
+  json: true,
+  headers: &#123;
+    'content-type': 'application/json'
+  &#125;,
+  body: JSON.stringify(&#123;&#125;)
+&#125;;
+try &#123;
+  await request(postOption1, (err, response, body) =&gt; &#123;
+    Cookie = response.headers['set-cookie'][0].substr(0, 44); //保存cookie
+  &#125;).then(dataStr =&gt; &#123;
+    //将请求返回的字符串和账号密码进行加密
+    if (dataStr == 'no') &#123;
+      return false;
+    &#125; else &#123;
+      var scode = dataStr.split('#')[0];
+      var sxh = dataStr.split('#')[1];
+      var code = account + '%%%' + password;
+      for (var i = 0; i &lt; code.length; i++) &#123;
+        if (i &lt; 20) &#123;
+          encoded =
+            encoded +
+            code.substring(i, i + 1) +
+            scode.substring(0, parseInt(sxh.substring(i, i + 1)));
+          scode = scode.substring(
+            parseInt(sxh.substring(i, i + 1)),
+            scode.length
+          );
+        &#125; else &#123;
+          encoded = encoded + code.substring(i, code.length);
+          i = code.length;
+        &#125;
+      &#125;
+    &#125;
+  &#125;);
+&#125; catch &#123;&#125;
+</code></pre>
+<p>成功拿到 encoded</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-10.png" alt="avatar"></p>
+<p>那么继续分析请求</p>
+<p>点击第二个请求，和第一个请求差不多，不过是 get 方法，没什么特别注意的，继续下一个</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-11.png" alt="avatar"></p>
+<p>这里可以发现又返回了一个 cookie，而下一步请求就就是登陆后的页面了，所以可以断定这个 cookie 是登录成功的标志</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-12.png" alt="avatar"></p>
+<p>最后就是能否登录成功的关键了，最后一个请求的 headers 中的 cookie 有两个参数，应该就是开始保存的 cookie 和上一步返回的 cookie 拼接起来了。</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-13.png" alt="avatar"></p>
+<p>基本的分析已经完成了，那么可以开始动手写代码了</p>
+<h2 id="二、模拟登录">二、模拟登录</h2>
+<p>加密这一部在上面已经说过了，这里就不重复了</p>
+<p>直接开始登录请求</p>
+<pre><code class="language-javascript">//封装请求头
+var getOption = &#123;
+  url: '',
+  method: 'GET',
+  json: true,
+  headers: &#123;
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Cookie: Cookie
+  &#125;
+&#125;;
+var postOption2 = &#123;
+  url: 'https://isea.sztu.edu.cn/Logon.do?method=logon',
+  method: 'POST',
+  json: true,
+  headers: &#123;
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Cookie: Cookie,
+    Host: 'isea.sztu.edu.cn'
+  &#125;,
+  form: &#123;
+    view: '1',
+    useDogCode: '',
+    encoded: encoded
+  &#125;
+&#125;;
+try &#123;
+  //请求https://isea.sztu.edu.cn/Logon.do?method=logon
+  await request(postOption2, async (err, response, body) =&gt; &#123;
+    //用于302会自动重定向，因此需要在这里截取数据
+    if (response.statusCode === 302) &#123;
+      getOption.url = response.headers.location;
+      try &#123;
+        //请求返回的location中url地址
+        await request(getOption, async (err, response, body) =&gt; &#123;
+          Cookie += response.headers['set-cookie'][0].substr(0, 44); //拼接cookie
+          getOption.headers.Cookie = Cookie;
+          try &#123;
+            //请求返回的location中url地址，由于地址一样，不再重新赋值
+            //最后一个请求如果成功登录，那么body的值就是登录成功的首页html
+            await request(getOption, (err, response, body) =&gt; &#123;
+              let nameIdx = body.indexOf('姓');
+              let noIdx = body.indexOf('号');
+              userInfo.name = body.substring(nameIdx + 3, nameIdx + 7);
+              userInfo.no = body.substring(noIdx + 2, noIdx + 14);
+              userInfo.name = userInfo.name.replace(/[^\u4e00-\u9fa5|,]+/, '');
+            &#125;);
+          &#125; catch &#123;&#125;
+        &#125;);
+      &#125; catch &#123;&#125;
+    &#125;
+  &#125;);
+  return userInfo;
+&#125; catch &#123;
+  return userInfo;
+&#125;
+</code></pre>
+<p>代码用的嵌套比较多，有回调地狱的感觉，有机会再调整。</p>
+<p>登录成功的结果</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/pasted-14.png" alt="avatar"></p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>phpMyAdmin无法登录MySql8的问题</title>
+    <url>/2021/10/16/phpMyAdmin%E6%97%A0%E6%B3%95%E7%99%BB%E5%BD%95MySql8%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>数据库系统的实验课需要用到 phpMyAdmin，正常安装和设置后尝试使用 phpMyAdmin 登录 mysql，然后就出问题了 😅</p>
+<p>如图</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/1.png" alt="image"></p>
+<p>通过 github 看到某个 php 相关项目的 issue 里面有提到这个问题，然后得知原因是 php 不支持<code>caching_sha2_password</code>的密码验证方式，所以得把 mysql 的验证方式改为老版本的--<code>mysql_native_password</code></p>
+<p>windows 下使用管理员运行 cmd，登录 mysql 后运行下面的命令修改密码验证方式即可</p>
+<pre><code class="language-bash">alter user 'username'@'localhost' identified with mysql_native_password by 'password';
+</code></pre>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/2.png" alt="image"></p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>react配置setupProxy之后页面无法打开</title>
+    <url>/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/</url>
+    <content><![CDATA[<h2 id="react-配置-setupProxy-之后页面无法打开">react 配置 setupProxy 之后页面无法打开</h2>
+<p>我<code>setupProxy.js</code>的配置如下</p>
+<pre><code class="language-js">const &#123; proxy &#125; = require('http-proxy-middleware');
+
+module.exports = function (app) &#123;
+  app.use(
+    proxy('/api/v1', &#123;
+      target: 'http://127.0.0.1:5000/',
+      changeOrigin: true
+    &#125;)
+  );
+&#125;;
+</code></pre>
+<p>然后重新编译项目，页面打不开了，显示拒绝连接，去除这个配置后又恢复正常，所以断定是这个配置有问题</p>
+<p>百度之后，发现上面的<code>proxy</code>语法是旧的，<code>http-proxy-middleware</code>大于<code>1.x</code>版本应该使用以下函数: <code>createProxyMiddleware</code></p>
+<pre><code class="language-js">const &#123; createProxyMiddleware &#125; = require('http-proxy-middleware');
+
+module.exports = function (app) &#123;
+  app.use(
+    createProxyMiddleware('/api/v1', &#123;
+      target: 'http://127.0.0.1:5000/',
+      changeOrigin: true
+    &#125;)
+  );
+&#125;;
+</code></pre>
+<p>心累。。。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>uniapp获取不到video组件ref问题</title>
+    <url>/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h3 id="起因">起因</h3>
+<p>在编写 video-swiper 的 nvue 组件时，通过 v-for 渲染 swiper-item，然后发现无论怎样通过<code>uni.createVideoContext(id, thisArg)</code>和<code>this.$refs[refName]</code>都获取不到可控制视频的对象。</p>
+<pre><code class="language-vue">&lt;swiper-item v-for=&quot;(video, i) in videoList&quot;&gt;
+    &lt;video :id=&quot;'video' + i&quot; ref=&quot;'video' + i&quot; :src=&quot;video&quot; /&gt;
+&lt;/swiper-item&gt;
+</code></pre>
+<h3 id="解决历程">解决历程</h3>
+<p>实验了一下把视频放到一级页面都是正常的，但是在 nvue 子组件中就是不行，很自然地以为是 nvue 子组件的限制，然后无意间把渲染方式改了一下，结果就一切正常了！！</p>
+<pre><code class="language-vue">&lt;swiper&gt;
+      &lt;swiper-item&gt;
+          &lt;video id=&quot;video0&quot; ref=&quot;video0&quot; :src=&quot;videoList[0]&quot; /&gt;
+      &lt;/swiper-item&gt;
+      &lt;swiper-item&gt;
+          &lt;video id=&quot;video1&quot; ref=&quot;video1&quot; :src=&quot;videoList[1]&quot; /&gt;
+      &lt;/swiper-item&gt;
+      &lt;swiper-item&gt;
+          &lt;video id=&quot;video2&quot; ref=&quot;video2&quot; :src=&quot;videoList[2]&quot; /&gt;
+      &lt;/swiper-item&gt;
+&lt;/swiper&gt;
+</code></pre>
+<p>那么真相只有一个），v-for 的问题，目前还没深究其背后原因，之后在更新~</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>v-key的作用</title>
+    <url>/2021/10/22/v-key%E7%9A%84%E4%BD%9C%E7%94%A8/</url>
+    <content><![CDATA[<p>无论开发小程序还是 Vue 应用，都经常会使用到列表渲染，在使用过程中，如果不绑定 <code>key</code> 值，ide 经常警告需要绑定 <code>key</code> 值。但是一直都没有去深究为什么需要绑定一个 <code>key</code> 值，现在终于有时间了，所以去关注一下这些底层的东西。</p>
+<h2 id="举个栗子">举个栗子</h2>
+<pre><code class="language-vue">&lt;head&gt;
+  &lt;title&gt;v-key&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;div&gt;
+      &lt;input type=&quot;text&quot; v-model=&quot;username&quot;&gt;
+      &lt;button @click=&quot;addUser&quot;&gt;添加用户&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div v-for=&quot;user in users&quot;&gt;  //:key=&quot;user.id&quot;
+      &lt;input type=&quot;checkbox&quot;&gt;&#123;&#123;user.username&#125;&#125;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var app = new Vue(&#123;
+  el: '#app',
+  data: &#123;
+    curId: 3,
+    username: '',
+    users: [
+      &#123;
+        id: 1,
+        username: '小红'
+      &#125;,
+      &#123;
+        id: 2,
+        username: '小明'
+      &#125;,
+      &#123;
+        id: 3,
+        username: '小天'
+      &#125;
+    ]
+  &#125;,
+  methods: &#123;
+    addUser() &#123;
+      this.users.unshift(&#123;
+        id: ++this.curId,
+        username: this.username
+      &#125;);
+      this.username = '';
+    &#125;
+  &#125;
+&#125;);
+&lt;/script&gt;
+</code></pre>
+<p>不绑定 <code>key</code> 的情况，从数组头部添加元素时，checkbox 选中的永远是第二条数据。</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/v-key-1.png" alt=""><br>
+<img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/v-key-2.png" alt=""></p>
+<p>当将 <code>key</code> 绑定为 user 的 id 时，checkbox 选中的元素即可不受新增元素影响。</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/v-key-3.png" alt=""></p>
+<h2 id="怎么如此？🤔">怎么如此？🤔</h2>
+<p>这就要从 Vue 的 diff 算法说起了，算了，不扯这么远(菜狗</p>
+<p>先上图，下面是没有 <code>key</code> 和有 <code>key</code>的比较过程。</p>
+<p>这是<strong>未绑定</strong> <code>key</code> 时的比较过程：</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/v-key-4.png" alt=""></p>
+<p>这是<strong>绑定</strong> <code>key</code> 时的比较过程：</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/v-key-5.png" alt=""></p>
+<p>通过上面两幅图可以看出，当绑定 <code>key</code> 之后，节点更新时，节点的比较只会和 <code>key</code> 相同的节点进行对比，从而节省的 DOM 操作的开销，除了避免例子里面的情况，同时还会提高渲染效率。</p>
+<p>然后绑定 key 时建议是选择静态不变的唯一值，不要绑定数组的索引，我以前就是一知半解，一直绑定的是数组的索引...</p>
+<p>最后，算是把这个 <code>key</code> 值给搞明白了！</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>二叉树之创建链式存储结构</title>
+    <url>/2021/04/24/%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B9%8B%E5%88%9B%E5%BB%BA%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<h2 id="先序创建">先序创建</h2>
+<p>说明：空树用字符‘0’表示</p>
+<pre><code class="language-c++">class TreeNode &#123;
+public:
+    char data;
+    ListNode *lChild;
+    ListNode *rChild;
+    ListNode() &#123;
+        lChild = NULL;
+        rChild = NULL;
+    &#125;
+&#125;;
+
+class Tree &#123;
+public:
+    TreeNode *root;
+    int pos;
+    Tree() &#123;
+        pos = 0;
+    &#125;
+    TreeNode *createTree(char str[]) &#123;
+        char data = str[pos];
+        pos++;
+        if(data != '0') &#123;
+            ListNode *p = new TreeNode();
+            p-&gt;data = data;
+            p-&gt;lChild = createTree(str);
+            p-&gt;rChild = createTree(str);
+            return p;
+        &#125; else &#123;
+            return NULL;
+        &#125;
+    &#125;
+&#125;;
+</code></pre>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>二叉树之数组存储—先序遍历（递归）</title>
+    <url>/2021/04/24/%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B9%8B%E6%95%B0%E7%BB%84%E5%AD%98%E5%82%A8%E2%80%94%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86%EF%BC%88%E9%80%92%E5%BD%92%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="摘要">摘要</h2>
+<p>说明：二叉树可以采用数组的方法进行存储，把数组中的数据依次自上而下,自左至右存储到二叉树结点中，一般二叉树与完全二叉树对比，比完全二叉树缺少的结点就在数组中用 0 来表示。</p>
+<h2 id="主要代码">主要代码</h2>
+<pre><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+int preOrderTraverse(int tree[], int i, int len) &#123;
+    if (i &lt; len) &#123;
+        if (tree[i]) &#123;
+            cout &lt;&lt; tree[i] &lt;&lt; &quot; &quot;;
+            preOrderTraverse(tree, (2 * i + 1), len);  //左子树遍历
+            preOrderTraverse(tree, (2 * i + 2), len);  //右子树遍历
+        &#125;
+    &#125;
+&#125;
+
+int main() &#123;
+    int t;
+    cin &gt;&gt; t;  //t个测试用例
+    while (t--) &#123;
+        int len;
+        cin &gt;&gt; len;
+        int tree[len];
+        for (int i = 0; i &lt; len; i++) &#123;
+            cin &gt;&gt; tree[i];
+        &#125;
+        preOrderTraverse(tree, 0, len);
+        cout&lt;&lt;endl;
+    &#125;
+    return 0;
+&#125;
+
+</code></pre>
+<p><strong>测试用例</strong></p>
+<p>输入：</p>
+<pre><code>3
+3 1 2 3
+5 1 2 3 0 4
+13 1 2 3 4 0 5 6 7 8 0 0 9 10
+</code></pre>
+<p>输出：</p>
+<pre><code>1 2 3
+1 2 4 3
+1 2 4 7 8 3 5 9 10 6
+</code></pre>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>切身体会http/2相对于http/1.1的提升</title>
+    <url>/2021/10/23/%E5%88%87%E8%BA%AB%E4%BD%93%E4%BC%9Ahttp2.0%E8%BE%83http1.1%E7%9A%84%E6%8F%90%E5%8D%87/</url>
+    <content><![CDATA[<h2 id="遇到的问题">遇到的问题</h2>
+<p>之前一直在苦恼自己博客首次加载速度巨慢的问题，三十多秒才把博客文章列表加载出来，又不想动源码，所以就在 nginx 寻找可优化的点。</p>
+<h2 id="解决过程">解决过程</h2>
+<p>一开始尝试了 gzip，略有提升，但是效果不大，通过浏览器的 devTool 发现，个别文件要加载很久，也就是三十多秒，因为 http/1.1 是单线程串行请求，所以这些请求就阻塞了后面的请求，导致了后面请求一直在等待(?线头阻塞)。</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/request.png" alt="request"></p>
+<p>然后今早起床，看了一下 http/11 和 http/2 的区别，然后就发现了 http/2 的新特性--多路复用。</p>
+<div class="tips">
+<p>多个请求可以同时在一个连接上并行进行，请求不会出现阻塞的情况，也就是说，某个请求耗时严重，但是并不会影响到其它请求。</p>
+</div>
+<p>看到这个，完全符合我的需求，兴致勃勃地去 nginx 配置 http2，只需修改一行即可，在 <code>listen 443 ssl</code> 后面添加 <code>http2 default_server</code>。</p>
+<pre><code>listen 443 ssl http2 default_server;
+</code></pre>
+<p>配置完成只会，重载配置 =============&gt; 从发起请求到博客文章列表显示约 7s。</p>
+<p>相对于之前来说已经有很大的提升了，至于怎么继续提高加载速度只能从其它方面寻找方法了。</p>
+<h2 id="总结">总结</h2>
+<p>最后对 http/2 的新特性做一个简单的总结，总的来说，http/2 主要在低延迟方面进行优化。</p>
+<div class="info">
+<p>http/2 使用 encoder 来减小 header 的大小，另外双方各自缓存一份 header fields 表，避免 header 重复发送。</p>
+</div>
+<div class="info">
+<p>将所有的传输信息分割成更小的消息和帧并采用二进制编码。</p>
+</div>
+<div class="info">
+<p>同一个 tcp 连接上允许多个 http 请求同时进行，避免了 http/1.1 中出现的线头阻塞问题。</p>
+</div>
+<div class="info">
+<p>这块还不是特别了解，只知道服务端可以主动向客户端推送资源，并且具有缓存机制，通过 html 文档的头部判断客户端将要使用的资源，然后由服务端主动推送，从而减少了客户端请求的这一步骤。</p>
+</div>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JS判断数组的5种方法</title>
+    <url>/2021/10/23/%E5%88%A4%E6%96%AD%E6%95%B0%E7%BB%84%E7%9A%845%E7%A7%8D%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>由于 js 中数组属于引用类型，而引用类型都归为 object，所以数组是不能通过 <code>typeof</code> 来判断</p>
+<pre><code class="language-js">typeof Array; // output: object
+</code></pre>
+<p>因此需要通过其它手段来判断</p>
+<ul>
+<li>原型判断</li>
+<li>实例的父类判断</li>
+<li>ES5 中的 <code>isArray</code> 方法</li>
+<li>构造函数判断</li>
+<li>使用 Object.prototype 判断</li>
+</ul>
+<pre><code class="language-js">var arr = [];
+console.log(
+  arr.__proto__ === Array.prototype,
+  arr instanceof Array,
+  Array.isArray(arr),
+  arr.constructor === Array,
+  Object.prototype.toString.call(arr).slice(8, 13) === 'Array'
+);
+// output: true true true true true
+</code></pre>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【实习】11.17 字节一面复盘(60min)</title>
+    <url>/2021/11/17/%E5%AD%97%E8%8A%82%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/</url>
+    <content><![CDATA[<h2 id="值引用、对象引用和包装引用">值引用、对象引用和包装引用</h2>
+<p>被问到的时候完全懵了，脑海里“检索不到”相关的知识，面试完之后，好像又想起来了。。感觉 C++白学了</p>
+<h3 id="值引用">值引用</h3>
+<p>就是最普通的形参，函数传进来的参数是像 number、boolean 这种非引用类型的变量，即使在函数内部改变参数值也不会改变原来变量的值</p>
+<pre><code class="language-js">let a = 1;
+function change(b) &#123;
+  b = 10;
+&#125;
+change(b);
+console.log(a); // 1
+</code></pre>
+<h3 id="对象引用">对象引用</h3>
+<p>就是说函数的参数如果传进来是一个对象的话，那么在函数内部改变的传进来的这个对象内部属性的时候，外部的对象也会随之改变</p>
+<p>什么意思呢，就是说传进来的对象并不是新的对象，指向的地址没有改变，有点像浅拷贝？</p>
+<p>下面这个例子就是对象引用</p>
+<pre><code class="language-js">let o = &#123;
+  a: 1
+&#125;;
+function change(obj) &#123;
+  obj.a = 2;
+&#125;
+change(o);
+console.log(o.a); // 2
+</code></pre>
+<h3 id="包装引用">包装引用</h3>
+<p>包装类型自动创建原始值的对应对象，在其内部封装了一些方法，所以它也是属于引用类型的一种，但是和普通的引用对象不一样的是它的生存期不同。</p>
+<div class="tips">
+<p>对于引用类型的数据，在执行流离开当前作用域之前都会保存在内存中，而对于自动创建的基本包装类型的对象，只存在于一行代码的执行瞬间，执行完毕就会立即被销毁。</p>
+</div>
+<p>所以下面的例子是不会改变滴~~虽然但是，其实还没有特别理解这个，暂作保留 😁</p>
+<pre><code class="language-js">let num = new Number(1);
+function change(n) &#123;
+  n = 10;
+&#125;
+change(num);
+console.log(num); // [Number: 1]
+</code></pre>
+<h2 id="typeof-和-instanceof">typeof 和 instanceof</h2>
+<p>typeof 是用于判断数据类型的，js 分为基本数据类型和引用类型，虽然知道 null 是引用类型，但是当时想着它是属于基本数据类型，应该也能判断出来 😢，然而不是。</p>
+<p>instanceof 用于判断引用类型，根据对象的原形链往上找，如果原形链上有右边对象的原型，返回 true，否则返回 false。比如 A instanceof B，只要 B 的原型对象出现在 A 的原型链中就返回 true。</p>
+<h2 id="position">position</h2>
+<p>我以为自己已经掌握了它，没想到被问深一点点就自闭了。虽然给了提示还是答错，卒。。。。</p>
+<p>主要是 <code>relative</code> 和 <code>absolute</code> 相对于谁定位的知识有点混乱了。</p>
+<h3 id="relative">relative</h3>
+<p>相对于自身在正常流中的位置进行定位，不脱离文档流。</p>
+<h3 id="absolute">absolute</h3>
+<p>相对于最近的一个祖先进行定位，该祖先满足：position 的值是非 static 以外的值，若没有这样的祖先则相对于 <code>body</code> 进行定位，偏移值由其 <code>top</code>、<code>bottom</code>、<code>left</code>、<code>right</code> 值确定，元素脱离文档流。</p>
+<h3 id="fixed">fixed</h3>
+<p>相对于浏览器窗口进行定位，这个还行，没有答错</p>
+<h3 id="static">static</h3>
+<p>默认值，意思是没有定位，正常文档流，本身不能被继承。忽略 <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code> 或者 <code>z-index</code> 声明。</p>
+<h3 id="sticky">sticky</h3>
+<p>粘性定位，基于用户的滚动位置来定位。</p>
+<p>它的行为就像 position:relative; 而当页面滚动超出目标区域时，它的表现就像 position:fixed;，它会固定在目标位置。</p>
+<p>元素定位表现为在跨越特定阈值前为相对定位，之后为固定定位。这个特定阈值指的是 top, right, bottom 或 left 之一，换言之，指定 top, right, bottom 或 left 四个阈值其中之一，才可使粘性定位生效。否则其行为与相对定位相同。</p>
+<p>缺点：兼容性，Internet Explorer, Edge 15 及更早 IE 版本不支持 sticky 定位。 Safari 需要使用 -webkit- prefix。</p>
+<h3 id="inherit">inherit</h3>
+<p>踩大坑了这个，之前在浏览器看元素的 css 时经常看到 <code>position: inherit</code> 这个样式，以为就是默认值。。原来不是，错得好离谱。</p>
+<p>但 position 设置为这个值时，规定应该从父元素继承 position 属性的值。</p>
+<h2 id="option-请求">option 请求</h2>
+<p>周末刚看了这个请求的主要，面试时没完全想起来，面试完之后就想起来了(人间真实。。。</p>
+<p>option 主要是一个预检的作用，探测目标是否有什么约束。比如跨域，浏览器先发送 option 请求询问服务端是否允许跨域，得到跨域允许的返回后在进行正式请求。</p>
+<p>option 也可以用于探测服务端支持那种 HTTP 方法，是否需要携带 cookie。</p>
+<p>另外，option 在简单请求中是没有的，在复杂请求中才会有 option 这种预检的请求方式。</p>
+<h2 id="vue-key-的作用-computed-和-watch-的区别">vue key 的作用 | computed 和 watch 的区别</h2>
+<p>key 的作用：看面试官的反应，好像我之前的理解不是特别透彻？或者说有偏差。</p>
+<p>computed(依赖改变是否一定更新)：当时没太懂面试官的更新是什么意思，如果是说 computed 监听的那个属性是否会更新，那么答案应该是会，当依赖发生变化的时候一定会重新计算并且更新的。</p>
+<div class="tips">
+<p>计算属性是基于它们的响应式依赖进行缓存的。只在相关响应式依赖发生改变时它们才会重新求值。</p>
+</div>
+<p>做了个小小的试验</p>
+<pre><code class="language-html">&lt;html&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;app&quot;&gt;
+      &lt;div&gt;&#123;&#123;sum&#125;&#125;&lt;/div&gt;
+      &lt;input v-model=&quot;tem&quot; /&gt;
+      &lt;button @click=&quot;change(tem)&quot;&gt;change&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    new Vue(&#123;
+      el: '#app',
+      data() &#123;
+        return &#123;
+          a: 1,
+          b: 1,
+          tem: 0
+        &#125;;
+      &#125;,
+      computed: &#123;
+        sum: &#123;
+          get: function () &#123;
+            console.log('change');
+            return this.a + this.b;
+          &#125;
+        &#125;
+      &#125;,
+      methods: &#123;
+        change(target) &#123;
+          console.log(`a has been changed from $&#123;this.a&#125; to $&#123;target&#125;`);
+          this.a = target;
+        &#125;
+      &#125;
+    &#125;);
+  &lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/computed.png" alt="computed"></p>
+<p>还有 computed 是如何实现的？这个是打算和 vue 的响应式原理那块一起学的，奈何腾不出时间，被问到也很无奈</p>
+<p>这块的知识点这里先不搞，和 vue 的相关原理一起冲！</p>
+]]></content>
+      <categories>
+        <category>求职</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【实习】11.23 字节二面复盘(1h20min)</title>
+    <url>/2021/11/23/%E5%AD%97%E8%8A%82%E4%BA%8C%E9%9D%A2%E5%A4%8D%E7%9B%98/</url>
+    <content><![CDATA[<h2 id="nth-last-child-和-nth-last-of-type-的区别">nth-last-child 和 nth-last-of-type 的区别</h2>
+<h3 id="nth-last-child">nth-last-child</h3>
+<div class="info">
+<p>从兄弟节点中从后往前匹配处于某些位置的元素</p>
+</div>
+<h3 id="nth-last-of-type">nth-last-of-type</h3>
+<div class="tips">
+<p>从兄弟节点中从后往前匹配处于某些位置相同类型的元素</p>
+</div>
+<p>例子</p>
+<pre><code class="language-html">&lt;html&gt;
+  &lt;style&gt;
+    p:nth-last-child(1) &#123;
+      color: red;
+    &#125;
+    p:nth-last-of-type(1) &#123;
+      color: aquamarine;
+    &#125;
+  &lt;/style&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;app&quot;&gt;
+      &lt;p&gt;p1元素&lt;/p&gt;
+      &lt;p&gt;p2元素&lt;/p&gt;
+      &lt;p&gt;p3元素&lt;/p&gt;
+      &lt;span&gt;span元素&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/nth1.png" alt="image"></p>
+<p>从上面的图可以看出，<code>nth-last-child(1)</code> 并没有匹配，为什么呢？</p>
+<p>进一步阐述这个选择器的含义：p 的父元素下的 p 元素 且 p 元素是倒数第 1 个子元素(如果不符合这个要求，则认为没匹配到)。</p>
+<p>在上面的例子中，最后一个子元素是 span 而不是 p，故该选择器不生效。</p>
+<p>那为什么<code>nth-last-of-type(1)</code>生效呢？</p>
+<p>原因是 p 的父元素下的倒数第 1 个 p 元素，这个计数只会统计相同类型的，而上面的例子中 p 元素 p3 就是同级所有 p 元素的最后一个，所以可以匹配到。</p>
+<p>下面这个例子应该可以更好地看出区别</p>
+<pre><code class="language-css">p:nth-last-child(2) &#123;
+  color: red;
+&#125;
+p:nth-last-of-type(2) &#123;
+  color: aquamarine;
+&#125;
+</code></pre>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/nth2.png" alt="image"></p>
+<p>由于 p 的兄弟节点中，p3 属性倒数第二个元素，且是 p 元素，所以<code>nth-last-child(2)</code>匹配到 p3，而 p2 在所有的同级 p 元素中属于倒数第二个，所以<code>nth-last-of-type(2)</code>匹配到 p2。</p>
+<h2 id="原型相关">原型相关</h2>
+<p>两种方式创建的空对象的区别？</p>
+<pre><code class="language-js">var obj1 = &#123;&#125;;
+var obj2 = Object.create(null);
+</code></pre>
+<p>第一种方式创建的对象会继承 Object 的原型链，也就是说 Object 上的方法和属性 obj1 也可以调用，也就是说{}是一个不完全空对象，原型链上还有 Object，而第二种方式创建的对象就真的是一个完全空对象，原型链上什么都没有(null 是原型链上的终点)，</p>
+<p>因此，下面代码<code>obj2.toString()</code>会报错，因为 obj2 上的原型没有 toString 方法。</p>
+<pre><code class="language-js">console.log(obj1.toString()); // &#123;&#125;
+//VS
+console.log(obj2.toString()); // 报错
+</code></pre>
+<h2 id="语义化是什么？">语义化是什么？</h2>
+<p>在 html 中，我理解的语义化就是让标签变得有含义，让文档的“可读性”更高。</p>
+<p>掘金找到的一张图</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/%E8%AF%AD%E4%B9%89%E5%8C%96.png" alt="语义化"></p>
+<h3 id="header-和-div-的区别">header 和 div 的区别</h3>
+<p>header 元素代表“网页”或“section”的页眉。通常包含 h1-h6 元素或 hgroup，作为整个页面或者一个内容块的标题。</p>
+<h3 id="section-和-div-的区别">section 和 div 的区别</h3>
+<p>section 元素代表文档中的“节”或“段”，“段”可以是指一篇文章里按照主题的分段；“节”可以是指一个页面里的分组。</p>
+<h3 id="figure-和-article-的区别">figure 和 article 的区别</h3>
+<div class="tips">
+<p><code>&lt;figure&gt;</code> 标签规定独立的流内容（图像、图表、照片、代码等等）。</p>
+<p><code>figure</code> 元素的内容应该与主内容相关，但如果被删除，则不应对文档流产生影响。</p>
+</div>
+<div class="tips">
+<p><code>&lt;article&gt;</code> 标签规定独立的自包含内容。一篇文章应有其自身的意义，应该有可能独立于站点的其余部分对其进行分发。<br>
+<code>&lt;article&gt;</code> 元素的潜在来源：</p>
+<ul>
+<li>论坛帖子</li>
+<li>报纸文章</li>
+<li>博客条目</li>
+<li>用户评论</li>
+</ul>
+</div>
+<h3 id="div">div</h3>
+<p>div 本身没有语义，作为一个普通容器使用。</p>
+<h2 id="原型链是什么？">原型链是什么？</h2>
+<div class="tips">
+<p>JavaScript 只有一种结构：对象。每个实例对象（object）都有一个私有属性（称之为 <strong>proto</strong> ）指向它的构造函数的原型对象（prototype）。该原型对象也有一个自己的原型对象（<strong>proto</strong>），层层向上直到一个对象的原型对象为 null。根据定义，null 没有原型，并作为这个原型链中的最后一个环节。几乎所有 JavaScript 中的对象都是位于原型链顶端的 Object 的实例。</p>
+</div>
+<p>题目：</p>
+<pre><code class="language-js">let Person = &#123;
+  name: 'aaa',
+  address: &#123;
+    province: '广东省'
+    city: '深圳市'
+  &#125;
+&#125;
+let p1 = new Person();
+let p2 = new Person();
+
+p1.name = 'tranvce';
+p1.address.province = '云南省';
+
+console.log(p1.name);  // tranvce
+console.log(p2.name);  // aaa
+console.log(p2.address.province);  // 云南省
+</code></pre>
+<p>输出是什么，为什么？</p>
+<p><code>p1.name = 'tranvce'</code>这里访问的是简单属性，并不会访问到 Person 的原型上，因此也不会修改到 Person 的原型属性，而<code>p1.address.province = '云南省'</code>访问的复杂属性，因此会沿着原型寻找到 province，这样 Person 原型上的属性就被修改了，然后 p1 和 p2 共享 Person 的原型，因此 p1 对 Person 原型的修改会影响到 p2。</p>
+<p>其实逆过来想也可以，如果<code>p1.address.province</code>没有访问到 Person 的原型，它本身也没有这个属性，那么在访问 province 的时候就会报<code>Cannot read property 'province' of undefined</code>的错误了。</p>
+<p>但是还是不是很明白这个简单属性和复杂属性访问的原理，<code>p1.name = xxx</code> 是不是相当于在构造函数里使用<code>this.name = xxx</code>呢。</p>
+<p>发现面试官给的代码报错了，<code>Person is not a constructor</code>😢</p>
+<h2 id="冒泡是什么，什么时候停止，捕获呢？">冒泡是什么，什么时候停止，捕获呢？</h2>
+<h3 id="起源">起源</h3>
+<p>Netscape（网景）只使用事件捕获，而 Internet Explorer 只使用事件冒泡。当 W3C 决定尝试规范这些行为并达成共识时，他们最终得到了包括这两种情况（捕捉和冒泡）的系统，最终被应用在现在浏览器里。</p>
+<h2 id="捕获">捕获</h2>
+<ul>
+<li>浏览器检查元素的最外层祖先<code>&lt;html&gt;</code>，是否在捕获阶段中注册了一个 onclick 事件处理程序，如果是，则运行它。</li>
+<li>然后，它移动到<code>&lt;html&gt;</code>中单击元素的下一个祖先元素，并执行相同的操作，然后是单击元素再下一个祖先元素，依此类推，直到到达实际点击的元素。</li>
+</ul>
+<h3 id="冒泡">冒泡</h3>
+<ul>
+<li>浏览器检查实际点击的元素是否在冒泡阶段中注册了一个 onclick 事件处理程序，如果是，则运行它</li>
+<li>然后它移动到下一个直接的祖先元素，并做同样的事情，然后是下一个，等等，直到它到达<code>&lt;html&gt;</code>元素。</li>
+</ul>
+<p><code>stopPropagation()</code>可以阻止冒泡。</p>
+<h2 id="两者执行顺序">两者执行顺序</h2>
+<p>捕获-目标-冒泡</p>
+<p>好的又答错了。。。凉</p>
+<h2 id="HTTP-2">HTTP/2</h2>
+<h3 id="多路复用的实现">多路复用的实现</h3>
+<p>HTTP/2 设计是基于“二进制帧”进行设计的，帧的字节中保存了不同的信息，前 9 个字节对于每个帧都是一致的，“服务器”解析 HTTP/2 的数据帧时只需要解析这些字节，就能准确的知道整个帧期望多少字节数来进行处理信息。由于 HTTP/2 是分帧的，请求和响应可以交错甚至可以复用。</p>
+<p>HTTP/2 是使用流进行传输的，“流”的概念：HTTP/2 连接上独立的、双向的帧序列交换。流 ID（帧首部的 6-9 字节）用来标识帧所属的流。</p>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.jpg" alt="image"></p>
+<p>延伸问题：为什么 HTTP/1.1 不能实现“多路复用”？</p>
+<ul>
+<li>HTTP/2 是基于二进制“帧”的协议，HTTP/1.1 是基于“文本分割”解析的协议。</li>
+<li>HTTP/1.1 发送请求消息的文本格式：以换行符分割每一条 key:value 的内容，这种以分隔符分割消息的数据，在完成之前不能停止解析，所以一次只能响应一种请求。</li>
+</ul>
+<h3 id="管道机制是什么？和非管道运算的区别">管道机制是什么？和非管道运算的区别</h3>
+<p>HTTP/1.1 版引入了管道机制（pipelining），即在同一个 TCP 连接里面，客户端可以同时发送多个请求。</p>
+<p>非管道传输的做法是在同一个 TCP 上面，进行串行的 HTTP 请求，就是说 A 请求发起，等待到服务器响应后，才发起 B 请求。而管道传输允许 HTTP 同时发起请求，B 发起请求不需要等待 A 收到响应，但是响应还是按顺序返回，因此存在线头阻塞的问题，就是比如 A 请求非常耗时，那么 A 后面的请求想要得到响应也需要等待很久。</p>
+<h3 id="管道机制怎么实现">管道机制怎么实现</h3>
+<p>将多个 HTTP 请求打包到一个 TCP 消息包中。</p>
+<h2 id="webpack-场景问题">webpack 场景问题</h2>
+<p>真不熟，我尽力了。。</p>
+<h2 id="做题">做题</h2>
+<h3 id="找出数组重复元素">找出数组重复元素</h3>
+<pre><code>input: [3, 1, 2, 3, 1, 4, 4, 5];
+output: [1, 3, 4];
+返回结果不需要按顺序;
+</code></pre>
+<p>写完了，结果也没问题，我的思路是：遍历数组，通过哈希表存储出现过的数组，如果数组元素第二次出现，那么哈希表肯定存在这种元素，这时候将该元素 push 到结果数组里。最后通过<code>Array.from(new Set(res))</code>对象进行数组去重即可。</p>
+<h3 id="力扣-1047-删除字符串中的所有相邻重复项">力扣 1047. 删除字符串中的所有相邻重复项</h3>
+<pre><code>输入：&quot;abbaca&quot;
+输出：&quot;ca&quot;
+解释：
+例如，在 &quot;abbaca&quot; 中，我们可以删除 &quot;bb&quot; 由于两字母相邻且相同，这是此时唯一可以执行删除操作的重复项。之后我们得到字符串 &quot;aaca&quot;，其中又只有 &quot;aa&quot; 可以执行重复项删除操作，所以最后的字符串为 &quot;ca&quot;。
+</code></pre>
+<p>结果不符合预期，思路方向应该是对的，面试时间有点长了，就没给调试时间。</p>
+<h2 id="总结">总结</h2>
+<p>面试真是发现自己不足的最佳途径，就是越面越没信心了 😢，这次可能凉了？</p>
+]]></content>
+      <categories>
+        <category>求职</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>寄生组合式继承</title>
+    <url>/2021/10/27/%E5%AF%84%E7%94%9F%E7%BB%84%E5%90%88%E5%BC%8F%E7%BB%A7%E6%89%BF/</url>
+    <content><![CDATA[<p>emmm...一直一来对继承方式都搞不懂，感觉绕来绕去的好乱，今天决定逐个突破 😶。</p>
+<p>看了各种继承方式的比较，寄生组合式继承是比较理想的，因为相对来说操作较少且弥补了寄生继承和组合继承的缺点,既可以函数复用，也不用多次调用父类构造函数。</p>
+<p>寄生组合式继承顾名思义就是寄生式继承和组合式继承结合使用，下面以代码形式展示该继承的特点。</p>
+<pre><code class="language-js">function Parent() &#123;&#125;
+function Child() &#123;&#125;
+
+Parent.prototype.src = 'I am from parent.';
+
+Parent.prototype.commonFunc = function () &#123;
+  console.log('This is common.');
+&#125;;
+
+function inherit(Parent, Child) &#123;
+  var prototype = Object.create(Parent.prototype);
+  prototype.constructor = Child; // 取代：Child.prototype.constrcutor=Child
+  Child.prototype = prototype; // 取代：Child.prototype=new Person();
+&#125;
+
+inherit(Parent, Child);
+
+var child = new Child();
+child.commonFunc(); // output: This is common.
+console.log(child.src); // output: I am from parent.
+</code></pre>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>小程序request无反应问题</title>
+    <url>/2021/03/07/%E5%B0%8F%E7%A8%8B%E5%BA%8Frequest%E6%97%A0%E5%8F%8D%E5%BA%94%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="背景描述">背景描述</h2>
+<p>小程序需要请求一个登录接口，然后我自己测试没有问题，然后交付测试的时候，测试说点登录无反应，并且没有任何提示。</p>
+<h2 id="解决过程">解决过程</h2>
+<p>我找了很久也没有发现问题，一开始怀疑是苹果/安卓差异的问题，经过两个平台的测试后，发现不是这个问题，然后又降低小程序基础库，考虑是否微信版本问题，然而经过测试发现也不是。</p>
+<p>迷糊了一整天后，在看资料时，看到域名检验，忽然想起来用的登录接口的域名忘记在小程序后台加进去了（该接口是第三方的），而我在开发者工具中开启了不校验域名，故我自己无法复现上面的问题。</p>
+<p>把接口域名加进去后，在测试，正常运行。。。</p>
+<p>希望大家不会犯这么低级的错误。。。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>手写Promise.all和Promise.race</title>
+    <url>/2021/11/03/%E6%89%8B%E5%86%99Promise.all%E5%92%8CPromise.race/</url>
+    <content><![CDATA[<h2 id="Promise-all-和-Promise-race-的运行机制">Promise.all 和 Promise.race 的运行机制</h2>
+<p>当我们想要实现其功能时，首先得先了解其运行机制，什么条件达到什么结果。</p>
+<div class="tips">
+<p>当所有的 promise 都成功执行时才返回 resolve，只要任意一个失败都返回 reject，且后面的 promise 停止执行。<br>
+resolve 返回的是一个结果数组，而 reject 则是直接返回。</p>
+</div>
+<div class="tips">
+<p><code>race</code>与<code>all</code>相比，更像是比谁执行更快，其返回结果只与第一个成功执行的状态有关，但是无论是 reslove 还是 reject 都不会取消后面的 promise 执行。<br>
+resolve 和 reject 都是直接返回。</p>
+</div>
+<p>了解了它们内部的运行机制后就可以逐步实现其原理了。</p>
+<h2 id="实现">实现</h2>
+<h3 id="Promise-all">Promise.all</h3>
+<pre><code class="language-js">Promise._all = function (promise) &#123;
+  let result = [];
+  let succCount = 0;
+  return new Promise((resolve, reject) =&gt; &#123;
+    promise.forEach(p =&gt; &#123;
+      // 先resolve(p)是因为防止传进来的参数不是promise，从而报错（`then undefined`）
+      Promise.resolve(p).then(
+        res =&gt; &#123;
+          succCount++;
+          result.push(res);
+          if (succCount === promise.length) &#123;
+            // 当全部成功是resolve
+            resolve(result);
+          &#125;
+        &#125;,
+        err =&gt; reject(err) // 有一个报错则直接reject
+      );
+    &#125;);
+  &#125;);
+&#125;;
+</code></pre>
+<h3 id="Promise-race">Promise.race</h3>
+<pre><code class="language-js">Promise._race = function(promises) &#123;
+  return new Promise((resolve, reject) =&gt; &#123;
+    promises.forEach((p) =&gt; &#123;
+      Promise.resolve(p).then(
+        // 无论成功与否都直接返回
+        (res) =&gt; resolve(res);,
+        (err) =&gt; reject(err);
+      );
+    &#125;);
+  &#125;);
+&#125;;
+</code></pre>
+<h3 id="测试">测试</h3>
+<pre><code class="language-js">let p1 = new Promise((resolve, reject) =&gt; &#123;
+  resolve(&quot;成功了&quot;);
+&#125;);
+
+let p2 = new Promise((resolve, reject) =&gt; &#123;
+  resolve(&quot;success&quot;);
+&#125;);
+
+let p3 = Promise.reject(&quot;失败&quot;);
+
+Promise._all([p1, p2])
+  .then((res) =&gt; console.log(res))  // output: ['成功了', 'success']
+  .catch((err) =&gt; console.log(err));
+
+Promise._all([p1, p2, p3])
+  .then((res) =&gt; console.log(res))
+  .catch((err) =&gt; console.log(err));  // output: '失败'
+
+Promise._race([p1, p2, p3])
+  .then((res) =&gt; console.log(res));  // output: '成功了'
+  .catch((err) =&gt; console.log(err));
+</code></pre>
+<h2 id="应用场景">应用场景</h2>
+<div class="tips">
+<p>最常见的场景就是 api 的串行请求，当后一个请求依赖于前一个请求的返回结果时，此时使用 Promise.all 比较适合。</p>
+</div>
+<div class="tips">
+<p>将异步操作与定时器结合，限制异步操作的执行时间(不是终止操作)，当异步操作执行时间超过定时器设置的时间后，那么定时器触发，reject 一个超时错误。</p>
+</div>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>手撕发布-订阅模式</title>
+    <url>/2021/10/04/%E6%89%8B%E6%92%95%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="简述">简述</h2>
+<p>发布-订阅模式将订阅者和发布者解耦，订阅者不用一直“询问”发布者事件是否发生，而是由发布者自由决定向订阅者发送通知。</p>
+<h2 id="实现">实现</h2>
+<p>以购物为例，买家需要向卖家购买一件商品，但是库存已经没有了，买家想要知道什么时候有货，那么买家需要隔一段时间就去问卖家有没有货，如果采用了发布-订阅模式，买家只需要将联系方式留给卖家，当卖家进货时，有卖家统一通知买家，从而减少查询次数。</p>
+<h3 id="初步实现">初步实现</h3>
+<h4 id="代码">代码</h4>
+<pre><code class="language-js">class Shop &#123;
+  constructor() &#123;
+    this.repository = &#123;&#125;;
+  &#125;
+  // 订阅
+  $on(goods, callback) &#123;
+    if (!this.repository[goods]) &#123;
+      this.repository[goods] = [];
+    &#125;
+    this.repository[goods].push(callback);
+  &#125;
+  // 发布
+  $emit(goods) &#123;
+    if (this.repository[goods] &amp;&amp; this.repository[goods].length) &#123;
+      this.repository[goods].forEach(cb =&gt; cb(goods));
+    &#125; else &#123;
+      console.log('该商品没有客户订阅');
+    &#125;
+  &#125;
+  // 取消订阅
+  $removeSubscribe(goods, callback) &#123;
+    if (this.repository[goods]) &#123;
+      this.repository[goods] = this.repository[goods].filter(
+        cb =&gt; cb != callback
+      );
+      console.log('取消订阅成功');
+    &#125;
+  &#125;
+  // 一次性订阅
+  $once(goods, callback) &#123;
+    let fn = goods =&gt; &#123;
+      callback(goods);
+      this.$removeSubscribe(goods, fn);
+    &#125;;
+    this.$on(goods, fn);
+  &#125;
+&#125;
+
+var shop = new Shop();
+shop.$on('电脑', function (goods) &#123;
+  console.log(`$&#123;goods&#125;货到啦！`);
+&#125;);
+
+shop.$once('鼠标', function (goods) &#123;
+  console.log(`$&#123;goods&#125;货到啦！`);
+&#125;);
+
+shop.$emit('电脑');
+shop.$emit('鼠标');
+shop.$emit('鼠标');
+</code></pre>
+<h4 id="输出">输出</h4>
+<pre><code class="language-bash">电脑货到啦！
+鼠标货到啦！
+取消订阅成功
+该商品没有客户订阅
+</code></pre>
+<p>这里只是初步实现，还有很多地方需要完善。</p>
+<h3 id="实现订阅一组事件">实现订阅一组事件</h3>
+<p>只需要修改<code>$on</code>函数即可</p>
+<pre><code class="language-js">$on(goods, callback) &#123;
+    if(Array.isArray(goods)) &#123;
+        goods.forEach(goodsName =&gt; &#123;
+            this._push(goodsName, callback);
+        &#125;)
+    &#125; else &#123;
+        this._push(goods, callback);
+    &#125;
+&#125;
+
+_push(goods, callback) &#123;
+	if (!this.repository[goods]) &#123;
+		this.repository[goods] = [];
+	&#125;
+	this.repository[goods].push(callback);
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>手撕观察者模式</title>
+    <url>/2021/10/04/%E6%89%8B%E6%92%95%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="简述">简述</h2>
+<p>观察者模式指的是一个目标对象被多个观察者对象监听，当目标对象监听的属性发生变化时，主动向观察者发送通知。</p>
+<h2 id="实现">实现</h2>
+<h3 id="ES5">ES5</h3>
+<p>ES5 可以通过<code>Object.defineProperty</code>来设置<code>set</code>和<code>get</code>进行拦截来实现该模式。</p>
+<h4 id="代码">代码</h4>
+<pre><code class="language-js">var observedObj = &#123; _no: 1 &#125;;
+var observerObj = &#123; _no: 1 &#125;;
+
+function observer(oldVal, newVal) &#123;
+  console.log('observed的no属性值变为' + newVal);
+  observer._no = newVal;
+&#125;
+
+Object.defineProperty(observedObj, 'no', &#123;
+  set: function (newVal) &#123;
+    observer(this._no, newVal);
+    this._no = newVal;
+  &#125;,
+  get: function () &#123;
+    return this._no;
+  &#125;
+&#125;);
+
+observedObj.no = 2;
+console.log('observedObj: ', observedObj, '\nobserverObj: ', observerObj);
+</code></pre>
+<h4 id="输出">输出</h4>
+<pre><code class="language-bash">observedObj的no属性值变为2
+observedObj:  &#123; _no: 2 &#125;
+observerObj:  &#123; _no: 2 &#125;
+</code></pre>
+<h3 id="ES6">ES6</h3>
+<p>使用 ES6 新特性 Proxy 和 Reflect 结合使用监听对象属性</p>
+<h4 id="代码-v2">代码</h4>
+<pre><code class="language-js">class Obj &#123;
+  constructor(no) &#123;
+    this.no = no;
+  &#125;
+&#125;
+
+var observedObj = new Obj(1);
+var observerObj = new Obj(1);
+
+const handler = &#123;
+  set: function (observed, key, value) &#123;
+    if (key === 'no') &#123;
+      observer(key, observed[key], value);
+    &#125;
+    Reflect.set(observed, key, value);
+  &#125;
+&#125;;
+
+var observerProxy = new Proxy(observedObj, handler);
+
+function observer(key, oldVal, newVal) &#123;
+  console.log(`observedObj的no属性值由$&#123;oldVal&#125;变为$&#123;newVal&#125;`);
+  observerObj[key] = newVal;
+&#125;
+
+observerProxy.no = 2;
+console.log('observedObj: ', observedObj, '\nobserverObj: ', observerObj);
+</code></pre>
+<h4 id="输出-v2">输出</h4>
+<pre><code class="language-bash">observedObj的no属性值由1变为2
+observedObj:  Obj &#123; no: 2 &#125;
+observerObj:  Obj &#123; no: 2 &#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>浅谈MITM攻击</title>
+    <url>/2021/10/02/%E6%B5%85%E8%B0%88MITM%E6%94%BB%E5%87%BB/</url>
+    <content><![CDATA[<h2 id="简述">简述</h2>
+<p>MITM 攻击即中间人攻击，攻击者在客户端和服务端两端分别建立独立的连接，并交换它们之间传输的数据，使得通信两端认为其在一个私密的连接与对方传输数据，实际上其会话完全被攻击者掌控。</p>
+<h2 id="攻击过程">攻击过程</h2>
+<p>这里以课堂传纸条为例。</p>
+<p>A 需要向 B 传递一个纸条，C 在其传递的过程中 ，那么在 A 向 B 传输信息的过程中，其信息是有可能被 C 截获、篡改的。</p>
+<p>比如：</p>
+<p>A(发)：今天去哪玩？</p>
+<p>C(改)：今天去哪吃饭？</p>
+<p>B(收)：今天去哪吃饭？</p>
+<p>由上面的例子可以看出，C 在其中充当了中间人的身份，A 向 B 发送的信息已经被 C 截获和篡改了，因此称 AB 传输信息的过程中遭到了中间人攻击。</p>
+<h3 id="HTTP-中间人攻击">HTTP 中间人攻击</h3>
+<p>由于 HTTP 通信没有身份验证，而且通信不加密传输(裸奔~，这样导致的一个安全隐患就是上面提及的中间人攻击，其传输过程容易被中间人篡改，因此现在更推崇 HTTPS</p>
+<h4 id="如何防范">如何防范</h4>
+<h5 id="非对称加密？">非对称加密？</h5>
+<p>客户端使用私钥加密，将公钥和密钥发送给服务端，服务端使用公钥加密，将密钥发送给客户端，然后通过该密钥通信。但是这种方式仍然有安全隐患，比如中间人截获的客户端发送的密钥和公钥，然后用自己的公钥加密返回给客户端，用自己的私钥生成密钥，然后发送给服务端，此时通信双方是感知不到自己的通信密钥被截获了的。</p>
+<h5 id="数字证书">数字证书</h5>
+<p>将公钥发送给证书颁发机构申请证书，CA 通过自己的私钥加密公钥，通过域名等身份信息去生成证书签名，通信是否安全就取决于证书签名真伪的校验。</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>解决小程序弹出层滑动穿透问题</title>
+    <url>/2021/03/06/%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%B9%E5%87%BA%E5%B1%82%E6%BB%91%E5%8A%A8%E7%A9%BF%E9%80%8F%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>将商品添加购物车，打开购物车详情，在这一块区域滑动时，其底层会滑动，即滑动会穿透<br>
+<img src="https://img-blog.csdnimg.cn/20210306131452324.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTc5MDU1NA==,size_10,color_FFFFFF,t_70" alt=""></p>
+<p>在弹出层的上一级盒子添加 catch:touchmove=&quot;preventMove&quot;，preventMove 是一个空事件。</p>
+<pre><code class="language-javascript">catch:touchmove=&quot;preventMove&quot;
+
+preventMove() &#123;&#125;
+</code></pre>
+<p>问题解决！</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【实习】记一次笔试</title>
+    <url>/2021/09/29/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%AC%94%E8%AF%95/</url>
+    <content><![CDATA[<h2 id="前言">前言</h2>
+<p>四道算法题，30 分钟，都是 LeetCode 的简单和中等题</p>
+<p>第一题 Ac 80%，第二题没做出来，剩下两题都 Ac 100%</p>
+<p>睡完午觉刚起床就做了，可能是脑子不太清醒，感觉应该可以全做出来的</p>
+<p>太菜了我 😭</p>
+<h2 id="第一题-删除字符串">第一题 删除字符串</h2>
+<h3 id="描述">描述</h3>
+<p>给出两个字符串 <code>str</code> 和 <code>sub</code>，你的任务是在 <code>str</code> 中完全删除那些在 <code>sub</code> 中存在的字符。</p>
+<h3 id="样例">样例</h3>
+<pre><code class="language-bash">输入: str=&quot;They are students&quot;，sub=&quot;aeiou&quot;
+输出: &quot;Thy r stdnts&quot;
+</code></pre>
+<h3 id="代码">代码</h3>
+<p>做的时候脑抽了没 Ac 100%，结束后重新看了一下，直接用正则表达式匹配，能 Ac 100%，但是速度太慢了，应该有更好的方法。</p>
+<pre><code class="language-javascript">CharacterDeletion(str, sub) &#123;
+    let modeStr='['
+    for(let i = 0; i &lt; sub.length; i++) &#123;
+        modeStr += sub.charAt(i) + '|';
+    &#125;
+    modeStr += ']';
+    let reg = new RegExp(modeStr, 'gm');
+    str = str.replace(reg, '');
+    return str;
+&#125;
+</code></pre>
+<h2 id="第二题-购买通行证">第二题 购买通行证</h2>
+<h3 id="描述-v2">描述</h3>
+<p>亚历克斯计划参观博物馆，并在柜台购买相同的通行证。管理员决定不出售团体通行证，一次只提供一张通行证。如果访客需要一张以上的通行证，他/她必须再次重新排队到柜台并购买下一张通行证。亚历克斯想购买许多通行证。访客顺序和每位访客需要的通行证数量是已知的，亚历克斯需要多少时间才能买到所有的通行证？Alex 在队列中的位置将被给定，每次交易需要 1 个时间单位。可以忽略每次转到行后面所需的时间。</p>
+<h3 id="样例-v2">样例</h3>
+<pre><code class="language-bash">输入: arr=[1,2,5],k=1
+输出: 4
+解释:
+有3个人 0,1,2 在排队。亚历克斯的编号是1
+第一个时间点，队列为0(1)&lt;-1(2)&lt;-2(5)，编号0获得门票。
+第二个时间点，队列为1(2)&lt;-2(5) 亚克斯获得门票，并返回队伍最末端
+第三个时间点，队列为2(5)&lt;-1(1) 编号2获得门票，并返回队伍最末端
+第四个时间点，队列为1(1)&lt;-2(4) 亚克斯获得门票，他已经买到了所需要的所有门票
+</code></pre>
+<h3 id="代码-v2">代码</h3>
+<p>这道题一开始没看懂，后来看懂了有思路但没做出来，结束后又花了点时间去做，最简陋的实现，时间复杂度没眼看</p>
+<pre><code class="language-javascript">buyPasses(arr, k) &#123;
+    let time = 0;
+    let i = 0;
+    while (1) &#123;
+        if (arr[i]) &#123;
+            arr[i]--;
+            time++;
+            if (i === k &amp;&amp; !arr[i]) &#123;
+                return time;
+            &#125;
+        &#125;
+        i++;
+        if (i === arr.length) &#123;
+            i = 0;
+        &#125;
+    &#125;
+    return time;
+&#125;
+
+</code></pre>
+<p>下面是题解中的做法，没看懂……</p>
+<pre><code class="language-javascript">buyPasses(arr, k) &#123;
+    let time = 0;
+    arr.forEach((el, i) =&gt; &#123;
+        if(i &lt;= k) &#123;
+            time += el &gt;　arr[k] ? arr[k] : el;
+        &#125; else &#123;
+            time += el &gt;　arr[k]-1 ? arr[k]-1 : el;
+        &#125;
+    &#125;);
+    return time;
+&#125;
+</code></pre>
+<h2 id="第三题-寻找峰值">第三题 寻找峰值</h2>
+<h3 id="描述-v3">描述</h3>
+<p>给定一个整数数组(size 为<code>n</code>)，其具有以下特点：</p>
+<ul>
+<li>相邻位置的数字是不同的</li>
+<li><code>A[0] &lt; A[1]</code> 并且 <code>A[n - 2] &gt; A[n - 1]</code></li>
+</ul>
+<p>假定<em>P</em>是峰值的位置则满足<code>A[P] &gt; A[P-1]</code>且<code>A[P] &gt; A[P+1]</code>，返回数组中任意一个峰值的位置。</p>
+<ul>
+<li>数组保证至少存在一个峰</li>
+<li>如果数组存在多个峰，返回其中任意一个就行</li>
+<li>数组至少包含 3 个数</li>
+</ul>
+<h3 id="样例-v3">样例</h3>
+<pre><code class="language-bash">输入：A = [1, 2, 1, 3, 4, 5, 7, 6]
+输出：1
+解释：返回任意一个峰顶元素的下标，6也同样正确。
+</code></pre>
+<h3 id="代码-v3">代码</h3>
+<p>这是最直观的实现，时间复杂度还是比较高</p>
+<pre><code class="language-javascript">findPeak(A) &#123;
+    for(let i = 1; i &lt; A.length-1; i++) &#123;
+        if(A[i] &gt; A[i-1] &amp;&amp; A[i] &gt; A[i+1] ) &#123;
+            return i;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="第四题-数组划分">第四题 数组划分</h2>
+<h3 id="描述-v4">描述</h3>
+<p>给出一个整数数组 <code>nums</code> 和一个整数 <code>k</code>。划分数组（即移动数组 <code>nums</code> 中的元素），使得：</p>
+<ul>
+<li>所有小于<code>k</code>的元素移到左边</li>
+<li>所有大于等于<code>k</code>的元素移到右边</li>
+</ul>
+<p>返回数组划分的位置，即数组中第一个位置 <code>i</code>，满足 <code>nums[i]</code> 大于等于 <code>k</code>。</p>
+<h3 id="样例-v4">样例</h3>
+<pre><code class="language-bash">输入：nums = [], k = 9
+输出：0
+解释：空数组，输出0
+
+输入：nums = [3,2,2,1], k = 2
+输出：1
+解释：真实的数组为[1,2,2,3].所以返回 1
+</code></pre>
+<h3 id="代码-v4">代码</h3>
+<p>题目要求真正的划分数组，而不是仅仅计算比<code>k</code>小的整数，也不难，把<code>&gt;=k</code>的数<code>push</code>到另一个数组，最后在合并就好了</p>
+<pre><code class="language-javascript">partitionArray(nums, k) &#123;
+    let small = [];
+    if(nums.length) &#123;
+        nums.forEach(el =&gt; &#123;
+            if(el &lt; k) &#123;
+                small.push(el);
+            &#125;
+        &#125;);
+        return small.length;
+    &#125;
+    return 0;
+&#125;
+</code></pre>
+<p>也可以先排序<code>sort</code>，如何使用<code>indexOf</code>查找 k 也行</p>
+<pre><code class="language-javascript">partitionArray(nums, k) &#123;
+    if(nums.length) &#123;
+        nums.sort((a, b) =&gt; a - b);
+        if(k &lt; nums[0]) &#123;
+            return 0;
+        &#125; else if(k &gt; nums[nums.length-1]) &#123;
+            return nums.length;
+        &#125;
+        let index = nums.indexOf(k);
+        if(index === nums.length-1) &#123;
+            return 0;
+        &#125;
+        return index;
+    &#125;
+    return 0;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>求职</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>近期学习杂记</title>
+    <url>/2021/11/12/%E8%BF%91%E6%9C%9F%E5%AD%A6%E4%B9%A0%E6%9D%82%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="一些乱起八糟的东西">一些乱起八糟的东西</h2>
+<p>最近学习有点疲惫了，就随便学学吧，记下来主要是为了不白看，记忆深刻一点。</p>
+<h3 id="OPTIONS-请求">OPTIONS 请求</h3>
+<h4 id="用途">用途</h4>
+<ul>
+<li>获取服务器支持的 HTTP 请求方法</li>
+<li>检查服务器的性能</li>
+</ul>
+<h4 id="为什么需要它？">为什么需要它？</h4>
+<p>这个请求方法一般和跨域挂钩，使用 OPTIONS 旨在发送正式请求前先探测目标地址具有什么约束，类似 TCP 的探测报文，这一行为也可以称为“预检”。</p>
+<h3 id="手写-call、apply、bind">手写 call、apply、bind</h3>
+<h4 id="call">call</h4>
+<pre><code class="language-js">Function.prototype._call = function (thisArg, args) &#123;
+  thisArg = thisArg || window;
+  let _fn = Symbol('_fn'); //创建唯一键值，防止键名冲突
+  thisArg[_fn] = this; //将函数挂载到thisArg上，可以通过this访问上面的值
+  let res = thisArg[_fn](...args);
+  delete thisArg[_fn]; //删除对象方法，恢复原对象内容
+  return res;
+&#125;;
+</code></pre>
+<h4 id="apply">apply</h4>
+<p>原理一样，参数传递不同</p>
+<pre><code class="language-js">Function.prototype._apply = function (thisArg, ...args) &#123;
+  thisArg = thisArg || window;
+  let _fn = Symbol('_fn'); //创建唯一键值，防止键名冲突
+  thisArg[_fn] = this; //将函数挂载到thisArg上，可以通过this访问上面的值
+  let res = thisArg[_fn](...args);
+  delete thisArg[_fn]; //删除对象方法，恢复原对象内容
+  return res;
+&#125;;
+</code></pre>
+<h4 id="bind">bind</h4>
+<pre><code class="language-js">Function.prototype._bind = function (thisArg, ...args) &#123;
+  let _fn = Symbol('_fn');
+  thisArg[_fn] = this;
+
+  return function (...rest) &#123;
+    thisArg = thisArg || window;
+    let res = thisArg[_fn](...args.concat(rest)); //原bind方法会拼接之前传递的参数
+    delete thisArg[_fn]; //删除对象方法，恢复原对象内容
+    return res;
+  &#125;;
+&#125;;
+</code></pre>
+<h3 id="水平垂直居中的方法">水平垂直居中的方法</h3>
+<pre><code class="language-css">/* 方法1 利用定位居中 */
+position: relative;
+top: 50%;
+left: 50%
+transform: translate(-50%);
+
+/* 方法2 父盒子使用display布局 */
+display: flex;
+justify-content: center;
+align-items: center;
+
+/* 方法3 脱离文档流式居中 */
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+margin: auto;
+</code></pre>
+<h3 id="浮动布局实现三栏自适应">浮动布局实现三栏自适应</h3>
+<p>如果要实现左右定宽、中间自适应只需要把注释样式生效即可。</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      .container &#123;
+        position: relative;
+        left: 50%;
+        width: 90vw;
+        height: 50vw;
+        margin-top: 50%;
+        transform: translate(-50%, -50%);
+      &#125;
+
+      .left &#123;
+        float: left;
+        /* min-width: 200px; */
+        min-height: 100%;
+        background-color: #ccc;
+      &#125;
+
+      .center &#123;
+        /* margin: 0 200px; */
+        min-height: 100%;
+        background-color: bisque;
+      &#125;
+
+      .right &#123;
+        float: right;
+        /* min-width: 250px; */
+        min-height: 100%;
+        background-color: #ccfac2;
+      &#125;
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;div class=&quot;left&quot;&gt;left&lt;/div&gt;
+      &lt;div class=&quot;right&quot;&gt;right&lt;/div&gt;
+      &lt;div class=&quot;center&quot;&gt;center&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h4 id="效果">效果</h4>
+<h5 id="三栏自适应">三栏自适应</h5>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/%E4%B8%89%E6%A0%8F%E8%87%AA%E9%80%82%E5%BA%94.png" alt="三栏自适应"></p>
+<h5 id="两栏定宽中间自适应">两栏定宽中间自适应</h5>
+<p><img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/%E4%B8%A4%E6%A0%8F%E5%AE%9A%E5%AE%BD%E4%B8%AD%E9%97%B4%E8%87%AA%E9%80%82%E5%BA%94.png" alt="两栏定宽中间自适应"></p>
+<h3 id="js-宽松模式和严格模式区别">js 宽松模式和严格模式区别</h3>
+<p>这里只记录一下我能理解的</p>
+<ul>
+<li>严格模式下，<code>call</code>、<code>apply</code>传入<code>null</code>或<code>undefined</code>不会转换为 <code>window</code>，而是保持原样。</li>
+<li>严格模式下，变量需要在使用前声明，直接给变量赋值，不会隐式创建全局变量。</li>
+<li>严格模式下，不允许直接使用八进制字面量。</li>
+<li>严格模式下，函数形参同名会报错。</li>
+<li>严格模式下，对象中定义同名属性会抛出语法错误。</li>
+<li>严格模式下, <code>delete</code> 运算符后跟随非法标识符(即 <code>delete</code> 不存在的标识符)会抛出语法错误； 非严格模式下，会静默失败并返回 <code>false</code></li>
+</ul>
+<h3 id="vue3-0-新增内容">vue3.0 新增内容</h3>
+<ul>
+<li>响应式将<code>defineProperties</code>更换为<code>Proxy</code>，提升了性能，但是降低了兼容性，当然，vue 还是提供了旧观察模式的编译方式。</li>
+<li>组件逻辑都写进函数，<code>setup()</code>(Composition API)取代<code>data()</code>，该函数返回一个对象暴露给模板使用，并且只在初始化时调用一次。</li>
+<li>生命周期变更。<code>beforeCreate</code>和<code>created</code>被<code>setup</code>替代，<code>beforeDestory</code>和<code>destoryed</code>更名为<code>onBeforeUnMount</code>和<code>onUnmouted</code>，新增<code>onRenderTriggered</code>和<code>onRenderTracked</code>，其它生命周期名称前都加了一个<code>on</code>。另外，钩子是需要从 <code>vue</code> 中导入。</li>
+</ul>
+<p>。。。。。。。</p>
+<p>暂时先写这些，毕竟也没有正经学 vue3，以后有机会再补充吧！</p>
+<h3 id="图片懒加载实现">图片懒加载实现</h3>
+<p>传统的实现是通过监听滚动条滚动来实现，然而这种方法计算太频繁了，性能不好，故采用<code>IntersectionObserver</code>这个对象来监听元素是否出现在视窗内，因为它的性能比监听滚动条要好。</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      .container &#123;
+        position: relative;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        margin-top: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid #ccc;
+      &#125;
+
+      .img &#123;
+        width: 500px;
+        height: 500px;
+      &#125;
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;img
+        class=&quot;img&quot;
+        src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+        alt=&quot;&quot;
+        data-src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+      /&gt;
+      &lt;img
+        class=&quot;img&quot;
+        src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+        alt=&quot;&quot;
+        data-src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+      /&gt;
+      &lt;img
+        class=&quot;img&quot;
+        src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+        alt=&quot;&quot;
+        data-src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+      /&gt;
+      &lt;img
+        class=&quot;img&quot;
+        src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+        alt=&quot;&quot;
+        data-src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+      /&gt;
+      &lt;img
+        class=&quot;img&quot;
+        src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+        alt=&quot;&quot;
+        data-src=&quot;https://ts1.cn.mm.bing.net/th?id=OIP-C.M9CUntHQGPvSO5JkAn5Y4AHaFA&amp;w=136&amp;h=100&amp;c=8&amp;rs=1&amp;qlt=90&amp;o=6&amp;dpr=1.25&amp;pid=3.1&amp;rm=2&quot;
+      /&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+
+  &lt;script&gt;
+    let imgs = Array.from(document.getElementsByClassName('img'));
+    let io = new IntersectionObserver(lazyLoad);
+    imgs.forEach(img =&gt; &#123;
+      io.observe(img); //监听img
+    &#125;);
+    function lazyLoad(entry) &#123;
+      entry.forEach(el =&gt; &#123;
+        //遍历每个img的状态
+        console.log(el.isIntersecting);
+        if (el.isIntersecting) &#123;
+          el.target.src = el.target.getAttribute('data-src');
+        &#125; else &#123;
+          el.target.src = '';
+        &#125;
+      &#125;);
+    &#125;
+  &lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/about/index.html</url>
+    <content><![CDATA[<h1 id="关于">关于</h1>
+<p><strong>Hi~我是 Akino，下面是我的一些信息和经历</strong></p>
+<h2 id="教育背景">教育背景</h2>
+<blockquote>
+<p>学校：深圳技术大学</p>
+<p>专业：物联网工程</p>
+<p>学历：本科</p>
+<p>时间：2019 - 2023</p>
+</blockquote>
+<h2 id="实习经历">实习经历</h2>
+<p>公司：腾讯科技(深圳)有限公司</p>
+<p>职位：前端开发</p>
+<p>技术栈：React、Node.js(Koa2)</p>
+<p>时间：2022.02 - 2022.05</p>
+<blockquote>
+<h4 id="工作内容：">工作内容：</h4>
+<ul>
+<li>负责内部安全运营系统的开发，迁移原系统部分功能模块、以图表形式统计、展示运营相关数据；</li>
+<li>负责组内安全运营核心知识库系统开发，对安全情报、探针等数据及绑定关系等安全数据进行统一管理；</li>
+<li>负责开发效能优化工具模块：通过配置模型自动生成表格、图表页面。</li>
+</ul>
+</blockquote>
+<h2 id="掌握技能">掌握技能</h2>
+<ul>
+<li>熟悉 <code>Vue2</code>、<code>Vue3</code>，掌握 <code>vue-router</code>、<code>vuex</code> 的使用。</li>
+<li>了解 <code>React</code>，具有实际的企业开发经验。</li>
+<li>熟悉 <code>Node.js</code>，具有使用 <code>Restify</code>、<code>Koa2</code> 结合 <code>MongoDB</code>、<code>MySQL</code> 开发后端的经验；</li>
+<li>了解 <code>Python</code>，使用过 <code>Django</code> + <code>SQLite</code> 开发后端应用；</li>
+<li>了解常见的网络协议，如 <code>HTTP</code> / <code>HTTPS</code>。</li>
+</ul>
+<h2 id="项目经历">项目经历</h2>
+<p>详见 <a href="/projects" target="_blank">我的项目列表</a></p>
+<h2 id="关于开源">关于开源</h2>
+<p>本人热衷投身于开源项目，有兴趣可以逛逛我的 github 主页~</p>
+<p>传送门 👉 <a href="https://github.com/vkm0303" target="_blank">https://github.com/vkm0303</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/links/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/message/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/projects/index.html</url>
+    <content><![CDATA[<p>///</p>
+<h2 id="风电设备运输智能感知-APP">风电设备运输智能感知 APP</h2>
+<p>项目描述：借助激光雷达及测距算法能力实时监控风电叶片运输过程中与障碍物的距离，驾驶员通过手机 APP 实时查看各个监控点位带距离信息的视频画面，当风叶与障碍物距离达到阀值时弹窗告警及语音告警，同时记录并展示运输轨迹。</p>
+<p>项目职责：移动端开发</p>
+<blockquote>
+<ul>
+<li>基于 uni-app 开发监控视频流播放组件、扫描二维码绑定车辆功能及用户相关基础功能。</li>
+<li>基于高德地图 SDK 能力开发车辆实时运输轨迹展示、历史运输任务轨迹展示。</li>
+</ul>
+</blockquote>
+<p>起始日期：2022.07 - 2023.04</p>
+<p>///</p>
+<h2 id="SZTU-课表小程序">SZTU 课表小程序</h2>
+<p>项目描述：集成课表查询、成绩查询、考试安排、公文通功能。用户量累计 332 人，月访问用户 270 人。</p>
+<p>项目职责：前端开发、后端开发</p>
+<blockquote>
+<ul>
+<li>基于微信小程序原生框架开发小程序端课表、成绩查询、公文通、考试安排等页面。</li>
+<li>基于 Node.js 开发教务系统课表、成绩、考试安排爬虫模块、公文通抓包转发模块，HTML 文本解析模块及相关数据的查询接口。</li>
+</ul>
+</blockquote>
+<p>起始日期：2021.09 - 2022.04</p>
+<p>///</p>
+<h2 id="腾讯-mini-项目-NewMonkey-银发测评">腾讯 mini 项目 - NewMonkey 银发测评</h2>
+<p>项目描述：基于 NewMonkey 对安卓 APP 进行适老化程度测评，并在后台自动化输出测评报告。</p>
+<p>项目职责：前端开发、后端开发</p>
+<blockquote>
+<ul>
+<li>基于 Vue 开发测试管理平台前端，对测试结果以图表形式展示。</li>
+<li>基于 Python 的 Django+SQLite 开发测试管理平台的后端，为客户端及前端提供数据上传、数据查询相关 api 接口。</li>
+<li>基于 Python 开发文本相关控件的颜色对比度计算及测试报告自动化生成模块。</li>
+</ul>
+</blockquote>
+<p>起始日期：2021.08 - 2021.10</p>
+<p>///</p>
+<h2 id="5G-校园安全系统">5G 校园安全系统</h2>
+<p>项目描述：面向校园安全场景，基于 5G 高速传输，根据传感器、摄像头 AI 算法数据，实现异常事件监测、预警和告警。</p>
+<p>项目职责：前端开发</p>
+<blockquote>
+<ul>
+<li>基于 Vue 开发设备告警、视频播放组件、视频截图和设备控制模块；</li>
+<li>基于 ThingJs 实现人员轨迹可视化。</li>
+</ul>
+</blockquote>
+<p>起始日期：2020.12 - 2021.12</p>
+<p>///</p>
+<h2 id="食堂智能服务小程序-好吃-Go">食堂智能服务小程序 - 好吃 Go</h2>
+<p>项目描述：开发一款集查看食堂菜单、食堂外送、校园卡余额查询等服务于一身的小程序。项目职责：前端开发</p>
+<blockquote>
+<ul>
+<li>根据 UI 设计图开发菜单列表、食堂外带下单、用户模块等页面，同时对接微信支付。</li>
+<li>部署 api 管理平台，定义接口数据格式，与后端进行协商调整接口。</li>
+</ul>
+</blockquote>
+<p>起始日期：2020.09 - 2021.10</p>
+]]></content>
+  </entry>
+</search>

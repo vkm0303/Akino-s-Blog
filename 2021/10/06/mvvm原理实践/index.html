@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-post-container animate__animated animate__fadeIn">
+  <section class="post-wrapper">
+    <header class="post-header">
+      
+      <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/vue.png" alt="mvvm原理实践">
+      
+      
+      <span class="post-title">mvvm原理实践</span>
+      
+      <div class="post-publish-info-wrapper flex">
+        <img class="author-avatar" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="">
+        <div class="post-info flex flex-column flex-space-around">
+          <div>
+            Akino
+            <span>· 10/06, 2021 · </span>
+            <span id="/2021/10/06/mvvm%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/" class="leancloud_visitors" data-flag-title="mvvm原理实践">
+              阅读
+              
+              <span class="leancloud-visitors-count"></span>
+              
+            </span>
+          </div>
+          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+        </div>
+        </span>
+      </div>
+    </header>
+    <article class="post-content markdown">
+      <!-- <a name="index" style=" position: relative;top: -120px;display: block;height: 0;overflow: hidden;"></a> -->
+      <h2 id="前言">前言</h2>
+<p>原理部分不在叙述，网上很多博客都有提，我是在掘金看了别的博主的文章(<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903586103558158">不好意思！耽误你的十分钟，让 MVVM 原理还给你</a>)，然后按自己的理解模仿着实现了基础的 demo，在此基础上又添加了 methods、v-show 和@click 的实现。</p>
+<p>由于自己还没彻底消化，所以叙述会有点烂 😢，当成一个菜鸟的学习记录吧！下面提到的东西可能是有错误的 😓</p>
+<p>完整代码：<a target="_blank" rel="noopener" href="https://github.com/vkm0303/mvvm">github 传送门</a></p>
+<p>demo 演示：<a target="_blank" rel="noopener" href="https://vkm0303.github.io/mvvm/demo.html">demo 传送门</a></p>
+<h2 id="具体实现">具体实现</h2>
+<h3 id="数据代理">数据代理</h3>
+<p>这里主要是 data 和 methods 的代理，代理的目的很简单，在 Vue 中，我们可以直接使用 this.xxx 来访问数据，而数据代理就是达到该目的的实现之一。</p>
+<p>另外，如果 methods 里面的方法也能使用 this.xxx 来访问数据，那么还需要改变 method 的 this 指向，这里我写了个<code>_bind()</code>方法来实现</p>
+<pre><code class="language-js">class MVVM &#123;
+  constructor(options = &#123;&#125;) &#123;
+    this.$options = options;
+    this._proxy(options.data);
+    this._proxy(options.methods);
+    this._bind(options.methods);
+  &#125;
+  // 将数据挂载到实例上，this代理options.data/methods，即可以直接使用this.key访问data的数据/methods的方法
+  _proxy(data) &#123;
+    if (typeof data === 'object') &#123;
+      for (let key in data) &#123;
+        Object.defineProperty(this, key, &#123;
+          enumerable: true, // 可被枚举
+          set: function (newVal) &#123;
+            data[key] = newVal;
+          &#125;,
+          get: function () &#123;
+            return data[key];
+          &#125;
+        &#125;);
+      &#125;
+    &#125;
+  &#125;
+  // 改变methods里面的方法this指向
+  _bind(methods) &#123;
+    for (let key in methods) &#123;
+      methods[key] = methods[key].bind(this);
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h3 id="数据劫持-订阅发布">数据劫持 + 订阅发布</h3>
+<p>数据劫持是通过<code>Object.defineProperty()</code>方法来实现，用 ES6 的<code>Proxy</code>来实现也可，有时间再更新。</p>
+<p>这个模式好像是观察者+发布订阅的结合使用，不知道对不对，感觉是这样。</p>
+<p>关于这两个设计模式可以看一下我的另外两篇文章：<a target="_blank" rel="noopener" href="https://www.amschen.cn/articles/2021-10-04/%E6%89%8B%E6%92%95%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">手撕观察者模式</a>、<a target="_blank" rel="noopener" href="https://www.amschen.cn/articles/2021-10-04/%E6%89%8B%E6%92%95%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/">手撕发布-订阅模式</a></p>
+<h4 id="Dep">Dep</h4>
+<p>通过这个类是发布-订阅的具体实现</p>
+<pre><code class="language-js">class Dep &#123;
+  constructor() &#123;
+    this.subscribeObj = &#123;&#125;;
+  &#125;
+
+  subscribe(key, sub) &#123;
+    this.subscribeObj[key] = sub;
+  &#125;
+
+  notify(key) &#123;
+    this.subscribeObj[key].update();
+  &#125;
+&#125;
+</code></pre>
+<h4 id="Observer">Observer</h4>
+<p>这个类的作用主要是作为一个拦截器(数据劫持)，订阅数据，发布通知，数据的获取和修改都需要经过这里(不出意外的话</p>
+<pre><code class="language-js">class Observer &#123;
+  constructor(data) &#123;
+    for (let key in data) &#123;
+      let val = data[key];
+      let dep = new Dep(); // 发布订阅类实例
+      this._traverse(val); // 递归遍历，深度劫持
+      Object.defineProperty(data, key, &#123;
+        enumerable: true, // 可被枚举
+        set: function (newVal) &#123;
+          if (val !== newVal) &#123;
+            val = newVal;
+            dep.notify(key); // 数据更新，通知订阅者
+            return newVal;
+          &#125;
+        &#125;,
+        get: function () &#123;
+          Dep.target &amp;&amp; dep.subscribe(key, Dep.target); // 增加订阅者，监听数据
+          return val;
+        &#125;
+      &#125;);
+    &#125;
+  &#125;
+  _traverse(data) &#123;
+    if (data &amp;&amp; typeof data === 'object') &#123;
+      return new Observer(data);
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h4 id="Watcher">Watcher</h4>
+<p>监听者，<code>update</code>函数就是用来更新数据的</p>
+<pre><code class="language-js">class Watcher &#123;
+  constructor(vm, exp, cb) &#123;
+    // 实例本身，模板键值(如v-model=&quot;obj.key&quot;的obj.key)，回调函数
+    this.vm = vm;
+    this.exp = exp;
+    this.cb = cb;
+    Dep.target = this;
+    let val = vm;
+    exp.split('.').forEach(key =&gt; &#123;
+      val = val[key];
+    &#125;);
+  &#125;
+  update() &#123;
+    let val = this.vm;
+    this.exp.split('.').forEach(key =&gt; &#123;
+      val = val[key];
+    &#125;);
+    this.vm.vShow.forEach(obj =&gt; &#123;
+      // 检查vShow数组里面存储的v-show指令绑定值的状态
+      obj.node.style.display = this.vm[obj.key] ? '' : 'none';
+    &#125;);
+    this.cb(val);
+  &#125;
+&#125;
+</code></pre>
+<h3 id="数据编译">数据编译</h3>
+<p>数据的更新啥的都弄好了，下面就得进行最后一步数据渲染了！</p>
+<p>下面节点的更新有用到<code>DocumentFragment</code>，这里稍微偏一下题，使用<code>DocumentFragment</code>来来临时存储节点是有性能优化的作用的，比如下面的节点更新，如果一个一个节点的插入到 DOM 树中，就会有大量的 DOM 操作，引起多次的重绘和重排，从而影响到渲染的性能，将需要更新的节点存放到<code>DocumentFragment</code>中，最后再一次性更新，只有一次 DOM 操作，因此这里使用<code>DocumentFragment</code>是有原因滴~</p>
+<pre><code class="language-js">class Compile &#123;
+  constructor(el, vm) &#123;
+    vm.$el = document.querySelector(el);
+    let fragment = document.createDocumentFragment();
+    let child;
+    while ((child = vm.$el.firstChild)) &#123;
+      fragment.appendChild(child);
+    &#125;
+    this._replace(fragment, vm);
+    // 再将文档碎片放入el中
+    vm.$el.appendChild(fragment);
+  &#125;
+  _replace(fragment, vm) &#123;
+    Array.from(fragment.childNodes).forEach(node =&gt; &#123;
+      let text = node.textContent;
+      let reg = /\&#123;\&#123;(.*?)\&#125;\&#125;/g; // 匹配&#123;&#123;&#125;&#125;的内容
+      /*
+       * nodeType: 1 元素节点，3 文本节点
+       */
+      if (node.nodeType === 3 &amp;&amp; reg.test(text)) &#123;
+        function _replaceText() &#123;
+          // 替换节点文本
+          node.textContent = text.replace(reg, (matched, placeholder) =&gt; &#123;
+            console.log(matched, placeholder);
+            new Watcher(vm, placeholder, _replaceText);
+            return placeholder.split('.').reduce((val, key) =&gt; &#123;
+              return val[key];
+            &#125;, vm);
+          &#125;);
+        &#125;
+        _replaceText();
+      &#125;
+      if (node.nodeType === 1) &#123;
+        let attrs = node.attributes; // 获取dom节点的属性
+        Array.from(attrs).forEach(attr =&gt; &#123;
+          console.log(attr);
+          let name = attr.name;
+          let exp = attr.value;
+          if (name.includes('v-model')) &#123;
+            // v-model
+            node.value = vm[exp];
+          &#125; else if (name.includes('@click')) &#123;
+            // 绑定点击事件
+            node.addEventListener('click', vm[exp]);
+          &#125; else if (name.includes('v-show')) &#123;
+            // v-show指令处理
+            vm.vShow.push(&#123;
+              node,
+              type: 'v-show',
+              key: exp
+            &#125;);
+            node.style.display = vm[exp] ? '' : 'none';
+            console.log(vm);
+          &#125;
+          new Watcher(vm, exp, function (newVal) &#123;
+            node.value = newVal; // 当watcher触发时会自动将内容放进输入框中
+          &#125;);
+          node.addEventListener('input', function (e) &#123;
+            // 监听input事件，输入时更新数据
+            let newVal = e.target.value;
+            vm[exp] = newVal;
+          &#125;);
+        &#125;);
+      &#125;
+      if (node.childNodes &amp;&amp; node.childNodes.length) &#123;
+        this._replace(node, vm); // 递归遍历节点
+      &#125;
+    &#125;);
+  &#125;
+&#125;
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>目前还需要一段时间去消化这些知识，这篇就当作学习记录吧！不敢说是技术分享，讲的实在太烂了呜呜呜…</p>
+
+    </article>
+    <!--  -->
+    <div class="post-prev-next">
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/mysql.png);" class="link-cover" href="/2021/10/16/phpMyAdmin%E6%97%A0%E6%B3%95%E7%99%BB%E5%BD%95MySql8%E7%9A%84%E9%97%AE%E9%A2%98/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>上一篇</span>
+      <span class="link-title">phpMyAdmin无法登录MySql8的问题</span>
+    </div>
+  </div>
+  
+  
+  <div class="link-wrapper">
+    
+    <a style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/git.png);" class="link-cover" href="/2021/10/04/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+      <div class="overlay"></div>
+    </a>
+    
+    <div class="link-text">
+      <span>下一篇</span>
+      <span class="link-title">git常用命令</span>
+    </div>
+  </div>
+  
+</div>
+    
+    
+
+<div class="divide"></div>
+
+
+<div class="iconfont icon-comment"><span>评论</span></div>
+
+<div id="comment" class="comment markdown"></div>
+<script>
+  new Valine({
+    el: '#comment',
+    appId: '3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz',
+    appKey: 'BrY6HeaAcdwDscZNxC3TM7LO',
+    avatar: 'retro',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    pageSize: 15,
+    visitor: true,
+    recordIP: true,
+    lang: "zh-CN"
+  });
+</script>
+
+    
+  </section>
+  <section class="aside-wrapper">
+  <aside class="aside-content">
+    <div class="aside-card post-toc">
+      <header class="aside-card-title">
+        <span class="iconfont icon-toc"></span>目录
+      </header>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">具体实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BB%A3%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">数据代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8A%AB%E6%8C%81-%E8%AE%A2%E9%98%85%E5%8F%91%E5%B8%83"><span class="toc-number">2.2.</span> <span class="toc-text">数据劫持 + 订阅发布</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Dep"><span class="toc-number">2.2.1.</span> <span class="toc-text">Dep</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Observer"><span class="toc-number">2.2.2.</span> <span class="toc-text">Observer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Watcher"><span class="toc-number">2.2.3.</span> <span class="toc-text">Watcher</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BC%96%E8%AF%91"><span class="toc-number">2.3.</span> <span class="toc-text">数据编译</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+    <div class="aside-card latest-posts">
+      <header class="aside-card-title">
+        <span class="iconfont icon-history"></span>最新推荐
+      </header>
+      <ul class="latest-post-list">
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/10/Electron%E8%B8%A9%E5%9D%91%E4%B8%93%E9%A2%98/">
+        <img class="post-cover" src="/images/no-cover.png" />
+        <div class="post-info">
+          <span class="title">Electron 踩坑专题</span>
+          <span class="time">2023-03-10</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2023/03/02/Hexo%E4%B8%BB%E9%A2%98%EF%BC%9Ahexo-theme-alog/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/hexo-theme-alog.png" />
+        <div class="post-info">
+          <span class="title">Hexo主题：Alog</span>
+          <span class="time">2023-03-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/09/02/uniapp%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0video%E7%BB%84%E4%BB%B6ref%E9%97%AE%E9%A2%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/uniapp.png" />
+        <div class="post-info">
+          <span class="title">uniapp获取不到video组件ref问题</span>
+          <span class="time">2022-09-02</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2022/01/25/react%E9%85%8D%E7%BD%AEsetupProxy%E4%B9%8B%E5%90%8E%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/react.png" />
+        <div class="post-info">
+          <span class="title">react配置setupProxy之后页面无法打开</span>
+          <span class="time">2022-01-25</span>
+        </div>
+      </a>
+    </li>
+  
+    <li class="latest-post">
+      <a class="post-link" href="/2021/11/23/%E5%AD%97%E8%8A%82%E4%BA%8C%E9%9D%A2%E5%A4%8D%E7%9B%98/">
+        <img class="post-cover" src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/bytedance.png" />
+        <div class="post-info">
+          <span class="title">【实习】11.23 字节二面复盘(1h20min)</span>
+          <span class="time">2021-11-23</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+    </div>
+  </aside>
+</section>
+</div>
+
+<div class="preview-overlay">
+  <div class="preview-wrapper">
+    <img class="preview-img" alt="Preview" />
+    <div class="slot"></div>
+    <ul class="img-list"></ul>
+  </div>
+</div>
+
+<script src="/js/page/post/index.js" type="module" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

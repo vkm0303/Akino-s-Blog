@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-home-container">
+  
+  <div class="page-header flex-align-center animate__animated animate__fadeInDown">
+  <div class="page-name">
+    
+  </div>
+</div>
+  
+  
+  <div class="post-list-wrapper animate__animated animate__fadeInUp">
+    <ul class="post-list">
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/js_extends.png);" href="/2021/10/27/%E5%AF%84%E7%94%9F%E7%BB%84%E5%90%88%E5%BC%8F%E7%BB%A7%E6%89%BF/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/27/%E5%AF%84%E7%94%9F%E7%BB%84%E5%90%88%E5%BC%8F%E7%BB%A7%E6%89%BF/">
+              寄生组合式继承
+            </a>
+            <!-- <p class="post-desc">
+              emmm...一直一来对继承方式都搞不懂，感觉绕来绕去的好乱，今天决定逐个突破 😶。
+看了各种继承方式的比较，寄生组合式继承是比较理想的，因为相对来说操作较少且弥补了寄生继承和组合继承的缺点,既可以函数复用，也不用多次调用父类构造函数。
+寄生组合式继承顾名思义就是寄生式继承和组合式继承结合使用，下面以代码形式展示该继承的特点。
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/27, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/computer_network.png);" href="/2021/10/23/%E5%88%87%E8%BA%AB%E4%BD%93%E4%BC%9Ahttp2.0%E8%BE%83http1.1%E7%9A%84%E6%8F%90%E5%8D%87/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/23/%E5%88%87%E8%BA%AB%E4%BD%93%E4%BC%9Ahttp2.0%E8%BE%83http1.1%E7%9A%84%E6%8F%90%E5%8D%87/">
+              切身体会http/2相对于http/1.1的提升
+            </a>
+            <!-- <p class="post-desc">
+              遇到的问题
+之前一直在苦恼自己博客首次加载速度巨慢的问题，三十多秒才把博客文章列表加载出来，又不想动源码，所以就在 nginx 寻找可优化的点。
+解决过程
+一开始尝试了 gzip，略有提升，但是效果不大，通过浏览器的 devTool 发现，个别文件要加载很久，也就是三十多秒，因为 http/1....
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/23, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/js_array.png);" href="/2021/10/23/%E5%88%A4%E6%96%AD%E6%95%B0%E7%BB%84%E7%9A%845%E7%A7%8D%E6%96%B9%E6%B3%95/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/23/%E5%88%A4%E6%96%AD%E6%95%B0%E7%BB%84%E7%9A%845%E7%A7%8D%E6%96%B9%E6%B3%95/">
+              JS判断数组的5种方法
+            </a>
+            <!-- <p class="post-desc">
+              由于 js 中数组属于引用类型，而引用类型都归为 object，所以数组是不能通过 typeof 来判断
+typeof Array; // output: object
+
+因此需要通过其它手段来判断
+
+原型判断
+实例的...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/23, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/vue.png);" href="/2021/10/22/Vue%20computed%E5%92%8Cwatch%E7%9A%84%E5%8C%BA%E5%88%AB/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/22/Vue%20computed%E5%92%8Cwatch%E7%9A%84%E5%8C%BA%E5%88%AB/">
+              Vue computed和watch的区别
+            </a>
+            <!-- <p class="post-desc">
+              computed 和 watch 的用法比较相似，由于其作用相近，经常搞不懂它俩的区别，所以这几天专门花了点事件去“研究”了一下。
+computed 和 watch 的区别
+用法上的区别
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/22, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/vue.png);" href="/2021/10/22/v-key%E7%9A%84%E4%BD%9C%E7%94%A8/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/22/v-key%E7%9A%84%E4%BD%9C%E7%94%A8/">
+              v-key的作用
+            </a>
+            <!-- <p class="post-desc">
+              无论开发小程序还是 Vue 应用，都经常会使用到列表渲染，在使用过程中，如果不绑定 key 值，ide 经常警告需要绑定 key 值。但是一直都没有去深究为什么需要绑定一个 key 值，现在终于有时间了，所以去关注一下这些底层的东西。
+举个栗子
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/22, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/mysql.png);" href="/2021/10/16/phpMyAdmin%E6%97%A0%E6%B3%95%E7%99%BB%E5%BD%95MySql8%E7%9A%84%E9%97%AE%E9%A2%98/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/16/phpMyAdmin%E6%97%A0%E6%B3%95%E7%99%BB%E5%BD%95MySql8%E7%9A%84%E9%97%AE%E9%A2%98/">
+              phpMyAdmin无法登录MySql8的问题
+            </a>
+            <!-- <p class="post-desc">
+              数据库系统的实验课需要用到 phpMyAdmin，正常安装和设置后尝试使用 phpMyAdmin 登录 mysql，然后就出问题了 😅
+如图
+
+通过 github ...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/16, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/vue.png);" href="/2021/10/06/mvvm%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/06/mvvm%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/">
+              mvvm原理实践
+            </a>
+            <!-- <p class="post-desc">
+              前言
+原理部分不在叙述，网上很多博客都有提，我是在掘金看了别的博主的文章(不好意思！耽误你的十分钟，让 MVVM 原理还给你)，然后按自己的理解模仿着实现了基础的 demo，在此基础上又添加了 methods、v-show 和@click ...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/06, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/git.png);" href="/2021/10/04/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/04/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+              git常用命令
+            </a>
+            <!-- <p class="post-desc">
+              初始化
+git init
+
+添加文件
+文件须在当前目录下
+添加单个/多个文件
+git add [文件...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/04, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/design_publish_subscribe.png);" href="/2021/10/04/%E6%89%8B%E6%92%95%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/04/%E6%89%8B%E6%92%95%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/">
+              手撕发布-订阅模式
+            </a>
+            <!-- <p class="post-desc">
+              简述
+发布-订阅模式将订阅者和发布者解耦，订阅者不用一直“询问”发布者事件是否发生，而是由发布者自由决定向订阅者发送通知。
+实现
+以购物为例，买家需要向卖家购买一件商品，但是库存已经没有了，买家想要知道什么时候有货，那么买家需要隔一段时间就去问卖家有没有货，如果采用了发布-订阅模式，买家只需要将联系方式留...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/04, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/design_observe.png);" href="/2021/10/04/%E6%89%8B%E6%92%95%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/04/%E6%89%8B%E6%92%95%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+              手撕观察者模式
+            </a>
+            <!-- <p class="post-desc">
+              简述
+观察者模式指的是一个目标对象被多个观察者对象监听，当目标对象监听的属性发生变化时，主动向观察者发送通知。
+实现
+ES5
+ES5 可以通过Object.defineProperty来设置set和get
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/04, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/computer_network.png);" href="/2021/10/02/%E6%B5%85%E8%B0%88MITM%E6%94%BB%E5%87%BB/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/02/%E6%B5%85%E8%B0%88MITM%E6%94%BB%E5%87%BB/">
+              浅谈MITM攻击
+            </a>
+            <!-- <p class="post-desc">
+              简述
+MITM 攻击即中间人攻击，攻击者在客户端和服务端两端分别建立独立的连接，并交换它们之间传输的数据，使得通信两端认为其在一个私密的连接与对方传输数据，实际上其会话完全被攻击者掌控。
+攻击过程
+这里以课堂传纸条为例。
+A 需要向 B 传递一个纸条，C 在其传递的过程中 ，那么在 A ...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/02, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+    </ul>
+      
+  </div>
+</div>
+
+
+<script src="/js/plugin/velocity.js" defer></script>
+
+
+<script src="/js/plugin/shutter.js" defer></script>
+
+
+<script src="/js/page/home.js" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>

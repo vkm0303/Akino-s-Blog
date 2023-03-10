@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Akino's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="
+      width=device-width, 
+      initial-scale=1.0, 
+      minimum-scale=1.0, 
+      maximum-scale=1.0,
+      user-scalable=no
+    " />
+  <link rel="icon" href="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+
+  
+<script src="/js/lib/jquery-3.6.3.min.js" defer></script>
+
+  
+  
+<script src="/js/lib/highlight.min.js" defer></script>
+
+  
+<script src="/js/main.js" type="module" defer></script>
+
+  
+<script src="/js/page/header.js" type="module" defer></script>
+
+  
+<script src="/js/page/side-menu.js" type="module" defer></script>
+
+  
+<script src="/js/page/search/index.js" defer></script>
+
+
+  
+  
+<script src="/js/lib/valine.min.js"></script>
+
+  
+
+  
+
+  
+  
+<script src="/js/page/search/local-search.js" type="module" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="position: relative;">
+  
+<div id="loading-box">
+  <div class="wave">
+    <div class="wave-child wave1"></div>
+    <div class="wave-child wave2"></div>
+    <div class="wave-child wave3"></div>
+    <div class="wave-child wave4"></div>
+    <div class="wave-child wave5"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    document.body.style.overflow = "auto";
+    document.getElementById("loading-box").classList.add("loaded")
+  }, false)
+</script>
+
+  <div class="bg-wrapper">
+  <canvas id="bg-canvas" />
+</div>
+  <div class="side-menu-container animate__animated animate__faster">
+  <ul class="menu animate__animated animate__faster">
+    <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+    <li class="category-menu-wrapper">
+      <div class="menu-item-name">
+        <span>分类</span>
+        <span class="iconfont icon-chevron-bottom"></span>
+      </div>
+      <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </li>
+    <li class="iconfont icon-close-circle"></li>
+  </ul>
+</div>
+  
+<div class="search-pop-overlay">
+  <div class="popup search-popup">
+    
+    <div class="search-header">
+  <h2 class="search-title">
+    本地搜索
+    <i class="popup-btn-close iconfont icon-close"></i>
+  </h2>
+  <div class="search-input-container">
+    <input class="search-input" autocomplete="off" autocapitalize="off" maxlength="80" placeholder="请输入关键字" spellcheck="false" type="search">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result flex flex-column">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>    
+  </div>
+</div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+  <a class="blogger-info flex flex-align-center" href="/">
+    <img src="https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/logo.png" alt="avatar">
+    <span>Akino's Blog </span>
+  </a>
+  <nav>
+    <ul class="menu flex flex-align-center">
+      <li class="menu-item"}><a href="/" title="首页">首页</a></li><li class="menu-item"}><a href="/projects" title="项目">项目</a></li><li class="menu-item"}><a href="/about" title="关于">关于</a></li><li class="menu-item"}><a href="/message" title="留言板">留言板</a></li><li class="menu-item"}><a href="/links" title="友链">友链</a></li>
+      <li class="menu-category">
+        <div class="flex flex-align-center">
+          <span>分类</span>
+          <span class="iconfont icon-chevron-bottom"></span>
+        </div>
+        <ul class="category-menu-list"><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/">版本管理</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-menu-list-item"><a class="category-menu-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+  <div class="right-icon flex flex-align-center">
+    <span class="search-popup-trigger iconfont icon-search"></span>
+    <span class="iconfont icon-view-list"></span>
+  </div>
+</header>
+<div class="header-slot"></div>
+  <main class="page-container">
+    <div class="page-home-container">
+  
+  <div class="page-header flex-align-center animate__animated animate__fadeInDown">
+  <div class="page-name">
+    
+  </div>
+</div>
+  
+  
+  <div class="post-list-wrapper animate__animated animate__fadeInUp">
+    <ul class="post-list">
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/design_publish_subscribe.png);" href="/2021/10/04/%E6%89%8B%E6%92%95%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/04/%E6%89%8B%E6%92%95%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/">
+              手撕发布-订阅模式
+            </a>
+            <!-- <p class="post-desc">
+              简述
+发布-订阅模式将订阅者和发布者解耦，订阅者不用一直“询问”发布者事件是否发生，而是由发布者自由决定向订阅者发送通知。
+实现
+以购物为例，买家需要向卖家购买一件商品，但是库存已经没有了，买家想要知道什么时候有货，那么买家需要隔一段时间就去问卖家有没有货，如果采用了发布-订阅模式，买家只需要将联系方式留...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/04, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/design_observe.png);" href="/2021/10/04/%E6%89%8B%E6%92%95%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/04/%E6%89%8B%E6%92%95%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+              手撕观察者模式
+            </a>
+            <!-- <p class="post-desc">
+              简述
+观察者模式指的是一个目标对象被多个观察者对象监听，当目标对象监听的属性发生变化时，主动向观察者发送通知。
+实现
+ES5
+ES5 可以通过Object.defineProperty来设置set和get
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/04, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/computer_network.png);" href="/2021/10/02/%E6%B5%85%E8%B0%88MITM%E6%94%BB%E5%87%BB/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+            
+            <a class="post-title" href="/2021/10/02/%E6%B5%85%E8%B0%88MITM%E6%94%BB%E5%87%BB/">
+              浅谈MITM攻击
+            </a>
+            <!-- <p class="post-desc">
+              简述
+MITM 攻击即中间人攻击，攻击者在客户端和服务端两端分别建立独立的连接，并交换它们之间传输的数据，使得通信两端认为其在一个私密的连接与对方传输数据，实际上其会话完全被攻击者掌控。
+攻击过程
+这里以课堂传纸条为例。
+A 需要向 B 传递一个纸条，C 在其传递的过程中 ，那么在 A ...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>10/02, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/written_examination.png);" href="/2021/09/29/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%AC%94%E8%AF%95/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E6%B1%82%E8%81%8C/">求职</a></li></ul>
+            
+            <a class="post-title" href="/2021/09/29/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%AC%94%E8%AF%95/">
+              【实习】记一次笔试
+            </a>
+            <!-- <p class="post-desc">
+              前言
+四道算法题，30 分钟，都是 LeetCode 的简单和中等题
+第一题 Ac 80%，第二题没做出来，剩下两题都 Ac 100%
+睡完午觉刚起床就做了，可能是脑子不太清醒，感觉应该可以全做出来的
+太菜了我 😭
+第一题 删除字符串
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>09/29, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/computer_network.png);" href="/2021/09/17/HTTP&amp;HTTPS%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li></ul>
+            
+            <a class="post-title" href="/2021/09/17/HTTP&amp;HTTPS%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
+              HTTP/HTTPS工作原理
+            </a>
+            <!-- <p class="post-desc">
+              HTTP
+
+超文本传输协议（HyperText Transfer Protocol，HTTP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。
+
+工作原理
+
+协议采用了请求/响应模型，由客户端向服务器发送一个请求报文，...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>09/17, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/datastructure_tree.png);" href="/2021/04/24/%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B9%8B%E6%95%B0%E7%BB%84%E5%AD%98%E5%82%A8%E2%80%94%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86%EF%BC%88%E9%80%92%E5%BD%92%EF%BC%89/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li></ul>
+            
+            <a class="post-title" href="/2021/04/24/%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B9%8B%E6%95%B0%E7%BB%84%E5%AD%98%E5%82%A8%E2%80%94%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86%EF%BC%88%E9%80%92%E5%BD%92%EF%BC%89/">
+              二叉树之数组存储—先序遍历（递归）
+            </a>
+            <!-- <p class="post-desc">
+              摘要
+说明：二叉树可以采用数组的方法进行存储，把数组中的数据依次自上而下,自左至右存储到二叉树结点中，一般二叉树与完全二叉树对比，比完全二叉树缺少的结点就在数组中用 0 来表示。
+主要代码
+#include &amp;lt;iostream&amp;gt;
+u...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>04/24, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/datastructure_tree.png);" href="/2021/04/24/%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B9%8B%E5%88%9B%E5%BB%BA%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li></ul>
+            
+            <a class="post-title" href="/2021/04/24/%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B9%8B%E5%88%9B%E5%BB%BA%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/">
+              二叉树之创建链式存储结构
+            </a>
+            <!-- <p class="post-desc">
+              先序创建
+说明：空树用字符‘0’表示
+class TreeNode &amp;#123;
+public:
+    char data;
+    ListNode *lChild;
+    ListNode *rChild;
+    ListNode() &amp;#123;
+        l...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>04/24, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/mongodb.png);" href="/2021/04/04/mongoose%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li></ul>
+            
+            <a class="post-title" href="/2021/04/04/mongoose%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+              mongoose踩坑记录
+            </a>
+            <!-- <p class="post-desc">
+              在 node.js 项目中使用 mongoose 操作 mongodb，然后就悲剧了，无论怎样查询结果都是 null，弄了好几个小时也没有找到问题
+const mongoose = require(&#39;mongoose&#39;);
+mongoose.connect(&#39;mongodb://localhost/h...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>04/04, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/flvjs.png);" href="/2021/04/03/flv.js%E4%BD%BF%E7%94%A8/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/04/03/flv.js%E4%BD%BF%E7%94%A8/">
+              flv.js的使用
+            </a>
+            <!-- <p class="post-desc">
+              1. 引入 flv.js
+1.1 script 标签引入
+原生 html 引入
+&amp;lt;script type=&amp;quot;text/javascript...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>04/03, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/html.png);" href="/2021/04/01/a%E6%A0%87%E7%AD%BE%E5%B5%8C%E5%A5%97%E9%97%AE%E9%A2%98/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/04/01/a%E6%A0%87%E7%AD%BE%E5%B5%8C%E5%A5%97%E9%97%AE%E9%A2%98/">
+              a标签嵌套问题
+            </a>
+            <!-- <p class="post-desc">
+              问题描述
+在魔改 hexo 主题的时候，有这么一个需求：在首页点击文章的大盒子时，通过 a 标签跳转到文章内容页面，点击盒子里面的“阅读全文”也可以跳转到文章。
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>04/01, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/mongodb.png);" href="/2021/03/08/mongodb%E4%BD%BF%E7%94%A8fork%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li></ul>
+            
+            <a class="post-title" href="/2021/03/08/mongodb%E4%BD%BF%E7%94%A8fork%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/">
+              mongodb使用fork启动报错问题
+            </a>
+            <!-- <p class="post-desc">
+              在我使用以下命令启动 mongodb 时，报以下错误。
+mongod --dbpath /usr/local/bin/mongodb/data/db --logpath /usr/local/bin/mongodb/log  --fork
+
+
+
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>03/08, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+      <li class="post-card ">
+        <div class="post-cover-wrapper">
+          <a class="post-cover" style="background-image: url(https://blog-1302037900.cos.ap-guangzhou.myqcloud.com/images/covers/miniprogram.png);" href="/2021/03/07/%E5%B0%8F%E7%A8%8B%E5%BA%8Frequest%E6%97%A0%E5%8F%8D%E5%BA%94%E9%97%AE%E9%A2%98/">
+            <div class="overlay"></div>
+          </a>
+        </div>
+        <div class="post-info">
+          <div class="top-box">
+            
+            <ul class="post-category-list"><li class="post-category-list-item"><a class="post-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li></ul>
+            
+            <a class="post-title" href="/2021/03/07/%E5%B0%8F%E7%A8%8B%E5%BA%8Frequest%E6%97%A0%E5%8F%8D%E5%BA%94%E9%97%AE%E9%A2%98/">
+              小程序request无反应问题
+            </a>
+            <!-- <p class="post-desc">
+              背景描述
+小程序需要请求一个登录接口，然后我自己测试没有问题，然后交付测试的时候，测试说点登录无反应，并且没有任何提示。
+解决过程
+我找了很久也没有发现问题，一开始怀疑是苹果/安卓差异的问题，经过两个平台的测试后，发现不是这个问题，然后又降低小程序基础库，考虑是否微信版本问题，然而经过测试发现也不...
+            </p> -->
+          </div>
+          <div class="bottom-box">
+            <div class="post-publish-time">
+              <span>03/07, 2021 </span>
+              <!-- <span class="iconfont icon-eye"> 1230</span> -->
+            </div>
+          </div>
+      </li>
+      
+    </ul>
+      
+  <nav class="pagination">
+    
+    <a class="iconfont icon-chevron-left" href="/archives/2021/"></a>
+    
+
+    <a class="page-num" href="/archives/2021/">1</a><span class="page-num current">2</span><a class="page-num" href="/archives/2021/page/3/">3</a>
+
+    
+    <a class="iconfont icon-chevron-right" href="/archives/2021/page/3/"></a>
+    
+  </nav>
+  
+  </div>
+</div>
+
+
+<script src="/js/plugin/velocity.js" defer></script>
+
+
+<script src="/js/plugin/shutter.js" defer></script>
+
+
+<script src="/js/page/home.js" defer></script>
+
+  </main>
+  <footer class="page-footer animate__animated animate__fadeIn">
+  
+  <span class="copyright">Copyright © 2020-2023 Akino</span>
+  
+  <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/vkm0303/hexo-theme-alog">Hexo-theme-alog</a></span>
+</footer>
+</body>
+
+
+    <script>
+      window.CONFIG = {"search":{"path":"/search.xml","local_search":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true,"trigger":"auto"}},"i18n":{"search":{"title":"本地搜索","result_title":"${resultNum} 条结果","placeholder":"请输入关键字","no_result":"搜索不到呢~","tips":"搜索"}},"valine":{"enable":true,"appId":"3QKRVHpL9EPJpCUkekn4XDbR-gzGzoHsz","appKey":"BrY6HeaAcdwDscZNxC3TM7LO","avatar":"retro","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","pageSize":15,"visitor":true,"recordIP":true}};
+    </script>
+  
+
+</html>
